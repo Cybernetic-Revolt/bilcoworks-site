@@ -16,19 +16,57 @@ export default function IntegrationDiagram({ className = '' }: IntegrationDiagra
     >
       <style>
         {`
-          .int-layer-glow {
-            animation: layer-pulse 6s ease-in-out infinite;
+          /* Top lines flow down - staggered */
+          .line-top-1 {
+            animation: line-flow-down 12s ease-in-out infinite;
+            animation-delay: 0s;
           }
+          .line-top-2 {
+            animation: line-flow-down 12s ease-in-out infinite;
+            animation-delay: 0.4s;
+          }
+          .line-top-3 {
+            animation: line-flow-down 12s ease-in-out infinite;
+            animation-delay: 0.8s;
+          }
+
+          /* Integration layer pulses after top lines */
+          .int-layer-glow {
+            animation: layer-pulse 12s ease-in-out infinite;
+            animation-delay: 1.5s;
+          }
+
+          /* Bottom lines flow down - staggered after integration pulse */
+          .line-bottom-1 {
+            animation: line-flow-down 12s ease-in-out infinite;
+            animation-delay: 3s;
+          }
+          .line-bottom-2 {
+            animation: line-flow-down 12s ease-in-out infinite;
+            animation-delay: 3.4s;
+          }
+          .line-bottom-3 {
+            animation: line-flow-down 12s ease-in-out infinite;
+            animation-delay: 3.8s;
+          }
+
           .status-active {
-            animation: status-pulse 4s ease-in-out infinite;
+            animation: status-pulse 8s ease-in-out infinite;
+          }
+
+          @keyframes line-flow-down {
+            0%, 8% { opacity: 0.5; }
+            12%, 20% { opacity: 1; }
+            28%, 100% { opacity: 0.5; }
           }
           @keyframes layer-pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0%, 15% { opacity: 0.85; }
+            20%, 30% { opacity: 1; }
+            38%, 100% { opacity: 0.85; }
           }
           @keyframes status-pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            50% { opacity: 0.6; }
           }
         `}
       </style>
@@ -97,9 +135,9 @@ export default function IntegrationDiagram({ className = '' }: IntegrationDiagra
 
       {/* Connection lines - top to middle */}
       <g stroke="#CCD3DA" strokeWidth="1.5" fill="none">
-        <line x1="52" y1="72" x2="52" y2="100" strokeDasharray="4 2" />
-        <line x1="127" y1="72" x2="127" y2="100" strokeDasharray="4 2" />
-        <line x1="202" y1="72" x2="202" y2="100" strokeDasharray="4 2" />
+        <line className="line-top-1" x1="52" y1="72" x2="52" y2="100" strokeDasharray="4 2" />
+        <line className="line-top-2" x1="127" y1="72" x2="127" y2="100" strokeDasharray="4 2" />
+        <line className="line-top-3" x1="202" y1="72" x2="202" y2="100" strokeDasharray="4 2" />
       </g>
 
       {/* Integration Layer */}
@@ -179,9 +217,9 @@ export default function IntegrationDiagram({ className = '' }: IntegrationDiagra
 
       {/* Connection lines - middle to bottom */}
       <g stroke="#CCD3DA" strokeWidth="1.5" fill="none">
-        <line x1="52" y1="165" x2="52" y2="195" strokeDasharray="4 2" />
-        <line x1="127" y1="165" x2="127" y2="195" strokeDasharray="4 2" />
-        <line x1="202" y1="165" x2="202" y2="195" strokeDasharray="4 2" />
+        <line className="line-bottom-1" x1="52" y1="165" x2="52" y2="195" strokeDasharray="4 2" />
+        <line className="line-bottom-2" x1="127" y1="165" x2="127" y2="195" strokeDasharray="4 2" />
+        <line className="line-bottom-3" x1="202" y1="165" x2="202" y2="195" strokeDasharray="4 2" />
       </g>
 
       {/* Target Systems Layer */}
