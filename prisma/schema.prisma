@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Opportunity {
+  id          String   @id @default(cuid())
+  title       String
+  buyer       String?
+  source      String
+  url         String
+  publishedAt DateTime?
+  closeAt     DateTime?
+  summary     String?
+  tags        String   @default("[]") // JSON array stored as string
+  matchScore  Int      @default(0)
+  status      String   @default("new") // new | seen | applied | ignored
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([source, url])
+  @@index([status])
+  @@index([matchScore])
+  @@index([createdAt])
+}
+
+model SourceRun {
+  id         String   @id @default(cuid())
+  source     String
+  startedAt  DateTime @default(now())
+  finishedAt DateTime?
+  itemCount  Int      @default(0)
+  errorCount Int      @default(0)
+  errors     String?  // JSON array of error messages
+  createdAt  DateTime @default(now())
+
+  @@index([source])
+  @@index([startedAt])
+}
