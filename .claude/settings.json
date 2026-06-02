@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm install --ignore-scripts 2>&1 && echo 'DATABASE_URL=file:./dev.db' > .env && npx prisma generate 2>&1 && npx prisma db push --skip-generate 2>&1 && echo '✅ Environment ready'"
+          }
+        ]
+      }
+    ]
+  }
+}
