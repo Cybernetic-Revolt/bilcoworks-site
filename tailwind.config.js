@@ -49,6 +49,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
+          'var(--font-sans)',
           'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -58,7 +59,14 @@ module.exports = {
           'Arial',
           'sans-serif',
         ],
+        display: [
+          'var(--font-display)',
+          'var(--font-sans)',
+          'system-ui',
+          'sans-serif',
+        ],
         mono: [
+          'var(--font-mono)',
           'ui-monospace',
           'SFMono-Regular',
           'SF Mono',
@@ -71,12 +79,51 @@ module.exports = {
       fontSize: {
         '2xs': ['0.6875rem', { lineHeight: '1rem' }],
       },
+      letterSpacing: {
+        tightest: '-0.04em',
+      },
       spacing: {
         '18': '4.5rem',
         '22': '5.5rem',
       },
       maxWidth: {
         '8xl': '88rem',
+      },
+      boxShadow: {
+        // Soft, navy-tinted elevation
+        'subtle': '0 1px 2px rgba(26, 35, 50, 0.04), 0 1px 3px rgba(26, 35, 50, 0.06)',
+        'card': '0 1px 2px rgba(26, 35, 50, 0.04), 0 4px 12px rgba(26, 35, 50, 0.05)',
+        'card-hover': '0 2px 4px rgba(26, 35, 50, 0.05), 0 12px 28px rgba(26, 35, 50, 0.10)',
+        'elevated': '0 8px 30px rgba(26, 35, 50, 0.08), 0 2px 6px rgba(26, 35, 50, 0.04)',
+        'glow': '0 0 0 1px rgba(44, 74, 110, 0.08), 0 18px 40px rgba(44, 74, 110, 0.14)',
+        'header': '0 1px 0 rgba(26, 35, 50, 0.06), 0 6px 24px rgba(26, 35, 50, 0.06)',
+        'btn': '0 1px 2px rgba(26, 35, 50, 0.10), 0 2px 8px rgba(44, 74, 110, 0.18)',
+        'btn-hover': '0 2px 4px rgba(26, 35, 50, 0.12), 0 8px 20px rgba(44, 74, 110, 0.28)',
+      },
+      backgroundImage: {
+        'mesh': 'radial-gradient(60% 60% at 20% 0%, rgba(44, 74, 110, 0.10) 0%, transparent 60%), radial-gradient(50% 50% at 90% 20%, rgba(58, 125, 123, 0.10) 0%, transparent 55%), radial-gradient(60% 80% at 60% 100%, rgba(44, 74, 110, 0.06) 0%, transparent 60%)',
+        'dark-glow': 'radial-gradient(60% 120% at 50% 0%, rgba(61, 90, 126, 0.55) 0%, transparent 60%), radial-gradient(40% 80% at 85% 30%, rgba(58, 125, 123, 0.30) 0%, transparent 60%)',
+      },
+      transitionTimingFunction: {
+        'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      keyframes: {
+        'reveal-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        'sheen': {
+          '0%': { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
+      },
+      animation: {
+        'reveal-up': 'reveal-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both',
+        'float-slow': 'float-slow 6s ease-in-out infinite',
       },
     },
   },

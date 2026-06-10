@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Reveal from '@/components/Reveal'
 
 export const metadata: Metadata = {
   title: 'FAQ | HRIS Implementation & Global Payroll',
@@ -53,6 +54,21 @@ const faqs = [
       'Yes. We have hands-on experience with multi-country payroll integrations and understand the complexities of global payroll including local compliance, currency handling, and country-specific integrations.',
   },
   {
+    question: 'Do you run gross-to-net validation across multiple countries before go-live?',
+    answer:
+      'Yes. Every country has its own gross-to-net logic; there is no universal formula. We run the new system alongside the incumbent for one or more cycles and reconcile outputs to the cent before cutover, with variance reports, tolerance thresholds, and sign-off sheets. The parallel run is the standard de-risking gate. We do not recommend going live on a country that has not passed it.',
+  },
+  {
+    question: 'How do you handle retro pay when a collective bargaining agreement is ratified?',
+    answer:
+      'When a new CBA is ratified after the prior one expired, we recalculate the delta back to the effective date across all affected earnings. The hard part is the cascade. Retro flows into overtime, premiums, and pension and benefit bases, and missing that cascade is the classic error that triggers grievances. We build the methodology as test scenarios per CBA so the calculation is proven before it pays across the bargaining unit.',
+  },
+  {
+    question: 'Do you work with multiple bargaining units that each have their own rules?',
+    answer:
+      "Yes. Each unit is driven by its own CBA, so an employee's unit membership decides which pay rules, seniority logic, dues basis, and premiums apply. We keep the units separate in configuration and test the mid-period transfers between them. Treating multiple units as one applies the wrong rules to the wrong population, and one config error scales to the whole group.",
+  },
+  {
     question: 'What makes Bilco Works different from other HRIS consultancies?',
     answer:
       'We combine a disciplined delivery methodology with deep platform experience. Every engagement follows our six-phase approach with documented artifacts and clear success criteria. We focus on knowledge transfer so your team can operate independently after go-live.',
@@ -80,25 +96,33 @@ export default function FAQPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <div>
-        <section className="section-padding bg-surface-secondary border-b border-rule">
+        <section className="relative section-padding bg-surface-secondary border-b border-rule overflow-hidden">
+          <div className="absolute inset-0 -z-10 bg-mesh" aria-hidden="true" />
           <div className="container-wide">
-            <h1 className="text-3xl md:text-4xl font-medium text-ink">
-              Frequently Asked Questions
-            </h1>
-            <p className="mt-4 text-lg text-ink-muted max-w-2xl">
-              Common questions about HRIS implementation, our services, and how we work.
-            </p>
+            <Reveal>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-ink leading-[1.08]">
+                Frequently Asked Questions
+              </h1>
+              <p className="mt-5 text-lg text-ink-muted max-w-2xl leading-relaxed">
+                Common questions about HRIS implementation, our services, and how we work.
+              </p>
+            </Reveal>
           </div>
         </section>
 
         <section className="section-padding">
           <div className="container-wide">
             <div className="space-y-8 max-w-3xl">
-              {faqs.map((faq) => (
-                <div key={faq.question} className="border-b border-rule pb-8 last:border-0">
-                  <h2 className="text-xl font-medium text-ink">{faq.question}</h2>
+              {faqs.map((faq, index) => (
+                <Reveal
+                  as="div"
+                  key={faq.question}
+                  delay={index * 50}
+                  className="group border-b border-rule pb-8 last:border-0"
+                >
+                  <h2 className="text-xl font-medium text-ink transition-colors duration-300 group-hover:text-accent">{faq.question}</h2>
                   <p className="mt-3 text-body">{faq.answer}</p>
-                </div>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -116,7 +140,7 @@ export default function FAQPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded hover:bg-surface transition-colors"
+              className="inline-flex items-center justify-center gap-2 mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded-lg shadow-elevated hover:-translate-y-0.5 transition-all duration-300 ease-out-expo"
             >
               Contact us
             </Link>

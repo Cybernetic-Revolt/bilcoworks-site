@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Reveal from '@/components/Reveal'
 
 export const metadata: Metadata = {
   title: 'About | HRIS Consulting Firm | Global Payroll',
@@ -25,11 +26,14 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div>
-      <section className="section-padding bg-surface-secondary border-b border-rule">
+      <section className="relative section-padding bg-surface-secondary border-b border-rule overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-mesh" aria-hidden="true" />
         <div className="container-wide">
-          <h1 className="text-3xl md:text-4xl font-medium text-ink">
-            About Bilco Works
-          </h1>
+          <Reveal>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-ink leading-[1.08]">
+              About Bilco Works
+            </h1>
+          </Reveal>
         </div>
       </section>
 
@@ -63,7 +67,7 @@ export default function AboutPage() {
             </h2>
 
             <div className="mt-6 space-y-6">
-              <div className="p-5 bg-surface-secondary border-l-2 border-l-accent/30 border border-rule rounded-lg">
+              <div className="p-5 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-l-accent hover:-translate-y-0.5">
                 <h3 className="text-lg font-medium text-ink mt-0">
                   Systems thinking over heroics
                 </h3>
@@ -74,7 +78,7 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="p-5 bg-surface-secondary border-l-2 border-l-accent/30 border border-rule rounded-lg">
+              <div className="p-5 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-l-accent hover:-translate-y-0.5">
                 <h3 className="text-lg font-medium text-ink mt-0">
                   Accountability requires clarity
                 </h3>
@@ -85,7 +89,7 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="p-5 bg-surface-secondary border-l-2 border-l-accent/30 border border-rule rounded-lg">
+              <div className="p-5 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-l-accent hover:-translate-y-0.5">
                 <h3 className="text-lg font-medium text-ink mt-0">
                   Documentation is a feature
                 </h3>
@@ -96,7 +100,7 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="p-5 bg-surface-secondary border-l-2 border-l-accent/30 border border-rule rounded-lg">
+              <div className="p-5 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-l-accent hover:-translate-y-0.5">
                 <h3 className="text-lg font-medium text-ink mt-0">
                   Done means done
                 </h3>
@@ -144,7 +148,7 @@ export default function AboutPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded hover:bg-surface transition-colors"
+            className="inline-flex items-center justify-center gap-2 mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded-lg shadow-elevated hover:-translate-y-0.5 transition-all duration-300 ease-out-expo"
           >
             Contact us
           </Link>

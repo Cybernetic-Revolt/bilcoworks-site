@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ContactForm from '@/components/ContactForm'
+import Reveal from '@/components/Reveal'
 
 export const metadata: Metadata = {
   title: 'Contact | HRIS Implementation Consulting',
@@ -24,22 +25,25 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div>
-      <section className="section-padding bg-surface-secondary border-b border-rule">
+      <section className="relative section-padding bg-surface-secondary border-b border-rule overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-mesh" aria-hidden="true" />
         <div className="container-wide">
-          <h1 className="text-3xl md:text-4xl font-medium text-ink">
-            Contact
-          </h1>
-          <p className="mt-4 text-lg text-ink-muted max-w-2xl">
-            We respond within one business day. Send us your situation and
-            we&apos;ll let you know if we can help.
-          </p>
+          <Reveal>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-ink leading-[1.08]">
+              Contact
+            </h1>
+            <p className="mt-5 text-lg text-ink-muted max-w-2xl leading-relaxed">
+              We respond within one business day. Send us your situation and
+              we&apos;ll let you know if we can help.
+            </p>
+          </Reveal>
         </div>
       </section>
 
       <section className="section-padding">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-            <div>
+            <Reveal>
               <h2 className="text-xl font-medium text-ink">
                 Send us a message
               </h2>
@@ -51,10 +55,10 @@ export default function ContactPage() {
               <div className="mt-8">
                 <ContactForm />
               </div>
-            </div>
+            </Reveal>
 
-            <div>
-              <div className="p-5 bg-surface-secondary border-l-2 border-l-accent/30 border border-rule rounded-lg">
+            <Reveal delay={120}>
+              <div className="p-6 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-card">
                 <h3 className="text-sm font-medium text-ink uppercase tracking-wide">
                   What happens next
                 </h3>
@@ -76,7 +80,7 @@ export default function ContactPage() {
                   ))}
                 </ol>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

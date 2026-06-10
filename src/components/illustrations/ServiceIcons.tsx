@@ -117,6 +117,59 @@ export function ArchitectureIcon({ className = '' }: IconProps) {
   )
 }
 
+export function GlobalPayrollIcon({ className = '' }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      role="img"
+      aria-label="Global payroll and compliance icon showing a globe with a verified statutory check"
+    >
+      <rect x="4" y="4" width="40" height="40" rx="4" fill="#F4F6F8" />
+      <circle cx="22" cy="22" r="13" stroke="#2C4A6E" strokeWidth="2" fill="none" />
+      <path
+        d="M22 9 C16 14 16 30 22 35 M22 9 C28 14 28 30 22 35"
+        stroke="#3D5A7E"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <path d="M9 22 L35 22 M11 16 L33 16 M11 28 L33 28" stroke="#3D5A7E" strokeWidth="1.5" />
+      <circle cx="34" cy="34" r="9" fill="#3D8B6E" />
+      <path
+        d="M30 34 L33 37 L38 31"
+        stroke="white"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </svg>
+  )
+}
+
+export function UnionIcon({ className = '' }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      role="img"
+      aria-label="Unionized workforce icon showing collective bargaining units linked together"
+    >
+      <rect x="4" y="4" width="40" height="40" rx="4" fill="#F4F6F8" />
+      <path d="M11 32 L24 32 L37 32" stroke="#3A7D7B" strokeWidth="2" strokeLinecap="round" />
+      <path d="M24 22 L24 32 M14 27 L14 32 M34 27 L34 32" stroke="#CCD3DA" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="24" cy="16" r="6" fill="#2C4A6E" />
+      <circle cx="14" cy="21" r="5" fill="#3D5A7E" />
+      <circle cx="34" cy="21" r="5" fill="#3D5A7E" />
+      <rect x="9" y="36" width="30" height="4" rx="2" fill="#5C6A7A" />
+    </svg>
+  )
+}
+
 export function HardeningIcon({ className = '' }: IconProps) {
   return (
     <svg

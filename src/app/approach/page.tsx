@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Reveal from '@/components/Reveal'
 import { PhaseFlow } from '@/components/illustrations'
 
 export const metadata: Metadata = {
@@ -181,20 +182,23 @@ const artifacts = [
 export default function ApproachPage() {
   return (
     <div>
-      <section className="section-padding bg-surface-secondary border-b border-rule">
+      <section className="relative section-padding bg-surface-secondary border-b border-rule overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-mesh" aria-hidden="true" />
         <div className="container-wide">
-          <h1 className="text-3xl md:text-4xl font-medium text-ink">
-            HRIS Implementation Methodology
-          </h1>
-          <p className="mt-4 text-lg text-ink-muted max-w-2xl">
-            Every engagement follows a structured methodology. Not because
-            process is the goal, but because disciplined execution prevents
-            the failures we have seen too many times.
-          </p>
+          <Reveal>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-ink leading-[1.08]">
+              HRIS Implementation Methodology
+            </h1>
+            <p className="mt-5 text-lg text-ink-muted max-w-2xl leading-relaxed">
+              Every engagement follows a structured methodology. Not because
+              process is the goal, but because disciplined execution prevents
+              the failures we have seen too many times.
+            </p>
+          </Reveal>
 
-          <div className="mt-10 bg-surface-elevated border border-rule rounded-lg p-6 overflow-x-auto">
+          <Reveal delay={120} className="mt-10 bg-surface-elevated border border-rule rounded-xl p-6 overflow-x-auto shadow-card">
             <PhaseFlow />
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -210,14 +214,15 @@ export default function ApproachPage() {
           </p>
 
           <div className="mt-12 space-y-12 relative">
-            <div className="hidden lg:block absolute left-[50px] top-8 bottom-8 w-px bg-rule" />
+            <div className="hidden lg:block absolute left-[50px] top-8 bottom-8 w-px bg-gradient-to-b from-transparent via-rule-strong to-transparent" />
             {phases.map((phase, index) => (
-              <div
+              <Reveal
                 key={phase.number}
+                delay={index * 50}
                 className="grid lg:grid-cols-[100px_1fr] gap-6"
               >
                 <div className="flex lg:flex-col items-baseline lg:items-start gap-3 relative">
-                  <span className="text-4xl font-mono text-rule-strong">
+                  <span className="text-4xl font-mono text-accent/30">
                     {phase.number}
                   </span>
                   <h3 className="text-xl font-medium text-ink">
@@ -225,7 +230,7 @@ export default function ApproachPage() {
                   </h3>
                 </div>
 
-                <div className="p-6 bg-surface-elevated border border-rule rounded-lg">
+                <div className="group p-6 bg-surface-elevated border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-rule-strong">
                   <p className="text-ink-muted">{phase.description}</p>
 
                   <div className="mt-6 grid md:grid-cols-2 gap-6">
@@ -264,7 +269,7 @@ export default function ApproachPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
           <p className="mt-10 text-sm text-ink-muted">
@@ -284,16 +289,18 @@ export default function ApproachPage() {
           </p>
 
           <div className="mt-10 grid md:grid-cols-2 gap-6 max-w-4xl">
-            {principles.map((principle) => (
-              <div
+            {principles.map((principle, index) => (
+              <Reveal
+                as="div"
                 key={principle.title}
-                className="p-5 bg-surface-elevated border border-rule rounded-lg"
+                delay={index * 60}
+                className="card"
               >
                 <h3 className="font-medium text-ink">{principle.title}</h3>
-                <p className="mt-2 text-sm text-ink-muted">
+                <p className="mt-2 text-sm text-ink-muted leading-relaxed">
                   {principle.description}
                 </p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -324,12 +331,16 @@ export default function ApproachPage() {
               </thead>
               <tbody className="divide-y divide-rule-subtle">
                 {artifacts.map(([artifact, purpose, phase]) => (
-                  <tr key={artifact} className="text-ink-muted">
+                  <tr key={artifact} className="text-ink-muted transition-colors duration-200 hover:bg-surface-secondary/70">
                     <td className="py-3 pr-6 font-medium text-ink">
                       {artifact}
                     </td>
                     <td className="py-3 pr-6">{purpose}</td>
-                    <td className="py-3">{phase}</td>
+                    <td className="py-3">
+                      <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-accent-muted/60 text-accent">
+                        {phase}
+                      </span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -349,7 +360,7 @@ export default function ApproachPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded hover:bg-surface transition-colors"
+            className="inline-flex items-center justify-center gap-2 mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded-lg shadow-elevated hover:-translate-y-0.5 transition-all duration-300 ease-out-expo"
           >
             Start a conversation
           </Link>

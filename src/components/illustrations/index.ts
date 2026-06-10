@@ -7,4 +7,6 @@ export {
   IntegrationIcon,
   ArchitectureIcon,
   HardeningIcon,
+  GlobalPayrollIcon,
+  UnionIcon,
 } from './ServiceIcons'

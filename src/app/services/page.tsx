@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Reveal from '@/components/Reveal'
 import { IntegrationDiagram } from '@/components/illustrations'
 import {
   ImplementationIcon,
@@ -7,6 +8,8 @@ import {
   IntegrationIcon,
   ArchitectureIcon,
   HardeningIcon,
+  GlobalPayrollIcon,
+  UnionIcon,
 } from '@/components/illustrations'
 
 export const metadata: Metadata = {
@@ -117,6 +120,64 @@ const services = [
     ],
   },
   {
+    id: 'global-payroll-compliance',
+    title: 'Global Payroll & Compliance',
+    icon: GlobalPayrollIcon,
+    description:
+      'Configure, reconcile, and maintain payroll across multiple countries and the statutory rules that govern each one. We map gross-to-net per jurisdiction, prove it against a parallel run reconciled to the cent, and keep the configuration patched as tax and contribution rules change. The work supports your compliance obligations; you stay the responsible party.',
+    outcomes: [
+      'Gross-to-net validated per country against a parallel run, reconciled to the cent',
+      'Statutory filings produced in the right format on the right calendar',
+      'Data residency and cross-border transfers handled for special-category data',
+      'Configuration patched and tested before each legislative effective date',
+    ],
+    deliverables: [
+      'Country-by-country statutory requirements matrix with filings, formats, authorities, and deadlines',
+      'Earnings and deductions catalog mapped to statutory categories per country',
+      'Gross-to-net mapping and test cases covering retro, proration, and mid-period hires and leavers',
+      'Parallel-run reconciliation packs with variance reports, tolerance thresholds, and sign-off sheets',
+      'Integration specs for HRIS inbound and GL, bank file, and authority outbound',
+      'Data residency design, data processing agreements, and records of processing (GDPR Article 30)',
+    ],
+    success:
+      'Each country runs to schedule without a scramble. Filings land on time in the right format for the right authority. When a rate or threshold changes, the configuration is patched and tested before its effective date, not after employees are paid wrong.',
+    failuresAvoided: [
+      'Late or malformed statutory filings',
+      'Legislative update missed before its effective date',
+      'Parallel-run variances that cannot be reconciled',
+      'Cross-border transfer of special-category data',
+    ],
+  },
+  {
+    id: 'union-workforce',
+    title: 'Unionized Workforce Support',
+    icon: UnionIcon,
+    description:
+      'Encode collective bargaining agreements into HRIS and payroll so the system pays people the way the contract reads. We translate each clause into pay rules, dues and remittance logic, seniority, and retro on ratification, then test it per bargaining unit. One config error scales to a whole unit, so most of the work is in the testing.',
+    outcomes: [
+      'CBA clauses encoded as pay rules with citations back to article and section',
+      'Dues, arrears, and remittance files calculated and reported per union',
+      'Retro on ratification computed across earnings, overtime, and pension bases',
+      'Seniority, step progression, and premiums applied on the right effective date',
+    ],
+    deliverables: [
+      'CBA-to-configuration mapping with each clause cited back to article and section',
+      'Pay-rule and earnings-code design for differentials, call-back, overtime, double-time, and pyramiding logic',
+      'Wage-scale and step tables with date- or hours-based progression triggers and effective-dating',
+      'Dues configuration and remittance file specs per union, with arrears handling and deduction priority',
+      'Seniority calculation specification covering multiple seniority types, leave bridging, and bumping and recall',
+      'Retro-pay methodology and test scenarios per CBA, including ratification and downstream effects on overtime and pension',
+    ],
+    success:
+      "The system pays people the way the contract reads. Dues are deducted and remitted in the union's format on cadence. When a contract is ratified, retro is calculated across overtime and pension bases, not just base pay. A premium combination that misfires is an exception caught in testing, not a grievance across the unit.",
+    failuresAvoided: [
+      'Premium or pyramiding rules paying the unit wrong',
+      'Retro on ratification that misses the cascade',
+      'Dues mis-deducted, arrears missed, or remittance wrong',
+      'Agency or fair-share fees deducted where unlawful',
+    ],
+  },
+  {
     id: 'architecture',
     title: 'Architecture & Delivery Leadership',
     icon: ArchitectureIcon,
@@ -177,22 +238,25 @@ const services = [
 export default function ServicesPage() {
   return (
     <div>
-        <section className="section-padding bg-surface-secondary border-b border-rule">
+        <section className="relative section-padding bg-surface-secondary border-b border-rule overflow-hidden">
+          <div className="absolute inset-0 -z-10 bg-mesh" aria-hidden="true" />
           <div className="container-wide">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h1 className="text-3xl md:text-4xl font-medium text-ink">
-                  HRIS Implementation & Consulting Services
+              <Reveal>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-ink leading-[1.08]">
+                  HRIS Implementation &amp; Consulting Services
                 </h1>
-                <p className="mt-4 text-lg text-ink-muted max-w-xl">
+                <p className="mt-5 text-lg text-ink-muted max-w-xl leading-relaxed">
                   We offer a focused set of services for enterprise HR systems.
                   Each engagement has defined outcomes, documented deliverables,
-                  and clear success criteria. Have questions? <Link href="/faq" className="text-accent hover:underline">See our FAQ</Link>.
+                  and clear success criteria. Have questions? <Link href="/faq" className="text-accent link-underline">See our FAQ</Link>.
                 </p>
+              </Reveal>
+            <Reveal className="hidden lg:block" delay={120}>
+              <div className="relative rounded-2xl overflow-hidden shadow-elevated ring-1 ring-rule/70">
+                <IntegrationDiagram />
               </div>
-            <div className="hidden lg:block">
-              <IntegrationDiagram />
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -202,21 +266,22 @@ export default function ServicesPage() {
           <div className="space-y-16">
             {services.map((service) => {
               const IconComponent = service.icon
+              const featured =
+                service.id === 'hris-implementation' || service.id === 'hris-rescue'
               return (
-                <article
+                <Reveal
+                  as="article"
                   key={service.id}
                   id={service.id}
-                  className={`scroll-mt-24 pb-16 border-b border-rule last:border-0 last:pb-0 ${
-                    service.id === 'hris-implementation' || service.id === 'hris-rescue' ? 'relative' : ''
-                  }`}
+                  className={`scroll-mt-24 pb-16 border-b border-rule last:border-0 last:pb-0 relative`}
                 >
-                  {(service.id === 'hris-implementation' || service.id === 'hris-rescue') && (
-                    <div className="absolute -left-4 top-0 bottom-16 w-1 bg-accent/20 rounded-full hidden lg:block" />
+                  {featured && (
+                    <div className="absolute -left-4 top-0 bottom-16 w-1 bg-gradient-to-b from-accent to-teal rounded-full hidden lg:block" />
                   )}
                   <div className="flex items-start gap-4">
-                    <IconComponent className={`w-14 h-14 flex-shrink-0 ${
-                      service.id === 'hris-implementation' || service.id === 'hris-rescue' ? 'opacity-100' : 'opacity-75'
-                    }`} />
+                    <div className="flex-shrink-0 inline-flex p-2.5 rounded-xl bg-accent-muted/60 ring-1 ring-rule/60">
+                      <IconComponent className={`w-12 h-12 ${featured ? 'opacity-100' : 'opacity-80'}`} />
+                    </div>
                     <div>
                       <h2 className="text-2xl font-medium text-ink">
                         {service.title}
@@ -261,11 +326,11 @@ export default function ServicesPage() {
                     </div>
                   </div>
 
-                  <div className="mt-8 p-5 bg-surface-secondary border border-rule rounded-lg">
-                    <h3 className="text-sm font-medium text-ink uppercase tracking-wide">
+                  <div className="mt-8 p-5 bg-accent-muted/40 border border-rule rounded-xl">
+                    <h3 className="eyebrow">
                       What Success Looks Like
                     </h3>
-                    <p className="mt-2 text-sm text-ink-muted">{service.success}</p>
+                    <p className="mt-3 text-sm text-ink-muted leading-relaxed">{service.success}</p>
                   </div>
 
                   <div className="mt-6">
@@ -276,14 +341,14 @@ export default function ServicesPage() {
                       {service.failuresAvoided.map((failure) => (
                         <li
                           key={failure}
-                          className="px-3 py-1 bg-surface-secondary text-ink-muted text-sm rounded-full"
+                          className="px-3 py-1 bg-surface-secondary border border-rule/70 text-ink-muted text-sm rounded-full transition-colors duration-300 hover:border-rule-strong hover:text-ink"
                         >
                           {failure}
                         </li>
                       ))}
                     </ul>
                   </div>
-                </article>
+                </Reveal>
               )
             })}
           </div>
@@ -301,7 +366,7 @@ export default function ServicesPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded hover:bg-surface transition-colors"
+              className="inline-flex items-center justify-center gap-2 mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded-lg shadow-elevated hover:-translate-y-0.5 transition-all duration-300 ease-out-expo"
             >
               Get in touch
             </Link>

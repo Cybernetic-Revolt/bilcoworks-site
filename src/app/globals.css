@@ -39,14 +39,17 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    @apply bg-surface text-ink;
+    @apply bg-surface text-ink font-sans;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01';
   }
 
   ::selection {
     background-color: var(--color-accent-muted);
+    color: var(--color-accent-hover);
   }
 
   :focus-visible {
@@ -55,7 +58,23 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply text-ink font-medium tracking-tight;
+    @apply text-ink font-display font-medium;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    letter-spacing: -0.035em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 }
 
@@ -76,24 +95,53 @@
     @apply text-ink-muted leading-relaxed;
   }
 
-  .link-underline {
-    @apply underline underline-offset-4 transition-colors;
-    text-decoration-color: var(--color-rule-strong);
+  /* Eyebrow / kicker label */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-ink-subtle;
   }
 
-  .link-underline:hover {
-    text-decoration-color: var(--color-accent);
+  .eyebrow::before {
+    content: '';
+    @apply w-6 h-px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+  }
+
+  /* Gradient accent text */
+  .text-gradient {
+    background: linear-gradient(120deg, var(--color-accent) 0%, var(--color-teal) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .link-underline {
+    @apply relative transition-colors;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute left-0 -bottom-0.5 h-px w-full origin-left scale-x-0 transition-transform duration-300 ease-out-expo;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-teal));
+  }
+
+  .link-underline:hover::after {
+    @apply scale-x-100;
   }
 
   /* Primary button */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 font-medium rounded transition-colors;
-    background-color: var(--color-accent);
+    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg transition-all duration-300 ease-out-expo shadow-btn;
+    background-image: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 55%, var(--color-accent-hover) 100%);
     color: var(--color-surface-elevated);
   }
 
   .btn-primary:hover {
-    background-color: var(--color-accent-hover);
+    @apply shadow-btn-hover -translate-y-0.5;
+  }
+
+  .btn-primary:active {
+    @apply translate-y-0;
   }
 
   .btn-primary:focus-visible {
@@ -103,42 +151,101 @@
 
   /* Secondary button */
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 font-medium rounded transition-colors;
+    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg transition-all duration-300 ease-out-expo shadow-subtle;
     background-color: var(--color-surface-elevated);
     color: var(--color-ink);
     border: 1px solid var(--color-rule);
   }
 
   .btn-secondary:hover {
-    border-color: var(--color-rule-strong);
-    background-color: var(--color-surface);
+    border-color: var(--color-accent-light);
+    color: var(--color-accent);
+    @apply shadow-card -translate-y-0.5;
+  }
+
+  .btn-secondary:active {
+    @apply translate-y-0;
   }
 
   /* Card styles */
   .card {
-    @apply p-6 rounded-lg transition-colors;
+    @apply relative p-6 rounded-xl overflow-hidden transition-all duration-300 ease-out-expo shadow-card;
     background-color: var(--color-surface-elevated);
     border: 1px solid var(--color-rule);
   }
 
+  /* Gradient top accent that wipes in on hover */
+  .card::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-px scale-x-0 origin-left transition-transform duration-500 ease-out-expo;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-teal), transparent);
+  }
+
   .card:hover {
     border-color: var(--color-rule-strong);
+    @apply shadow-card-hover -translate-y-1;
+  }
+
+  .card:hover::before {
+    @apply scale-x-100;
   }
 
   /* Section backgrounds */
   .section-elevated {
-    background-color: var(--color-surface-secondary);
+    background:
+      linear-gradient(180deg, var(--color-surface-secondary) 0%, var(--color-surface) 100%);
     border-top: 1px solid var(--color-rule-subtle);
     border-bottom: 1px solid var(--color-rule-subtle);
   }
 
   /* Dark section (CTAs) */
   .section-dark {
-    background-color: var(--color-accent);
+    @apply relative overflow-hidden;
+    background-color: var(--color-accent-hover);
     color: var(--color-surface-elevated);
+  }
+
+  .section-dark::before {
+    content: '';
+    @apply absolute inset-0 bg-dark-glow pointer-events-none;
+  }
+
+  .section-dark > * {
+    @apply relative;
   }
 
   .section-dark .text-muted {
     color: #A8B8C8;
+  }
+
+  /* Hairline divider with gradient */
+  .rule-gradient {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-rule-strong), transparent);
+  }
+}
+
+@layer utilities {
+  /* Scroll-reveal: hidden initial state, animated in via .is-visible */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
   }
 }

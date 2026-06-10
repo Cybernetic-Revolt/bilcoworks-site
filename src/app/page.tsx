@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import GridPattern from '@/components/GridPattern'
+import Reveal from '@/components/Reveal'
 import { HeroIllustration } from '@/components/illustrations'
 import {
   ImplementationIcon,
@@ -8,6 +9,8 @@ import {
   IntegrationIcon,
   ArchitectureIcon,
   HardeningIcon,
+  GlobalPayrollIcon,
+  UnionIcon,
 } from '@/components/illustrations'
 
 export const metadata: Metadata = {
@@ -53,6 +56,20 @@ export default function HomePage() {
       description:
         'Payroll, benefits, finance, and identity integrations built with error handling, reconciliation, and monitoring. Not just working - observable and maintainable.',
       icon: IntegrationIcon,
+    },
+    {
+      id: 'global-payroll-compliance',
+      title: 'Global Payroll & Compliance',
+      description:
+        'Multi-country payroll configured and reconciled to the cent, with statutory filings, data residency, and currency handling built in. We keep each jurisdiction current as local rules change.',
+      icon: GlobalPayrollIcon,
+    },
+    {
+      id: 'union-workforce',
+      title: 'Unionized Workforce Support',
+      description:
+        'Collective bargaining agreements encoded into payroll: dues, seniority, premiums, overtime, and retro on ratification. We configure the rules so the system pays people the way the contract reads.',
+      icon: UnionIcon,
     },
     {
       id: 'architecture',
@@ -131,12 +148,14 @@ export default function HomePage() {
   return (
     <div>
       <section className="relative section-padding bg-surface-secondary border-b border-rule overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-mesh" aria-hidden="true" />
         <GridPattern />
         <div className="container-wide relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="max-w-xl">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-ink tracking-tight leading-tight">
-                HRIS implementations that work on <span className="text-accent">day one</span>
+            <Reveal className="max-w-xl">
+              <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-medium text-ink leading-[1.05]">
+                HRIS implementations that work on{' '}
+                <span className="text-gradient">day one</span>
               </h1>
               <p className="mt-6 text-lg md:text-xl text-ink-muted leading-relaxed">
                 We configure, integrate, and stabilize enterprise HR systems.
@@ -144,47 +163,52 @@ export default function HomePage() {
                 No surprises at go-live.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/services"
-                  className="btn-primary"
-                >
+                <Link href="/services" className="btn-primary group">
                   View services
+                  <svg className="w-4 h-4 transition-transform duration-300 ease-out-expo group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </Link>
-                <Link
-                  href="/contact"
-                  className="btn-secondary"
-                >
+                <Link href="/contact" className="btn-secondary">
                   Start a conversation
                 </Link>
               </div>
-            </div>
-            <div className="hidden lg:block">
-              <HeroIllustration />
-            </div>
+            </Reveal>
+            <Reveal className="hidden lg:block" delay={120}>
+              <div className="relative rounded-2xl overflow-hidden shadow-elevated ring-1 ring-rule/70">
+                <HeroIllustration />
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       <section className="section-padding">
         <div className="container-wide">
-          <h2 className="text-2xl md:text-3xl font-medium text-ink">
-            What we do
-          </h2>
-          <p className="mt-4 text-body max-w-2xl">
-            We specialize in the hard parts of HRIS: the integrations that break,
-            the data that does not reconcile, and the configurations that
-            need to survive your next open enrollment.
-          </p>
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => {
+          <Reveal>
+            <h2 className="text-2xl md:text-3xl font-medium text-ink">
+              What we do
+            </h2>
+            <p className="mt-4 text-body max-w-2xl">
+              We specialize in the hard parts of HRIS: the integrations that break,
+              the data that does not reconcile, and the configurations that
+              need to survive your next open enrollment.
+            </p>
+          </Reveal>
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, index) => {
               const IconComponent = service.icon
               return (
-                <article
+                <Reveal
+                  as="article"
                   key={service.id}
-                  className="card"
+                  delay={index * 70}
+                  className="card group"
                 >
-                  <IconComponent className="w-12 h-12 mb-4" />
-                  <h3 className="text-lg font-medium text-ink">
+                  <div className="inline-flex p-2.5 rounded-lg bg-accent-muted/60 ring-1 ring-rule/60 transition-colors duration-300 group-hover:bg-accent-muted">
+                    <IconComponent className="w-10 h-10" />
+                  </div>
+                  <h3 className="mt-4 text-lg font-medium text-ink">
                     <Link href={`/services#${service.id}`} className="hover:text-accent transition-colors">
                       {service.title}
                     </Link>
@@ -192,42 +216,45 @@ export default function HomePage() {
                   <p className="mt-3 text-sm text-ink-muted leading-relaxed">
                     {service.description}
                   </p>
-                </article>
+                </Reveal>
               )
             })}
           </div>
-          <div className="mt-12">
+          <Reveal className="mt-12">
             <Link
               href="/services"
               className="text-ink font-medium link-underline"
             >
               Full service details
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section className="section-elevated section-padding">
         <div className="container-wide">
-          <h2 className="text-2xl md:text-3xl font-medium text-ink">
-            How we work
-          </h2>
-          <p className="mt-4 text-body max-w-2xl">
-            Every engagement follows our{' '}
-            <Link href="/approach" className="text-accent hover:underline">
-              six-phase methodology
-            </Link>
-            . No methodology theater - just the activities that prevent failed implementations.
-          </p>
+          <Reveal>
+            <h2 className="text-2xl md:text-3xl font-medium text-ink">
+              How we work
+            </h2>
+            <p className="mt-4 text-body max-w-2xl">
+              Every engagement follows our{' '}
+              <Link href="/approach" className="text-accent link-underline">
+                six-phase methodology
+              </Link>
+              . No methodology theater - just the activities that prevent failed implementations.
+            </p>
+          </Reveal>
           <div className="mt-12 relative">
-            <div className="hidden lg:block absolute top-[52px] left-[88px] right-[88px] h-px bg-rule-strong/50" />
+            <div className="hidden lg:block absolute top-[52px] left-[88px] right-[88px] h-px bg-gradient-to-r from-transparent via-rule-strong to-transparent" />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {phases.map((item, index) => (
-                <div
+                <Reveal
                   key={item.phase}
-                  className="flex gap-4 p-5 bg-surface-elevated border border-rule rounded-lg relative"
+                  delay={index * 60}
+                  className="group flex gap-4 p-5 bg-surface-elevated border border-rule rounded-xl relative shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:-translate-y-0.5 hover:border-rule-strong"
                 >
-                  <span className="text-2xl font-mono text-rule-strong select-none">
+                  <span className="text-2xl font-mono text-accent/30 select-none transition-colors duration-300 group-hover:text-accent/70">
                     {item.phase}
                   </span>
                   <div>
@@ -236,34 +263,40 @@ export default function HomePage() {
                       {item.detail}
                     </p>
                   </div>
-                </div>
+                </Reveal>
               ))}
             </div>
           </div>
-          <div className="mt-12">
+          <Reveal className="mt-12">
             <Link
               href="/approach"
               className="text-ink font-medium link-underline"
             >
               Our full approach
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section className="section-padding">
         <div className="container-wide">
-          <h2 className="text-2xl md:text-3xl font-medium text-ink">
-            Why clients work with us
-          </h2>
+          <Reveal>
+            <h2 className="text-2xl md:text-3xl font-medium text-ink">
+              Why clients work with us
+            </h2>
+          </Reveal>
           <div className="mt-10 grid md:grid-cols-2 gap-x-12 gap-y-10 max-w-4xl">
             {credibility.map((item, index) => (
-              <div key={item.heading} className="relative pl-6 border-l-2 border-rule">
+              <Reveal
+                key={item.heading}
+                delay={index * 70}
+                className="relative pl-6 border-l-2 border-rule transition-colors duration-300 hover:border-accent"
+              >
                 <h3 className="font-medium text-ink">{item.heading}</h3>
                 <p className="mt-2 text-sm text-ink-muted leading-relaxed">
                   {item.text}
                 </p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -271,22 +304,24 @@ export default function HomePage() {
 
       <section className="section-dark section-padding">
         <div className="container-wide text-center">
-          <h2 className="text-2xl md:text-3xl font-medium">
-            Ready to discuss your project?
-          </h2>
-          <p className="mt-4 max-w-xl mx-auto" style={{ color: '#A8B8C8' }}>
-            We respond within one business day. Send us your situation and we will
-            let you know if we can help.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded hover:bg-surface transition-colors"
-          >
-            Contact us
-          </Link>
-          <p className="mt-4 text-sm" style={{ color: '#8896A6' }}>
-            We will tell you if we are not the right fit.
-          </p>
+          <Reveal>
+            <h2 className="text-2xl md:text-3xl font-medium">
+              Ready to discuss your project?
+            </h2>
+            <p className="mt-4 max-w-xl mx-auto" style={{ color: '#A8B8C8' }}>
+              We respond within one business day. Send us your situation and we will
+              let you know if we can help.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded-lg shadow-elevated hover:-translate-y-0.5 transition-all duration-300 ease-out-expo"
+            >
+              Contact us
+            </Link>
+            <p className="mt-4 text-sm" style={{ color: '#8896A6' }}>
+              We will tell you if we are not the right fit.
+            </p>
+          </Reveal>
         </div>
       </section>
     </div>

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const navigation = [
   { name: 'Services', href: '/services' },
@@ -15,16 +15,30 @@ const navigation = [
 export default function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 bg-surface-elevated border-b border-rule">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ease-out-expo ${
+        scrolled
+          ? 'bg-surface-elevated/80 backdrop-blur-md border-b border-rule shadow-header'
+          : 'bg-surface-elevated/60 backdrop-blur-sm border-b border-transparent'
+      }`}
+    >
       <nav
         className="container-wide flex items-center justify-between h-16"
         aria-label="Main navigation"
       >
         <Link
           href="/"
-          className="flex items-center gap-2 font-medium text-ink hover:text-accent transition-colors"
+          className="group flex items-center gap-2.5 font-display font-medium text-ink hover:text-accent transition-colors"
           aria-label="Bilco Works home"
         >
           <svg
@@ -34,31 +48,38 @@ export default function Header() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
+            className="text-accent transition-transform duration-500 ease-out-expo group-hover:rotate-[6deg]"
           >
             <rect x="2" y="2" width="12" height="12" fill="currentColor" />
             <rect x="18" y="6" width="12" height="12" fill="currentColor" opacity="0.6" />
             <rect x="6" y="18" width="12" height="12" fill="currentColor" opacity="0.35" />
           </svg>
-          <span>Bilco Works</span>
+          <span className="tracking-tight">Bilco Works</span>
         </Link>
 
         {/* Desktop Navigation */}
         <ul className="hidden md:flex items-center gap-8">
-          {navigation.map((item) => (
-            <li key={item.name}>
-              <Link
-                href={item.href}
-                className={`text-sm font-medium transition-colors ${
-                  pathname === item.href
-                    ? 'text-ink'
-                    : 'text-ink-muted hover:text-ink'
-                }`}
-                aria-current={pathname === item.href ? 'page' : undefined}
-              >
-                {item.name}
-              </Link>
-            </li>
-          ))}
+          {navigation.map((item) => {
+            const active = pathname === item.href
+            return (
+              <li key={item.name}>
+                <Link
+                  href={item.href}
+                  className={`relative text-sm font-medium transition-colors py-1 ${
+                    active ? 'text-accent' : 'text-ink-muted hover:text-ink'
+                  }`}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {item.name}
+                  <span
+                    className={`absolute left-0 -bottom-0.5 h-px w-full origin-left bg-gradient-to-r from-accent to-teal transition-transform duration-300 ease-out-expo ${
+                      active ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
+                </Link>
+              </li>
+            )
+          })}
         </ul>
 
         {/* Mobile Menu Button */}

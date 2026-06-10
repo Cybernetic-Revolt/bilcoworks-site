@@ -1,8 +1,29 @@
 import type { Metadata } from 'next'
+import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Analytics from '@/components/Analytics'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+})
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-display',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500'],
+  variable: '--font-mono',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bilcoworks.com'),
@@ -20,6 +41,20 @@ export const metadata: Metadata = {
     'HR systems consulting',
     'HRIS stabilization',
     'enterprise HR technology',
+    'global payroll implementation',
+    'multi-country payroll compliance',
+    'gross-to-net validation',
+    'statutory payroll filings',
+    'payroll parallel run reconciliation',
+    'GDPR payroll data residency',
+    'in-country payroll provider integration',
+    'collective bargaining agreement payroll',
+    'union dues remittance configuration',
+    'retro pay on ratification',
+    'CBA HRIS configuration',
+    'seniority and step progression',
+    'shift differential pay rules',
+    'bargaining unit payroll',
   ],
   authors: [{ name: 'Bilco Works Incorporated' }],
   creator: 'Bilco Works Incorporated',
@@ -103,6 +138,17 @@ const jsonLd = {
         'HR Systems Integration',
         'HRIS Stabilization',
         'Payroll Integration',
+        'Multi-country payroll implementation',
+        'Gross-to-net validation and parallel runs',
+        'Statutory filings and social contributions',
+        'GDPR and payroll data residency',
+        'Multi-currency payroll and FX handling',
+        'Collective bargaining agreement configuration',
+        'Union dues, arrears, and remittance reporting',
+        'Retro pay on contract ratification',
+        'Seniority, bumping, and step progression',
+        'Shift differentials and premium pyramiding rules',
+        'Multiple bargaining unit configuration',
       ],
       sameAs: [],
     },
@@ -159,10 +205,20 @@ const jsonLd = {
             '@type': 'Offer',
             itemOffered: {
               '@type': 'Service',
-              name: 'Global Payroll Implementation',
+              name: 'Global Payroll & Compliance',
               description:
-                'Multi-country payroll implementations with local compliance.',
-              url: 'https://bilcoworks.com/services#integrations',
+                'Multi-country payroll implementation and statutory compliance. We configure gross-to-net per jurisdiction, validate it against parallel runs reconciled to the cent, produce statutory filings in the right format and calendar, and keep each configuration current as local tax and social-contribution rules change. Data residency, cross-border transfers, and multi-currency handling included.',
+              url: 'https://bilcoworks.com/services#global-payroll-compliance',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Unionized Workforce Support',
+              description:
+                'HRIS and payroll configuration for organizations with collective bargaining agreements. We encode CBA rules - union dues and arrears, seniority and bumping, shift and premium differentials, overtime and call-back, retro on ratification, grievance and step-progression tracking, and remittance back to the unions - and test them per bargaining unit so the system pays people the way the contract reads.',
+              url: 'https://bilcoworks.com/services#union-workforce',
             },
           },
           {
@@ -211,7 +267,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en-CA">
+    <html
+      lang="en-CA"
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
