@@ -2,46 +2,22 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  // Only protect /ops routes
+  // Only protect /ops routes (except login page)
   if (!request.nextUrl.pathname.startsWith('/ops')) {
     return NextResponse.next()
   }
 
-  const authHeader = request.headers.get('authorization')
-
-  if (!authHeader) {
-    return new NextResponse('Authentication required', {
-      status: 401,
-      headers: {
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
-      },
-    })
+  // Allow access to login page
+  if (request.nextUrl.pathname === '/ops/login') {
+    return NextResponse.next()
   }
 
-  const [scheme, encoded] = authHeader.split(' ')
+  // Check for auth cookie
+  const authCookie = request.cookies.get('ops_auth')
 
-  if (scheme !== 'Basic' || !encoded) {
-    return new NextResponse('Invalid authentication', {
-      status: 401,
-      headers: {
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
-      },
-    })
-  }
-
-  const decoded = Buffer.from(encoded, 'base64').toString('utf-8')
-  const [user, pass] = decoded.split(':')
-
-  const validUser = process.env.BASIC_AUTH_USER
-  const validPass = process.env.BASIC_AUTH_PASS
-
-  if (user !== validUser || pass !== validPass) {
-    return new NextResponse('Invalid credentials', {
-      status: 401,
-      headers: {
-        'WWW-Authenticate': 'Basic realm="Secure Area"',
-      },
-    })
+  if (authCookie?.value !== 'authenticated') {
+    // Redirect to login page
+    return NextResponse.redirect(new URL('/ops/login', request.url))
   }
 
   return NextResponse.next()
