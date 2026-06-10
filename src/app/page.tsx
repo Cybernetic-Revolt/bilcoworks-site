@@ -11,6 +11,7 @@ import {
   HardeningIcon,
   GlobalPayrollIcon,
   UnionIcon,
+  AIIcon,
 } from '@/components/illustrations'
 
 export const metadata: Metadata = {
@@ -36,6 +37,13 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const services = [
+    {
+      id: 'ai-augmented-delivery',
+      title: 'AI-Augmented Delivery',
+      description:
+        'We use AI on the first pass: variance triage, migration reconciliation, CBA parsing, statutory monitoring. A practitioner verifies every result. You stay the responsible party.',
+      icon: AIIcon,
+    },
     {
       id: 'hris-implementation',
       title: 'HRIS Implementation',

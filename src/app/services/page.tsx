@@ -10,6 +10,7 @@ import {
   HardeningIcon,
   GlobalPayrollIcon,
   UnionIcon,
+  AIIcon,
 } from '@/components/illustrations'
 
 export const metadata: Metadata = {
@@ -68,7 +69,7 @@ const services = [
     title: 'HRIS Rescue & Stabilization',
     icon: RescueIcon,
     description:
-      'Triage and recovery for implementations that have stalled, failed, or are running but unreliable. We diagnose root causes, prioritize fixes, and establish a path to stable operations.',
+      'Triage and recovery for implementations that have stalled, failed, or are running but unreliable. We diagnose root causes, prioritize fixes, and establish a path to stable operations. We use anomaly detection to surface migration records that do not reconcile and flag duplicates before go-live; the model finds the suspects, a person makes the call.',
     outcomes: [
       'Root cause analysis of current failures',
       'Prioritized remediation plan',
@@ -95,7 +96,7 @@ const services = [
     title: 'Integration Development',
     icon: IntegrationIcon,
     description:
-      'Design, build, and harden integrations between HRIS and payroll, benefits, finance, identity, and other enterprise systems. We build integrations that are observable, recoverable, and maintainable.',
+      'Design, build, and harden integrations between HRIS and payroll, benefits, finance, identity, and other enterprise systems. We build integrations that are observable, recoverable, and maintainable. We monitor integration health with anomaly detection and generate test cases from the specs with a language model; alerts route to a human and nothing fails silently.',
     outcomes: [
       'Production-ready integrations with error handling',
       'Reconciliation logic to catch data drift',
@@ -124,7 +125,7 @@ const services = [
     title: 'Global Payroll & Compliance',
     icon: GlobalPayrollIcon,
     description:
-      'Configure, reconcile, and maintain payroll across multiple countries and the statutory rules that govern each one. We map gross-to-net per jurisdiction, prove it against a parallel run reconciled to the cent, and keep the configuration patched as tax and contribution rules change. The work supports your compliance obligations; you stay the responsible party.',
+      'Configure, reconcile, and maintain payroll across multiple countries and the statutory rules that govern each one. We map gross-to-net per jurisdiction, prove it against a parallel run reconciled to the cent, and keep the configuration patched as tax and contribution rules change. The work supports your compliance obligations; you stay the responsible party. We cluster gross-to-net and parallel-run variances with machine learning so people chase the real exceptions, and a practitioner signs off before reconciliation closes.',
     outcomes: [
       'Gross-to-net validated per country against a parallel run, reconciled to the cent',
       'Statutory filings produced in the right format on the right calendar',
@@ -153,7 +154,7 @@ const services = [
     title: 'Unionized Workforce Support',
     icon: UnionIcon,
     description:
-      'Encode collective bargaining agreements into HRIS and payroll so the system pays people the way the contract reads. We translate each clause into pay rules, dues and remittance logic, seniority, and retro on ratification, then test it per bargaining unit. One config error scales to a whole unit, so most of the work is in the testing.',
+      'Encode collective bargaining agreements into HRIS and payroll so the system pays people the way the contract reads. We translate each clause into pay rules, dues and remittance logic, seniority, and retro on ratification, then test it per bargaining unit. One config error scales to a whole unit, so most of the work is in the testing. We parse the CBA into a first-draft pay-rule mapping with a language model, each clause cited to article and section and human-verified before it configures anything.',
     outcomes: [
       'CBA clauses encoded as pay rules with citations back to article and section',
       'Dues, arrears, and remittance files calculated and reported per union',
@@ -231,6 +232,35 @@ const services = [
       'Tribal knowledge with no documentation',
       'No monitoring until something breaks',
       'Support contracts without clear scope',
+    ],
+  },
+  {
+    id: 'ai-augmented-delivery',
+    title: 'AI-Augmented Delivery',
+    icon: AIIcon,
+    description:
+      'AI is how a small senior team covers enterprise scope without an army of junior staff. We use it for the slow, repetitive passes: clustering payroll variances, reconciling migrated data, parsing collective bargaining agreements into a first-draft mapping, turning workshop notes into structured requirements, and watching for statutory changes per jurisdiction. Each use is bounded and observable. AI does the first pass. A practitioner who has done this work verifies it. You approve what ships.',
+    outcomes: [
+      'Every payroll line and migrated record screened for anomalies, not just a sample',
+      'Migration records that do not reconcile surfaced before go-live, with duplicates and outliers flagged for review',
+      'CBA clauses extracted into a first-draft configuration mapping, every line cited and human-verified',
+      'Statutory changes flagged per jurisdiction, with time to confirm and test before effective dates',
+    ],
+    deliverables: [
+      'Variance triage output: gross-to-net and parallel-run differences clustered by likely cause, explained in plain language and traced to source records, reviewed by a practitioner',
+      'Migration reconciliation report: non-reconciling records, fuzzy-matched duplicate candidates, and outliers, ranked for analyst review before cutover',
+      'CBA-to-configuration first draft: pay rules extracted and cited to article and section, human-verified before build',
+      'Requirements, workbooks, and runbook drafts generated from workshop notes and configs, then edited by a practitioner before sign-off',
+      'Statutory change watch log per jurisdiction, with effective dates, affected configuration, and a verification step before any patch',
+      'A written record of what AI drafted, who reviewed it, and what changed',
+    ],
+    success:
+      "The week before launch should be boring. AI has screened every record, not a sample, and a person chased down the exceptions it surfaced. Records that do not reconcile are caught before cutover, not after payroll runs wrong. AI output never writes to your system of record; a practitioner applies approved changes, and low-confidence results wait for review. Nothing ships on the model's word alone, and you stay the responsible party.",
+    failuresAvoided: [
+      'AI output shipped without human review',
+      'Variances re-keyed by hand record by record',
+      'Migration errors found after go-live',
+      'Statutory changes tracked without per-jurisdiction review',
     ],
   },
 ]

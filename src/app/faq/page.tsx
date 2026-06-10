@@ -69,6 +69,16 @@ const faqs = [
       "Yes. Each unit is driven by its own CBA, so an employee's unit membership decides which pay rules, seniority logic, dues basis, and premiums apply. We keep the units separate in configuration and test the mid-period transfers between them. Treating multiple units as one applies the wrong rules to the wrong population, and one config error scales to the whole group.",
   },
   {
+    question: 'Does AI make decisions about my payroll or configuration?',
+    answer:
+      'No. AI does the first pass. It clusters and explains payroll variances, surfaces migration records that do not reconcile, drafts a configuration mapping from a collective bargaining agreement, and turns workshop notes into structured requirements. A senior practitioner reviews the output, and you approve what ships. AI output is never written to your system of record - a practitioner applies approved changes, and low-confidence results are held for review rather than acted on. The model supports the work; you stay the responsible party.',
+  },
+  {
+    question: 'What happens when the AI gets something wrong?',
+    answer:
+      "We design for that. Low-confidence results are held for review rather than acted on, and AI output is never written to your system of record. Every AI output is logged and reviewed, and each flag is traceable to who signed off. Nothing fails silently and nothing ships on the model's word alone. AI does not make a configuration correct; observability, review, and sign-off do. If you removed the AI, the controls around it would still tell you what was checked and by whom.",
+  },
+  {
     question: 'What makes Bilco Works different from other HRIS consultancies?',
     answer:
       'We combine a disciplined delivery methodology with deep platform experience. Every engagement follows our six-phase approach with documented artifacts and clear success criteria. We focus on knowledge transfer so your team can operate independently after go-live.',

@@ -170,6 +170,35 @@ export function UnionIcon({ className = '' }: IconProps) {
   )
 }
 
+export function AIIcon({ className = '' }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      role="img"
+      aria-label="AI-augmented delivery icon showing an AI core with connected nodes and a verification spark"
+    >
+      <rect x="4" y="4" width="40" height="40" rx="4" fill="#F4F6F8" />
+      <path
+        d="M16 18.5 L12.5 12.5 M32 18.5 L36 13.5 M32 27.5 L34.5 36.5"
+        stroke="#CCD3DA"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <circle cx="12.5" cy="12.5" r="3.5" fill="#3D5A7E" />
+      <circle cx="36" cy="13.5" r="3.5" fill="#3D5A7E" />
+      <circle cx="34.5" cy="36.5" r="3.5" fill="#3A7D7B" />
+      <path d="M24 14 L32 18.5 L32 27.5 L24 32 L16 27.5 L16 18.5 Z" fill="#2C4A6E" />
+      <path
+        d="M24 18.5 L25.4 22.6 L29.5 23 L25.4 23.4 L24 27.5 L22.6 23.4 L18.5 23 L22.6 22.6 Z"
+        fill="#FFFFFF"
+      />
+    </svg>
+  )
+}
+
 export function HardeningIcon({ className = '' }: IconProps) {
   return (
     <svg

@@ -133,6 +133,32 @@ export default function AboutPage() {
               Every engagement is staffed by experienced practitioners who have
               done this work before.
             </p>
+
+            <h2 className="text-2xl font-medium text-ink mt-12">
+              How AI fits a small senior team
+            </h2>
+            <p className="text-body mt-4">
+              Being small by design has a limit: enterprise scope means thousands
+              of records, hundreds of clauses, and statutory rules that change
+              without notice. We close that gap with AI, not with junior or
+              offshore resources. The machine does the first pass on the slow,
+              repetitive work: clustering payroll variances, reconciling migration
+              data, parsing a CBA into a draft mapping, watching legislation per
+              jurisdiction. That is how a handful of experienced practitioners
+              covers the scope of a much larger team.
+            </p>
+            <p className="text-body mt-4">
+              AI does not change who is accountable. We treat every AI component
+              like an integration. We know what it does, how we know it is
+              working, and what happens when it is wrong. AI output is never
+              written to your system of record - a practitioner applies approved
+              changes, and low-confidence results are held for review rather than
+              acted on. Every flag is explainable. A practitioner reviews the edge
+              cases. You approve what ships. The model supports the work; it does
+              not own the outcome. Every AI step leaves a record of what it
+              drafted, who reviewed it, and what changed - if there&apos;s no
+              record, we treat it as not done.
+            </p>
           </div>
         </div>
       </section>

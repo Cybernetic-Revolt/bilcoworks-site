@@ -9,4 +9,5 @@ export {
   HardeningIcon,
   GlobalPayrollIcon,
   UnionIcon,
+  AIIcon,
 } from './ServiceIcons'

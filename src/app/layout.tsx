@@ -55,6 +55,12 @@ export const metadata: Metadata = {
     'seniority and step progression',
     'shift differential pay rules',
     'bargaining unit payroll',
+    'AI-assisted HRIS delivery',
+    'payroll variance triage',
+    'data migration anomaly detection',
+    'collective bargaining agreement parsing',
+    'statutory change monitoring',
+    'human-in-the-loop payroll',
   ],
   authors: [{ name: 'Bilco Works Incorporated' }],
   creator: 'Bilco Works Incorporated',
@@ -149,6 +155,12 @@ const jsonLd = {
         'Seniority, bumping, and step progression',
         'Shift differentials and premium pyramiding rules',
         'Multiple bargaining unit configuration',
+        'AI-assisted HRIS and payroll delivery with human verification',
+        'Payroll variance triage and parallel-run clustering',
+        'Data-migration anomaly detection and reconciliation',
+        'Collective bargaining agreement parsing to first-draft configuration',
+        'Statutory and regulatory change monitoring per jurisdiction',
+        'Human-in-the-loop review and accountability',
       ],
       sameAs: [],
     },
@@ -219,6 +231,16 @@ const jsonLd = {
               description:
                 'HRIS and payroll configuration for organizations with collective bargaining agreements. We encode CBA rules - union dues and arrears, seniority and bumping, shift and premium differentials, overtime and call-back, retro on ratification, grievance and step-progression tracking, and remittance back to the unions - and test them per bargaining unit so the system pays people the way the contract reads.',
               url: 'https://bilcoworks.com/services#union-workforce',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'AI-Augmented Delivery',
+              description:
+                'AI-assisted HRIS and payroll delivery from a small senior team, with a human accountable for every result. We use machine learning to cluster and explain gross-to-net and parallel-run variances, detect anomalies and fuzzy-match duplicates in data migration, language models to parse collective bargaining agreements into first-draft configuration mappings and generate requirements, runbooks, and integration test cases from specs, and monitor statutory changes per jurisdiction. The AI does the first pass; an experienced practitioner verifies it; the client approves what ships and remains the responsible party.',
+              url: 'https://bilcoworks.com/services#ai-augmented-delivery',
             },
           },
           {
