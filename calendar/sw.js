@@ -5,7 +5,7 @@
  *     but the last-known events still render when offline.
  * Bump CACHE_VERSION to force clients onto a new shell.
  */
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v3';
 const SHELL_CACHE = 'cal-shell-' + CACHE_VERSION;
 const DATA_CACHE = 'cal-data-' + CACHE_VERSION;
 
@@ -42,6 +42,21 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return; // never cache writes
 
   const url = new URL(req.url);
+
+  // Page navigations (the HTML document): network-first so updates land immediately,
+  // fall back to the cached shell when offline.
+  if (req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(SHELL_CACHE).then((c) => c.put('./index.html', copy));
+          return res;
+        })
+        .catch(() => caches.match(req).then((r) => r || caches.match('./index.html')))
+    );
+    return;
+  }
 
   // API: network-first, fall back to cache
   if (url.pathname.startsWith('/api/')) {
