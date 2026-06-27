@@ -82,24 +82,6 @@
         h1 .heart { flex: 0 0 auto; filter: drop-shadow(0 2px 4px rgba(176,81,47,.25)); }
         .subtitle { color: var(--muted); margin-top: 8px; font-family: var(--serif); font-style: italic; font-size: 1.02em; }
 
-        .toolbar { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
-
-        .user-select { display: flex; justify-content: center; gap: 12px; }
-        .user-btn { padding: 11px 26px; border: none; border-radius: 999px; cursor: pointer; font-size: 0.95em;
-            font-weight: 600; color: #fff; transition: transform .2s ease, box-shadow .2s ease, opacity .2s; opacity: .6; font-family: inherit; }
-        .user-btn .who { display: inline-flex; align-items: center; gap: 8px; }
-        .user-btn .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.92); }
-        .user-btn.billy { background: linear-gradient(135deg, #7d9476, #5f7657); }
-        .user-btn.julia { background: linear-gradient(135deg, #cf7a4f, #b85733); }
-        .user-btn:hover { transform: translateY(-2px); }
-        .user-btn.active { opacity: 1; box-shadow: 0 0 0 2px var(--ink), 0 8px 20px rgba(120,90,60,.18); }
-
-        .filters { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
-        .chip { padding: 7px 16px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel);
-            color: var(--muted); cursor: pointer; font-size: .85em; font-weight: 600; transition: all .2s; font-family: inherit; }
-        .chip:hover { color: var(--ink); border-color: #d8cab5; }
-        .chip.active { color: #fff; border-color: transparent; background: var(--julia); }
-
         .cal-shell { position: relative; }
         #calendar {
             background: var(--card); border-radius: var(--radius); padding: 18px;
@@ -134,17 +116,12 @@
             transition: transform .12s ease, filter .12s ease; }
         .fc-event:hover { transform: translateY(-1px); filter: brightness(1.05); }
         .ev { display: flex; align-items: center; gap: 6px; padding: 3px 7px; font-size: .82em; }
-        .ev .badge { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(0,0,0,.12); }
-        .ev .badge.billy { background: var(--billy); }
-        .ev .badge.julia { background: var(--julia); }
         .ev .t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-        /* Filled (all-day) blocks: white text, hide redundant badge */
+        /* Filled (all-day) blocks: white text */
         .fc-daygrid-block-event .ev .t { color: #fff; }
-        .fc-daygrid-block-event .ev .badge { display: none; }
         /* Dot (timed) + list events: ink text on light background */
         .fc-daygrid-dot-event .ev .t, .fc-list-event .ev .t { color: var(--ink); }
         .fc-list-event .ev { font-size: 1em; }
-        .fc-list-event .ev .badge { display: none; }   /* FC already shows a colored dot in agenda */
 
         /* Selected day highlight in the grid */
         .fc-daygrid-day.dd-selected { box-shadow: inset 0 0 0 2px var(--julia); border-radius: 8px; }
