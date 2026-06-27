@@ -398,7 +398,7 @@
                 },
                 buttonText: { today: 'Today', month: 'Month', list: 'Agenda' },
                 firstDay: 0,
-                events: (info, success, failure) => fetchEvents().then(success).catch(failure),
+                events: (info, success, failure) => { fetchEvents().then(success, failure); },
                 editable: true,
                 selectable: true,
                 selectMirror: true,
