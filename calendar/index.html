@@ -283,18 +283,6 @@
             <p class="subtitle">Your shared space for plans and adventures</p>
         </header>
 
-        <div class="toolbar">
-            <div class="user-select">
-                <button class="user-btn billy" onclick="setUser('Billy')"><span class="who"><span class="dot"></span>Billy</span></button>
-                <button class="user-btn julia" onclick="setUser('Julia')"><span class="who"><span class="dot"></span>Julia</span></button>
-            </div>
-            <div class="filters" id="filters">
-                <button class="chip active" data-filter="all" onclick="setFilter('all')">Everyone</button>
-                <button class="chip" data-filter="billy" onclick="setFilter('billy')">Billy</button>
-                <button class="chip" data-filter="julia" onclick="setFilter('julia')">Julia</button>
-            </div>
-        </div>
-
         <div class="cal-shell">
             <div id="calendar"></div>
             <div class="spinner-wrap" id="spinner"><div class="spinner"></div></div>
@@ -374,29 +362,20 @@
     <script>
         'use strict';
         let calendar;
-        let currentUser = localStorage.getItem('calendarUser') || null;
-        let selectedColor = '#6f8769';
-        let activeFilter = 'all';
+        let selectedColor = '#c2693f';
         let allEvents = [];
         let selectedDayStr = null;
         let dayDetailOpen = false;
 
         const $ = (id) => document.getElementById(id);
-        const LEGACY_DEFAULT = '#6366f1';            // old indigo default to recolor by person
-        const BILLY_COLOR = '#6f8769';
-        const JULIA_COLOR = '#c2693f';
+        const LEGACY_DEFAULT = '#6366f1';            // old indigo default -> theme color
+        const DEFAULT_COLOR = '#c2693f';             // terracotta
+        const AUTHOR = 'Us';                         // single shared calendar
 
         function localDateStr(d = new Date()) {
             const off = d.getTimezoneOffset();
             return new Date(d.getTime() - off * 60000).toISOString().split('T')[0];
         }
-        function whoFrom(name) {
-            const n = (name || '').toLowerCase();
-            if (n.startsWith('billy')) return 'billy';
-            if (n.startsWith('julia')) return 'julia';
-            return '';
-        }
-        function personColor(name) { return whoFrom(name) === 'julia' ? JULIA_COLOR : BILLY_COLOR; }
 
         function toast(msg, kind = 'info', ms = 2600) {
             const el = document.createElement('div');
@@ -417,10 +396,9 @@
                 const res = await fetch('/api/events', { headers: { 'Accept': 'application/json' } });
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 const raw = await res.json();
-                // Color by person unless the event has a deliberate custom color
+                // Normalise the old indigo default to the theme color; keep custom colors
                 allEvents = raw.map(e => {
-                    const createdBy = e.extendedProps && e.extendedProps.createdBy;
-                    const color = (!e.color || e.color === LEGACY_DEFAULT) ? personColor(createdBy) : e.color;
+                    const color = (!e.color || e.color === LEGACY_DEFAULT) ? DEFAULT_COLOR : e.color;
                     return Object.assign({}, e, { color });
                 });
                 try { localStorage.setItem('cachedEvents', JSON.stringify(allEvents)); } catch (e) {}
@@ -432,11 +410,7 @@
             } finally {
                 showSpinner(false);
             }
-            return filteredEvents();
-        }
-        function filteredEvents() {
-            if (activeFilter === 'all') return allEvents;
-            return allEvents.filter(e => whoFrom(e.extendedProps && e.extendedProps.createdBy) === activeFilter);
+            return allEvents;
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -456,34 +430,36 @@
                 },
                 firstDay: 0,
                 events: (info, success, failure) => { fetchEvents().then(success, failure); },
-                editable: true,
+                editable: false,
                 selectable: false,
                 dayMaxEvents: 3,
                 nowIndicator: true,
                 eventContent: function (arg) {
-                    const who = whoFrom(arg.event.extendedProps.createdBy);
                     const wrap = document.createElement('div');
                     wrap.className = 'ev';
-                    const badge = document.createElement('span');
-                    badge.className = 'badge ' + who;
                     const t = document.createElement('span');
                     t.className = 't';
                     const time = arg.timeText ? arg.timeText + ' ' : '';
                     t.textContent = time + arg.event.title;
-                    if (who) wrap.appendChild(badge);
                     wrap.appendChild(t);
                     return { domNodes: [wrap] };
                 },
+                // In Month view, tapping a day OR an event opens that day's panel below.
+                // In Agenda (list) view there's no panel, so tapping an event edits it directly.
                 dateClick: (info) => showDayDetail(info.dateStr, info.dayEl),
-                eventClick: (info) => openModal(info.event),
-                eventDrop: (info) => updateEventDates(info.event, info.revert),
-                eventResize: (info) => updateEventDates(info.event, info.revert),
+                eventClick: (info) => {
+                    if (calendar.view.type.startsWith('dayGrid')) {
+                        const ds = info.event.startStr.split('T')[0];
+                        showDayDetail(ds, document.querySelector('.fc-daygrid-day[data-date="' + ds + '"]'));
+                    } else {
+                        openModal(info.event);
+                    }
+                },
                 datesSet: (info) => { if (!info.view.type.startsWith('dayGrid')) closeDayDetail(); },
                 eventsSet: () => { if (dayDetailOpen) renderDayDetail(); }
             });
 
             calendar.render();
-            if (currentUser) setUser(currentUser, false);
 
             document.querySelectorAll('.color-option').forEach(opt => {
                 opt.addEventListener('click', function () {
@@ -529,10 +505,9 @@
                 list.appendChild(empty);
             } else {
                 evs.forEach(ev => {
-                    const by = ev.extendedProps.createdBy || '';
                     const row = document.createElement('button');
                     row.className = 'dd-row';
-                    row.style.borderLeftColor = ev.backgroundColor || personColor(by);
+                    row.style.borderLeftColor = ev.backgroundColor || DEFAULT_COLOR;
 
                     const title = document.createElement('div');
                     title.className = 'dd-title';
@@ -547,7 +522,6 @@
                         if (ev.end && (ev.end - ev.start) < 86400000) timeLabel += ' – ' + fmtTime(ev.end);
                     }
                     const tSpan = document.createElement('span'); tSpan.textContent = timeLabel; meta.appendChild(tSpan);
-                    if (by) { const p = document.createElement('span'); p.textContent = '· ' + by; meta.appendChild(p); }
                     row.appendChild(meta);
 
                     const desc = ev.extendedProps.description;
@@ -559,7 +533,7 @@
                     list.appendChild(row);
                 });
             }
-            $('dayDetailAdd').onclick = () => { if (!requireUser()) return; openModal(null, selectedDayStr, null); };
+            $('dayDetailAdd').onclick = () => openModal(null, selectedDayStr, null);
         }
 
         function showDayDetail(dateStr, dayEl) {
@@ -582,23 +556,7 @@
             document.querySelectorAll('.fc-daygrid-day.dd-selected').forEach(el => el.classList.remove('dd-selected'));
         }
 
-        function requireUser() {
-            if (!currentUser) { toast('Tap your name first — Billy or Julia', 'info'); return false; }
-            return true;
-        }
-        function setUser(name, save = true) {
-            currentUser = name;
-            if (save) localStorage.setItem('calendarUser', name);
-            document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('active'));
-            const btn = document.querySelector('.user-btn.' + name.toLowerCase());
-            if (btn) btn.classList.add('active');
-        }
-        function setFilter(f) {
-            activeFilter = f;
-            document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.filter === f));
-            calendar.refetchEvents();
-        }
-        function addNewEvent() { if (!requireUser()) return; openModal(null, localDateStr(), null); }
+        function addNewEvent() { openModal(null, localDateStr(), null); }
         function toggleTimeInputs() {
             const allDay = $('eventAllDay').checked;
             document.querySelectorAll('.time-input').forEach(el => el.style.display = allDay ? 'none' : 'block');
@@ -623,7 +581,7 @@
                     if (endParts[1]) $('eventEndTime').value = endParts[1].substring(0, 5);
                 }
                 $('eventAllDay').checked = event.allDay;
-                selectedColor = event.backgroundColor || personColor(event.extendedProps.createdBy);
+                selectedColor = event.backgroundColor || DEFAULT_COLOR;
                 $('deleteBtn').style.display = 'block';
             } else {
                 $('modalTitle').textContent = 'Add Event';
@@ -631,7 +589,7 @@
                 $('eventEndDate').value = endDate && endDate !== startDate ? endDate : '';
                 $('eventStartTime').value = '09:00';
                 $('eventEndTime').value = '10:00';
-                selectedColor = personColor(currentUser);   // new events default to the person's color
+                selectedColor = DEFAULT_COLOR;
                 $('deleteBtn').style.display = 'none';
             }
 
@@ -659,7 +617,7 @@
                 title: $('eventTitle').value.trim(),
                 description: $('eventDescription').value,
                 start: startStr, end: endStr, allDay: allDay,
-                color: selectedColor, createdBy: currentUser
+                color: selectedColor, createdBy: AUTHOR
             };
             const url = eventId ? `/api/events/${eventId}` : '/api/events';
             const method = eventId ? 'PUT' : 'POST';
@@ -688,28 +646,6 @@
             } catch (err) {
                 console.error('Error deleting event:', err);
                 toast('Could not delete event', 'err');
-            }
-        }
-
-        async function updateEventDates(event, revert) {
-            const startStr = event.allDay ? event.startStr.split('T')[0] : event.startStr;
-            const endStr = event.endStr ? (event.allDay ? event.endStr.split('T')[0] : event.endStr) : null;
-            const data = {
-                title: event.title,
-                description: event.extendedProps.description || '',
-                start: startStr, end: endStr, allDay: event.allDay,
-                color: event.backgroundColor, createdBy: event.extendedProps.createdBy || currentUser
-            };
-            try {
-                const res = await fetch(`/api/events/${event.id}`, {
-                    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-                });
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                toast('Moved', 'ok', 1400);
-            } catch (err) {
-                console.error('Error updating event:', err);
-                toast('Move failed — reverting', 'err');
-                if (revert) revert();
             }
         }
 
