@@ -7,10 +7,10 @@
     <meta name="description" content="A shared space for Billy &amp; Julia's plans and adventures.">
 
     <!-- PWA / home-screen app -->
-    <meta name="theme-color" content="#16213e">
+    <meta name="theme-color" content="#faf6ef">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Our Calendar">
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -18,130 +18,138 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet"
-          integrity="sha384-a+uEN0SA9NPmaoLnc5WsmxDS2SgEiUlzTisgqmWvaOsxzPREhiatn8EIBuY/Zsl2" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" rel="preload" as="script">
     <style>
         :root {
-            --billy: #6366f1;
-            --billy-2: #818cf8;
-            --julia: #f472b6;
-            --julia-2: #ec4899;
-            --bg-1: #1a1a2e;
-            --bg-2: #16213e;
-            --ink: #e7e7ee;
-            --muted: #9aa3b2;
-            --card: rgba(255,255,255,0.05);
-            --border: rgba(255,255,255,0.10);
+            /* Warm editorial palette */
+            --billy: #6f8769;       /* sage */
+            --billy-2: #5f7657;
+            --julia: #c2693f;       /* terracotta */
+            --julia-2: #b85733;
+            --accent: #b0512f;      /* heading terracotta */
+            --bg-1: #fbf8f2;
+            --bg-2: #f4ece0;
+            --ink: #2b2722;
+            --muted: #8a7f72;
+            --card: #fffdf8;
+            --panel: #efe7da;
+            --border: #ece3d5;
             --radius: 18px;
-            --shadow: 0 18px 50px rgba(0,0,0,0.45);
+            --shadow: 0 16px 44px rgba(120, 90, 60, 0.14);
+            --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+            --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
         html, body { height: 100%; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--sans);
             background: var(--bg-2);
             min-height: 100vh;
             color: var(--ink);
             position: relative;
             overflow-x: hidden;
-            padding: calc(var(--safe-top)) 0 calc(var(--safe-bottom));
+            padding: var(--safe-top) 0 var(--safe-bottom);
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Animated aurora background */
+        /* Soft warm aurora */
         .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%); }
         .aurora::before, .aurora::after {
             content: ''; position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%;
-            filter: blur(70px); opacity: 0.40; will-change: transform;
+            filter: blur(80px); will-change: transform;
         }
-        .aurora::before { background: radial-gradient(circle, var(--billy) 0%, transparent 65%); top: -15vmax; left: -10vmax; animation: drift1 22s ease-in-out infinite; }
-        .aurora::after  { background: radial-gradient(circle, var(--julia) 0%, transparent 65%); bottom: -18vmax; right: -12vmax; animation: drift2 26s ease-in-out infinite; }
-        @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(8vmax,6vmax) scale(1.15);} }
-        @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-7vmax,-5vmax) scale(1.1);} }
+        .aurora::before { background: radial-gradient(circle, var(--julia) 0%, transparent 65%); opacity: 0.10; top: -16vmax; left: -10vmax; animation: drift1 24s ease-in-out infinite; }
+        .aurora::after  { background: radial-gradient(circle, var(--billy) 0%, transparent 65%); opacity: 0.13; bottom: -18vmax; right: -12vmax; animation: drift2 28s ease-in-out infinite; }
+        @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(7vmax,5vmax) scale(1.12);} }
+        @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-6vmax,-4vmax) scale(1.1);} }
         @media (prefers-reduced-motion: reduce) { .aurora::before, .aurora::after { animation: none; } }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 18px 16px 120px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 22px 16px 120px; }
 
-        header { text-align: center; padding: 14px 0 18px; }
-        h1 { font-size: clamp(1.5em, 5vw, 2.2em); font-weight: 800; letter-spacing: -0.02em;
-             background: linear-gradient(90deg, var(--julia), var(--billy-2));
-             -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { color: var(--muted); margin-top: 6px; font-size: 0.95em; }
+        header { text-align: center; padding: 16px 0 20px; }
+        h1 {
+            font-family: var(--serif);
+            font-size: clamp(1.7em, 5.2vw, 2.5em);
+            font-weight: 600; letter-spacing: -0.01em; color: var(--accent);
+            display: inline-flex; align-items: center; gap: 12px; line-height: 1.1;
+        }
+        h1 .heart { flex: 0 0 auto; filter: drop-shadow(0 2px 4px rgba(176,81,47,.25)); }
+        .subtitle { color: var(--muted); margin-top: 8px; font-family: var(--serif); font-style: italic; font-size: 1.02em; }
 
-        /* Controls bar */
-        .toolbar { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
+        .toolbar { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
 
         .user-select { display: flex; justify-content: center; gap: 12px; }
         .user-btn { padding: 11px 26px; border: none; border-radius: 999px; cursor: pointer; font-size: 0.95em;
-            font-weight: 600; color: #fff; transition: transform .2s ease, box-shadow .2s ease, opacity .2s; opacity: .65; font-family: inherit; }
+            font-weight: 600; color: #fff; transition: transform .2s ease, box-shadow .2s ease, opacity .2s; opacity: .6; font-family: inherit; }
         .user-btn .who { display: inline-flex; align-items: center; gap: 8px; }
-        .user-btn .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.9); }
-        .user-btn.billy { background: linear-gradient(135deg, var(--billy), #4f46e5); }
-        .user-btn.julia { background: linear-gradient(135deg, var(--julia), var(--julia-2)); }
+        .user-btn .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.92); }
+        .user-btn.billy { background: linear-gradient(135deg, #7d9476, #5f7657); }
+        .user-btn.julia { background: linear-gradient(135deg, #cf7a4f, #b85733); }
         .user-btn:hover { transform: translateY(-2px); }
-        .user-btn.active { opacity: 1; box-shadow: 0 0 0 2px rgba(255,255,255,.85), 0 8px 22px rgba(0,0,0,.35); }
+        .user-btn.active { opacity: 1; box-shadow: 0 0 0 2px var(--ink), 0 8px 20px rgba(120,90,60,.18); }
 
         .filters { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
-        .chip { padding: 7px 16px; border-radius: 999px; border: 1px solid var(--border); background: var(--card);
+        .chip { padding: 7px 16px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel);
             color: var(--muted); cursor: pointer; font-size: .85em; font-weight: 600; transition: all .2s; font-family: inherit; }
-        .chip:hover { color: var(--ink); border-color: rgba(255,255,255,.25); }
-        .chip.active { color: #fff; border-color: transparent; background: linear-gradient(135deg, var(--billy), var(--julia-2)); }
+        .chip:hover { color: var(--ink); border-color: #d8cab5; }
+        .chip.active { color: #fff; border-color: transparent; background: var(--julia); }
 
         .cal-shell { position: relative; }
         #calendar {
             background: var(--card); border-radius: var(--radius); padding: 18px;
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border); box-shadow: var(--shadow); position: relative; min-height: 360px;
+            border: 1px solid var(--border); box-shadow: var(--shadow); min-height: 360px;
             animation: rise .5s ease both;
         }
         @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
         /* FullCalendar theming */
         .fc {
-            --fc-border-color: rgba(255,255,255,0.08);
-            --fc-button-bg-color: rgba(255,255,255,0.06);
+            --fc-border-color: #efe6d8;
+            --fc-button-bg-color: #efe7da;
             --fc-button-border-color: transparent;
-            --fc-button-hover-bg-color: rgba(255,255,255,0.14);
+            --fc-button-hover-bg-color: #e6dac8;
             --fc-button-hover-border-color: transparent;
-            --fc-button-active-bg-color: var(--billy);
-            --fc-button-text-color: #e7e7ee;
-            --fc-today-bg-color: rgba(129, 140, 248, 0.16);
+            --fc-button-active-bg-color: var(--julia);
+            --fc-button-text-color: #5b5347;
+            --fc-today-bg-color: rgba(194, 105, 63, 0.10);
             --fc-page-bg-color: transparent;
-            --fc-neutral-bg-color: rgba(255,255,255,0.05);
-            --fc-neutral-text-color: #e7e7ee;
-            --fc-list-event-hover-bg-color: rgba(255,255,255,0.06);
+            --fc-neutral-bg-color: #faf6ef;
+            --fc-neutral-text-color: var(--ink);
+            --fc-list-event-hover-bg-color: #faf3e9;
         }
-        .fc .fc-toolbar-title { font-weight: 700; letter-spacing: -0.01em; }
+        .fc .fc-toolbar-title { font-family: var(--serif); font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
         .fc .fc-button { font-weight: 600; border-radius: 10px !important; text-transform: capitalize; box-shadow: none; }
-        .fc .fc-button-primary:not(:disabled).fc-button-active { box-shadow: 0 4px 14px rgba(99,102,241,.4); }
-        .fc-theme-standard td, .fc-theme-standard th { border-color: rgba(255,255,255,0.07); }
-        .fc .fc-daygrid-day.fc-day-today { border-radius: 8px; }
-        .fc-col-header-cell-cushion, .fc-daygrid-day-number { color: var(--muted); text-decoration: none; padding: 8px; }
-        .fc-daygrid-day-number { font-weight: 600; }
-        .fc-day-today .fc-daygrid-day-number { color: #fff; }
+        .fc .fc-button-primary:not(:disabled).fc-button-active { box-shadow: 0 4px 12px rgba(194,105,63,.28); }
+        .fc-theme-standard td, .fc-theme-standard th { border-color: #efe6d8; }
+        .fc-col-header-cell-cushion, .fc-daygrid-day-number { color: #9c9081; text-decoration: none; padding: 8px; font-weight: 600; }
+        .fc-day-today .fc-daygrid-day-number { color: var(--accent); }
 
         .fc-event { border: none !important; border-radius: 7px; padding: 0; overflow: hidden; cursor: pointer;
             transition: transform .12s ease, filter .12s ease; }
-        .fc-event:hover { transform: translateY(-1px); filter: brightness(1.08); }
+        .fc-event:hover { transform: translateY(-1px); filter: brightness(1.05); }
         .ev { display: flex; align-items: center; gap: 6px; padding: 3px 7px; font-size: .82em; }
-        .ev .badge { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(0,0,0,.25); }
-        .ev .badge.billy { background: var(--billy-2); }
+        .ev .badge { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(0,0,0,.12); }
+        .ev .badge.billy { background: var(--billy); }
         .ev .badge.julia { background: var(--julia); }
         .ev .t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+        /* Filled (all-day) blocks: white text, hide redundant badge */
+        .fc-daygrid-block-event .ev .t { color: #fff; }
+        .fc-daygrid-block-event .ev .badge { display: none; }
+        /* Dot (timed) + list events: ink text on light background */
+        .fc-daygrid-dot-event .ev .t, .fc-list-event .ev .t { color: var(--ink); }
         .fc-list-event .ev { font-size: 1em; }
 
         /* Loading + offline */
         .spinner-wrap { position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
-            background: rgba(22,33,62,.45); border-radius: var(--radius); z-index: 5; backdrop-filter: blur(2px); }
+            background: rgba(255,253,248,.6); border-radius: var(--radius); z-index: 5; }
         .spinner-wrap.show { display: flex; }
-        .spinner { width: 38px; height: 38px; border-radius: 50%; border: 3px solid rgba(255,255,255,.15);
+        .spinner { width: 38px; height: 38px; border-radius: 50%; border: 3px solid rgba(176,81,47,.15);
             border-top-color: var(--julia); animation: spin .8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -153,8 +161,8 @@
         /* FAB */
         .fab { position: fixed; right: max(18px, env(safe-area-inset-right)); bottom: calc(20px + var(--safe-bottom));
             width: 62px; height: 62px; border-radius: 50%; border: none; cursor: pointer; z-index: 900;
-            background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 1.9em; line-height: 1;
-            box-shadow: 0 10px 28px rgba(16,185,129,.45); transition: transform .2s ease, box-shadow .2s ease;
+            background: linear-gradient(135deg, #7d9476, #5f7657); color: #fff; font-size: 1.9em; line-height: 1;
+            box-shadow: 0 10px 26px rgba(111,135,105,.42); transition: transform .2s ease, box-shadow .2s ease;
             display: flex; align-items: center; justify-content: center; }
         .fab:hover { transform: translateY(-3px) scale(1.04); }
         .fab:active { transform: scale(.96); }
@@ -162,75 +170,72 @@
         /* Install pill */
         .install-pill { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(22px + var(--safe-bottom));
             display: none; align-items: center; gap: 10px; padding: 11px 18px; border-radius: 999px; z-index: 950;
-            background: linear-gradient(135deg, var(--billy), var(--julia-2)); color: #fff; font-weight: 600; font-size: .9em;
+            background: linear-gradient(135deg, var(--julia), var(--billy)); color: #fff; font-weight: 600; font-size: .9em;
             border: none; cursor: pointer; box-shadow: var(--shadow); font-family: inherit; }
         .install-pill.show { display: inline-flex; animation: rise .4s ease both; }
-        .install-pill .x { opacity: .8; font-weight: 700; padding-left: 4px; }
+        .install-pill .x { opacity: .85; font-weight: 700; padding-left: 4px; }
 
         /* Modal */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-            z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(4px); padding: 16px; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(60,42,30,0.45);
+            z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(3px); padding: 16px; }
         .modal-overlay.active { display: flex; animation: fade .2s ease; }
         @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-        .modal { background: #1d1d31; border: 1px solid var(--border); border-radius: 20px; padding: 22px;
+        .modal { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 24px;
             width: 100%; max-width: 420px; box-shadow: var(--shadow); animation: pop .25s cubic-bezier(.2,.9,.3,1.2);
             max-height: 92vh; overflow-y: auto; }
         @keyframes pop { from { transform: translateY(18px) scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
-        .modal h2 { margin-bottom: 18px; font-size: 1.25em; }
-        .modal h2 span { background: linear-gradient(90deg, var(--julia), var(--billy-2)); -webkit-background-clip: text;
-            background-clip: text; -webkit-text-fill-color: transparent; }
+        .modal h2 { margin-bottom: 18px; font-size: 1.4em; font-family: var(--serif); font-weight: 600; color: var(--accent); }
 
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .82em; font-weight: 600;
-            text-transform: uppercase; letter-spacing: .04em; }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .8em; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .05em; }
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 12px;
-            background: rgba(255,255,255,0.05); color: var(--ink); font-size: 1em; font-family: inherit; transition: border-color .2s, box-shadow .2s; }
+            width: 100%; padding: 12px; border: 1px solid #e0d5c4; border-radius: 12px;
+            background: var(--bg-1); color: var(--ink); font-size: 1em; font-family: inherit; transition: border-color .2s, box-shadow .2s; }
         .form-group input:focus, .form-group textarea:focus {
-            outline: none; border-color: var(--billy); box-shadow: 0 0 0 3px rgba(99,102,241,.2); }
+            outline: none; border-color: var(--julia); box-shadow: 0 0 0 3px rgba(194,105,63,.18); }
         .form-group textarea { resize: vertical; min-height: 74px; white-space: pre-wrap; }
+        input[type="date"], input[type="time"] { color-scheme: light; }
 
         .checkbox-group { display: flex; align-items: center; gap: 10px; }
-        .checkbox-group input { width: auto; width: 18px; height: 18px; accent-color: var(--billy); }
+        .checkbox-group input { width: 18px; height: 18px; accent-color: var(--julia); }
         .checkbox-group label { margin: 0; text-transform: none; letter-spacing: 0; font-size: .95em; }
 
         .datetime-row { display: flex; gap: 10px; }
         .datetime-row input[type="date"] { flex: 1; }
         .datetime-row input[type="time"] { width: 124px; }
-        input[type="date"], input[type="time"] { color-scheme: dark; }
 
         .color-options { display: flex; gap: 12px; flex-wrap: wrap; }
         .color-option { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform .15s, box-shadow .15s; }
         .color-option:hover { transform: scale(1.12); }
-        .color-option.selected { box-shadow: 0 0 0 2px #1d1d31, 0 0 0 4px #fff; transform: scale(1.12); }
+        .color-option.selected { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--ink); transform: scale(1.12); }
 
         .modal-buttons { display: flex; gap: 10px; margin-top: 22px; }
         .modal-buttons button { flex: 1; padding: 13px; border: none; border-radius: 12px; cursor: pointer;
             font-size: 1em; font-weight: 700; transition: filter .2s, transform .1s; font-family: inherit; }
         .modal-buttons button:active { transform: scale(.98); }
-        .btn-save { background: linear-gradient(135deg, var(--billy), #4f46e5); color: #fff; }
-        .btn-cancel { background: rgba(255,255,255,0.08); color: var(--ink); flex: 0 0 auto; padding-inline: 18px; }
-        .btn-delete { background: rgba(239,68,68,.15); color: #fca5a5; flex: 0 0 auto; padding-inline: 18px; }
-        .modal-buttons button:hover { filter: brightness(1.1); }
+        .btn-save { background: linear-gradient(135deg, #cf7a4f, #b85733); color: #fff; }
+        .btn-cancel { background: var(--panel); color: var(--ink); flex: 0 0 auto; padding-inline: 18px; }
+        .btn-delete { background: #f3e0da; color: #b3392a; flex: 0 0 auto; padding-inline: 18px; }
+        .modal-buttons button:hover { filter: brightness(1.05); }
 
         /* Toasts */
         #toasts { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(96px + var(--safe-bottom));
             z-index: 1500; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: max-content; max-width: 90vw; }
         .toast { padding: 11px 18px; border-radius: 12px; font-size: .9em; font-weight: 600; color: #fff;
             box-shadow: var(--shadow); animation: toastIn .25s ease both; }
-        .toast.ok { background: linear-gradient(135deg, #10b981, #059669); }
-        .toast.err { background: linear-gradient(135deg, #ef4444, #dc2626); }
-        .toast.info { background: linear-gradient(135deg, var(--billy), #4f46e5); }
+        .toast.ok { background: linear-gradient(135deg, #7d9476, #5f7657); }
+        .toast.err { background: linear-gradient(135deg, #c0563f, #a8412c); }
+        .toast.info { background: linear-gradient(135deg, #cf7a4f, #b85733); }
         @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
         @media (max-width: 768px) {
-            .container { padding: 12px 10px 120px; }
+            .container { padding: 14px 10px 120px; }
             #calendar { padding: 12px; }
             .fc .fc-toolbar { flex-direction: column; gap: 10px; }
-            .fc .fc-toolbar-title { font-size: 1.25em; }
-            /* bottom-sheet modal on phones */
+            .fc .fc-toolbar-title { font-size: 1.3em; }
             .modal-overlay { align-items: flex-end; padding: 0; }
-            .modal { max-width: 100%; border-radius: 22px 22px 0 0; padding-bottom: calc(22px + var(--safe-bottom));
+            .modal { max-width: 100%; border-radius: 22px 22px 0 0; padding-bottom: calc(24px + var(--safe-bottom));
                 animation: sheet .3s cubic-bezier(.2,.9,.3,1); }
             @keyframes sheet { from { transform: translateY(100%); } to { transform: none; } }
         }
@@ -242,7 +247,12 @@
 
     <div class="container">
         <header>
-            <h1>💜 Billy &amp; Julia's Calendar</h1>
+            <h1>
+                <svg class="heart" viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+                    <path fill="#c2693f" d="M12 21s-6.7-4.2-9.4-8.1C.8 10.2 1.6 6.4 4.6 5.1 6.9 4.1 9.2 5 12 8c2.8-3 5.1-3.9 7.4-2.9 3 1.3 3.8 5.1 2 7.8C18.7 16.8 12 21 12 21z"/>
+                </svg>
+                <span>Billy &amp; Julia's Calendar</span>
+            </h1>
             <p class="subtitle">Your shared space for plans and adventures</p>
         </header>
 
@@ -275,7 +285,7 @@
     <!-- Event Modal -->
     <div class="modal-overlay" id="eventModal">
         <div class="modal">
-            <h2 id="modalTitle"><span>Add Event</span></h2>
+            <h2 id="modalTitle">Add Event</h2>
             <form id="eventForm">
                 <input type="hidden" id="eventId">
                 <div class="form-group">
@@ -307,12 +317,12 @@
                 <div class="form-group">
                     <label>Color</label>
                     <div class="color-options">
-                        <div class="color-option selected" style="background: #6366f1;" data-color="#6366f1"></div>
-                        <div class="color-option" style="background: #f472b6;" data-color="#f472b6"></div>
-                        <div class="color-option" style="background: #10b981;" data-color="#10b981"></div>
-                        <div class="color-option" style="background: #f59e0b;" data-color="#f59e0b"></div>
-                        <div class="color-option" style="background: #ef4444;" data-color="#ef4444"></div>
-                        <div class="color-option" style="background: #8b5cf6;" data-color="#8b5cf6"></div>
+                        <div class="color-option" style="background: #6f8769;" data-color="#6f8769"></div>
+                        <div class="color-option" style="background: #c2693f;" data-color="#c2693f"></div>
+                        <div class="color-option" style="background: #d9a441;" data-color="#d9a441"></div>
+                        <div class="color-option" style="background: #b8607a;" data-color="#b8607a"></div>
+                        <div class="color-option" style="background: #4f7a78;" data-color="#4f7a78"></div>
+                        <div class="color-option" style="background: #c0392b;" data-color="#c0392b"></div>
                     </div>
                 </div>
                 <div class="modal-buttons">
@@ -324,31 +334,31 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"
-            integrity="sha384-WfE/vOHqht3KDj6FvpwQUf3UxEPUHoGJ3w1yZ8rhpLWnVigt8HjXL2zXqtcfS7mf" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
     <script>
         'use strict';
         let calendar;
         let currentUser = localStorage.getItem('calendarUser') || null;
-        let selectedColor = '#6366f1';
+        let selectedColor = '#6f8769';
         let activeFilter = 'all';
-        let allEvents = [];   // last successful fetch from /api/events
+        let allEvents = [];
 
-        // ---- helpers ----
         const $ = (id) => document.getElementById(id);
+        const LEGACY_DEFAULT = '#6366f1';            // old indigo default to recolor by person
+        const BILLY_COLOR = '#6f8769';
+        const JULIA_COLOR = '#c2693f';
 
         function localDateStr(d = new Date()) {
-            // local YYYY-MM-DD (avoids the UTC off-by-one that toISOString caused)
             const off = d.getTimezoneOffset();
             return new Date(d.getTime() - off * 60000).toISOString().split('T')[0];
         }
-
         function whoFrom(name) {
             const n = (name || '').toLowerCase();
             if (n.startsWith('billy')) return 'billy';
             if (n.startsWith('julia')) return 'julia';
             return '';
         }
+        function personColor(name) { return whoFrom(name) === 'julia' ? JULIA_COLOR : BILLY_COLOR; }
 
         function toast(msg, kind = 'info', ms = 2600) {
             const el = document.createElement('div');
@@ -361,16 +371,20 @@
                 setTimeout(() => el.remove(), 300);
             }, ms);
         }
-
         function showSpinner(on) { const el = $('spinner'); if (el) el.classList.toggle('show', on); }
 
-        // ---- data ----
         async function fetchEvents() {
             showSpinner(true);
             try {
                 const res = await fetch('/api/events', { headers: { 'Accept': 'application/json' } });
                 if (!res.ok) throw new Error('HTTP ' + res.status);
-                allEvents = await res.json();
+                const raw = await res.json();
+                // Color by person unless the event has a deliberate custom color
+                allEvents = raw.map(e => {
+                    const createdBy = e.extendedProps && e.extendedProps.createdBy;
+                    const color = (!e.color || e.color === LEGACY_DEFAULT) ? personColor(createdBy) : e.color;
+                    return Object.assign({}, e, { color });
+                });
                 try { localStorage.setItem('cachedEvents', JSON.stringify(allEvents)); } catch (e) {}
             } catch (err) {
                 console.error('Failed to load events:', err);
@@ -382,22 +396,16 @@
             }
             return filteredEvents();
         }
-
         function filteredEvents() {
             if (activeFilter === 'all') return allEvents;
             return allEvents.filter(e => whoFrom(e.extendedProps && e.extendedProps.createdBy) === activeFilter);
         }
 
-        // ---- init ----
         document.addEventListener('DOMContentLoaded', function () {
             calendar = new FullCalendar.Calendar($('calendar'), {
                 initialView: window.innerWidth < 768 ? 'listMonth' : 'dayGridMonth',
                 height: 'auto',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,listMonth'
-                },
+                headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
                 buttonText: { today: 'Today', month: 'Month', list: 'Agenda' },
                 firstDay: 0,
                 events: (info, success, failure) => { fetchEvents().then(success, failure); },
@@ -420,10 +428,7 @@
                     wrap.appendChild(t);
                     return { domNodes: [wrap] };
                 },
-                select: (info) => {
-                    if (!requireUser()) return;
-                    openModal(null, info.startStr, info.endStr);
-                },
+                select: (info) => { if (!requireUser()) return; openModal(null, info.startStr, info.endStr); },
                 eventClick: (info) => openModal(info.event),
                 eventDrop: (info) => updateEventDates(info.event, info.revert),
                 eventResize: (info) => updateEventDates(info.event, info.revert)
@@ -444,7 +449,6 @@
             $('eventModal').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeModal(); });
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-            // offline indicator
             const updateOnline = () => $('offlineBanner').classList.toggle('show', !navigator.onLine);
             window.addEventListener('online', () => { updateOnline(); toast('Back online', 'ok'); calendar.refetchEvents(); });
             window.addEventListener('offline', updateOnline);
@@ -454,10 +458,9 @@
         });
 
         function requireUser() {
-            if (!currentUser) { toast('Tap your name first — Billy or Julia 💜', 'info'); return false; }
+            if (!currentUser) { toast('Tap your name first — Billy or Julia', 'info'); return false; }
             return true;
         }
-
         function setUser(name, save = true) {
             currentUser = name;
             if (save) localStorage.setItem('calendarUser', name);
@@ -465,18 +468,12 @@
             const btn = document.querySelector('.user-btn.' + name.toLowerCase());
             if (btn) btn.classList.add('active');
         }
-
         function setFilter(f) {
             activeFilter = f;
             document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.filter === f));
             calendar.refetchEvents();
         }
-
-        function addNewEvent() {
-            if (!requireUser()) return;
-            openModal(null, localDateStr(), null);
-        }
-
+        function addNewEvent() { if (!requireUser()) return; openModal(null, localDateStr(), null); }
         function toggleTimeInputs() {
             const allDay = $('eventAllDay').checked;
             document.querySelectorAll('.time-input').forEach(el => el.style.display = allDay ? 'none' : 'block');
@@ -488,31 +485,28 @@
             $('eventId').value = '';
 
             if (event) {
-                $('modalTitle').innerHTML = '<span>Edit Event</span>';
+                $('modalTitle').textContent = 'Edit Event';
                 $('eventId').value = event.id;
                 $('eventTitle').value = event.title;
                 $('eventDescription').value = event.extendedProps.description || '';
-
                 const startParts = event.startStr.split('T');
                 $('eventStartDate').value = startParts[0];
                 if (startParts[1]) $('eventStartTime').value = startParts[1].substring(0, 5);
-
                 if (event.endStr) {
                     const endParts = event.endStr.split('T');
                     $('eventEndDate').value = endParts[0];
                     if (endParts[1]) $('eventEndTime').value = endParts[1].substring(0, 5);
                 }
-
                 $('eventAllDay').checked = event.allDay;
-                selectedColor = event.backgroundColor || event.extendedProps.color || '#6366f1';
+                selectedColor = event.backgroundColor || personColor(event.extendedProps.createdBy);
                 $('deleteBtn').style.display = 'block';
             } else {
-                $('modalTitle').innerHTML = '<span>Add Event</span>';
+                $('modalTitle').textContent = 'Add Event';
                 $('eventStartDate').value = startDate;
                 $('eventEndDate').value = endDate && endDate !== startDate ? endDate : '';
                 $('eventStartTime').value = '09:00';
                 $('eventEndTime').value = '10:00';
-                selectedColor = '#6366f1';
+                selectedColor = personColor(currentUser);   // new events default to the person's color
                 $('deleteBtn').style.display = 'none';
             }
 
@@ -522,45 +516,34 @@
             $('eventModal').classList.add('active');
             setTimeout(() => $('eventTitle').focus(), 50);
         }
-
         function closeModal() { $('eventModal').classList.remove('active'); }
 
         async function saveEvent() {
             const eventId = $('eventId').value;
             const allDay = $('eventAllDay').checked;
-
             let startStr = $('eventStartDate').value;
             let endStr = $('eventEndDate').value || null;
             if (!startStr) { toast('Pick a start date', 'err'); return; }
-
             if (!allDay) {
                 const st = $('eventStartTime').value || '00:00';
                 const et = $('eventEndTime').value || '23:59';
                 startStr += 'T' + st;
                 if (endStr) endStr += 'T' + et;
             }
-
             const data = {
                 title: $('eventTitle').value.trim(),
                 description: $('eventDescription').value,
-                start: startStr,
-                end: endStr,
-                allDay: allDay,
-                color: selectedColor,
-                createdBy: currentUser
+                start: startStr, end: endStr, allDay: allDay,
+                color: selectedColor, createdBy: currentUser
             };
-
             const url = eventId ? `/api/events/${eventId}` : '/api/events';
             const method = eventId ? 'PUT' : 'POST';
-
             try {
-                const res = await fetch(url, {
-                    method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-                });
+                const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 calendar.refetchEvents();
                 closeModal();
-                toast(eventId ? 'Event updated ✓' : 'Event added ✓', 'ok');
+                toast(eventId ? 'Event updated' : 'Event added', 'ok');
             } catch (err) {
                 console.error('Error saving event:', err);
                 toast('Could not save — check your connection', 'err');
@@ -589,18 +572,15 @@
             const data = {
                 title: event.title,
                 description: event.extendedProps.description || '',
-                start: startStr,
-                end: endStr,
-                allDay: event.allDay,
-                color: event.backgroundColor,
-                createdBy: event.extendedProps.createdBy || currentUser
+                start: startStr, end: endStr, allDay: event.allDay,
+                color: event.backgroundColor, createdBy: event.extendedProps.createdBy || currentUser
             };
             try {
                 const res = await fetch(`/api/events/${event.id}`, {
                     method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
                 });
                 if (!res.ok) throw new Error('HTTP ' + res.status);
-                toast('Moved ✓', 'ok', 1400);
+                toast('Moved', 'ok', 1400);
             } catch (err) {
                 console.error('Error updating event:', err);
                 toast('Move failed — reverting', 'err');
@@ -608,7 +588,7 @@
             }
         }
 
-        // ---- PWA install ----
+        // PWA install
         let deferredPrompt = null;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -627,7 +607,7 @@
             localStorage.setItem('installDismissed', '1');
             $('installPill').classList.remove('show');
         }
-        window.addEventListener('appinstalled', () => { $('installPill').classList.remove('show'); toast('Installed! 💜', 'ok'); });
+        window.addEventListener('appinstalled', () => { $('installPill').classList.remove('show'); toast('Installed!', 'ok'); });
 
         function registerSW() {
             if ('serviceWorker' in navigator) {

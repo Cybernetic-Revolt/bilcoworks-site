@@ -5,7 +5,7 @@
  *     but the last-known events still render when offline.
  * Bump CACHE_VERSION to force clients onto a new shell.
  */
-const CACHE_VERSION = 'v4';
+const CACHE_VERSION = 'v5';
 const SHELL_CACHE = 'cal-shell-' + CACHE_VERSION;
 const DATA_CACHE = 'cal-data-' + CACHE_VERSION;
 
