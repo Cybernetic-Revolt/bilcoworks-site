@@ -144,6 +144,7 @@
         /* Dot (timed) + list events: ink text on light background */
         .fc-daygrid-dot-event .ev .t, .fc-list-event .ev .t { color: var(--ink); }
         .fc-list-event .ev { font-size: 1em; }
+        .fc-list-event .ev .badge { display: none; }   /* FC already shows a colored dot in agenda */
 
         /* Loading + offline */
         .spinner-wrap { position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
@@ -403,10 +404,19 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             calendar = new FullCalendar.Calendar($('calendar'), {
-                initialView: window.innerWidth < 768 ? 'listMonth' : 'dayGridMonth',
+                initialView: window.innerWidth < 768 ? 'listUpcoming' : 'dayGridMonth',
                 height: 'auto',
-                headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
-                buttonText: { today: 'Today', month: 'Month', list: 'Agenda' },
+                headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listUpcoming' },
+                buttonText: { today: 'Today', month: 'Month' },
+                views: {
+                    listUpcoming: {
+                        type: 'list',
+                        duration: { days: 45 },
+                        dateAlignment: 'day',          // start the range at today, not the 1st
+                        buttonText: 'Agenda',
+                        listDayFormat: { weekday: 'long', month: 'long', day: 'numeric' }
+                    }
+                },
                 firstDay: 0,
                 events: (info, success, failure) => { fetchEvents().then(success, failure); },
                 editable: true,
