@@ -94,6 +94,7 @@
         .chip:hover { color: var(--ink); border-color: rgba(255,255,255,.25); }
         .chip.active { color: #fff; border-color: transparent; background: linear-gradient(135deg, var(--billy), var(--julia-2)); }
 
+        .cal-shell { position: relative; }
         #calendar {
             background: var(--card); border-radius: var(--radius); padding: 18px;
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -257,7 +258,8 @@
             </div>
         </div>
 
-        <div id="calendar">
+        <div class="cal-shell">
+            <div id="calendar"></div>
             <div class="spinner-wrap" id="spinner"><div class="spinner"></div></div>
         </div>
     </div>
@@ -360,7 +362,7 @@
             }, ms);
         }
 
-        function showSpinner(on) { $('spinner').classList.toggle('show', on); }
+        function showSpinner(on) { const el = $('spinner'); if (el) el.classList.toggle('show', on); }
 
         // ---- data ----
         async function fetchEvents() {
