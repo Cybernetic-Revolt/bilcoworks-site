@@ -146,6 +146,32 @@
         .fc-list-event .ev { font-size: 1em; }
         .fc-list-event .ev .badge { display: none; }   /* FC already shows a colored dot in agenda */
 
+        /* Selected day highlight in the grid */
+        .fc-daygrid-day.dd-selected { box-shadow: inset 0 0 0 2px var(--julia); border-radius: 8px; }
+
+        /* Day detail panel */
+        .day-detail { margin-top: 16px; background: var(--card); border: 1px solid var(--border);
+            border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; animation: rise .3s ease both; }
+        .day-detail[hidden] { display: none; }
+        .day-detail-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .day-detail-head h3 { font-family: var(--serif); color: var(--accent); font-size: 1.2em; font-weight: 600; }
+        .dd-close { background: var(--panel); border: none; width: 32px; height: 32px; border-radius: 50%;
+            cursor: pointer; color: var(--muted); font-weight: 700; font-size: .95em; transition: background .2s; }
+        .dd-close:hover { background: #e6dac8; }
+        #dayDetailList { display: flex; flex-direction: column; gap: 9px; }
+        .dd-empty { color: var(--muted); font-style: italic; padding: 6px 2px; font-family: var(--serif); }
+        .dd-row { display: block; width: 100%; text-align: left; background: var(--bg-1);
+            border: 1px solid var(--border); border-left: 4px solid var(--billy); border-radius: 12px;
+            padding: 11px 13px; cursor: pointer; font-family: inherit; transition: transform .1s, box-shadow .15s; }
+        .dd-row:hover { box-shadow: 0 5px 16px rgba(120,90,60,.13); }
+        .dd-row:active { transform: scale(.99); }
+        .dd-row .dd-title { font-weight: 600; color: var(--ink); font-size: 1em; }
+        .dd-row .dd-meta { font-size: .82em; color: var(--muted); margin-top: 3px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .dd-row .dd-desc { font-size: .85em; color: #6b6256; margin-top: 7px; white-space: pre-wrap; word-break: break-word; line-height: 1.45; }
+        .dd-add { margin-top: 14px; width: 100%; padding: 12px; border: 1px dashed #d4c4ad; background: transparent;
+            color: var(--accent); border-radius: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .2s; }
+        .dd-add:hover { background: var(--panel); }
+
         /* Loading + offline */
         .spinner-wrap { position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
             background: rgba(255,253,248,.6); border-radius: var(--radius); z-index: 5; }
@@ -273,6 +299,15 @@
             <div id="calendar"></div>
             <div class="spinner-wrap" id="spinner"><div class="spinner"></div></div>
         </div>
+
+        <div class="day-detail" id="dayDetail" hidden>
+            <div class="day-detail-head">
+                <h3 id="dayDetailTitle"></h3>
+                <button class="dd-close" onclick="closeDayDetail()" aria-label="Close">✕</button>
+            </div>
+            <div id="dayDetailList"></div>
+            <button class="dd-add" id="dayDetailAdd">＋ Add event</button>
+        </div>
     </div>
 
     <button class="fab" onclick="addNewEvent()" aria-label="Add event">＋</button>
@@ -343,6 +378,8 @@
         let selectedColor = '#6f8769';
         let activeFilter = 'all';
         let allEvents = [];
+        let selectedDayStr = null;
+        let dayDetailOpen = false;
 
         const $ = (id) => document.getElementById(id);
         const LEGACY_DEFAULT = '#6366f1';            // old indigo default to recolor by person
@@ -420,8 +457,7 @@
                 firstDay: 0,
                 events: (info, success, failure) => { fetchEvents().then(success, failure); },
                 editable: true,
-                selectable: true,
-                selectMirror: true,
+                selectable: false,
                 dayMaxEvents: 3,
                 nowIndicator: true,
                 eventContent: function (arg) {
@@ -438,10 +474,12 @@
                     wrap.appendChild(t);
                     return { domNodes: [wrap] };
                 },
-                select: (info) => { if (!requireUser()) return; openModal(null, info.startStr, info.endStr); },
+                dateClick: (info) => showDayDetail(info.dateStr, info.dayEl),
                 eventClick: (info) => openModal(info.event),
                 eventDrop: (info) => updateEventDates(info.event, info.revert),
-                eventResize: (info) => updateEventDates(info.event, info.revert)
+                eventResize: (info) => updateEventDates(info.event, info.revert),
+                datesSet: (info) => { if (!info.view.type.startsWith('dayGrid')) closeDayDetail(); },
+                eventsSet: () => { if (dayDetailOpen) renderDayDetail(); }
             });
 
             calendar.render();
@@ -466,6 +504,83 @@
 
             registerSW();
         });
+
+        // ---- Day detail panel ----
+        function eventsOnDate(dateStr) {
+            const ds = new Date(dateStr + 'T00:00:00');
+            const de = new Date(ds.getTime() + 86400000);
+            return calendar.getEvents().filter(ev => {
+                const s = ev.start; if (!s) return false;
+                const e = ev.end || new Date(s.getTime() + (ev.allDay ? 86400000 : 3600000));
+                return s < de && e > ds;
+            }).sort((a, b) => (a.allDay === b.allDay) ? (a.start - b.start) : (a.allDay ? -1 : 1));
+        }
+
+        function fmtTime(d) { return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
+
+        function renderDayDetail() {
+            const list = $('dayDetailList');
+            list.innerHTML = '';
+            const evs = eventsOnDate(selectedDayStr);
+            if (!evs.length) {
+                const empty = document.createElement('div');
+                empty.className = 'dd-empty';
+                empty.textContent = 'Nothing planned this day.';
+                list.appendChild(empty);
+            } else {
+                evs.forEach(ev => {
+                    const by = ev.extendedProps.createdBy || '';
+                    const row = document.createElement('button');
+                    row.className = 'dd-row';
+                    row.style.borderLeftColor = ev.backgroundColor || personColor(by);
+
+                    const title = document.createElement('div');
+                    title.className = 'dd-title';
+                    title.textContent = ev.title;
+                    row.appendChild(title);
+
+                    const meta = document.createElement('div');
+                    meta.className = 'dd-meta';
+                    let timeLabel = 'All day';
+                    if (!ev.allDay && ev.start) {
+                        timeLabel = fmtTime(ev.start);
+                        if (ev.end && (ev.end - ev.start) < 86400000) timeLabel += ' – ' + fmtTime(ev.end);
+                    }
+                    const tSpan = document.createElement('span'); tSpan.textContent = timeLabel; meta.appendChild(tSpan);
+                    if (by) { const p = document.createElement('span'); p.textContent = '· ' + by; meta.appendChild(p); }
+                    row.appendChild(meta);
+
+                    const desc = ev.extendedProps.description;
+                    if (desc && desc.trim()) {
+                        const d = document.createElement('div'); d.className = 'dd-desc'; d.textContent = desc;
+                        row.appendChild(d);
+                    }
+                    row.onclick = () => openModal(ev);
+                    list.appendChild(row);
+                });
+            }
+            $('dayDetailAdd').onclick = () => { if (!requireUser()) return; openModal(null, selectedDayStr, null); };
+        }
+
+        function showDayDetail(dateStr, dayEl) {
+            selectedDayStr = dateStr;
+            dayDetailOpen = true;
+            document.querySelectorAll('.fc-daygrid-day.dd-selected').forEach(el => el.classList.remove('dd-selected'));
+            if (dayEl) dayEl.classList.add('dd-selected');
+            const d = new Date(dateStr + 'T00:00:00');
+            $('dayDetailTitle').textContent = d.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+            renderDayDetail();
+            const panel = $('dayDetail');
+            panel.hidden = false;
+            setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+        }
+
+        function closeDayDetail() {
+            dayDetailOpen = false;
+            selectedDayStr = null;
+            $('dayDetail').hidden = true;
+            document.querySelectorAll('.fc-daygrid-day.dd-selected').forEach(el => el.classList.remove('dd-selected'));
+        }
 
         function requireUser() {
             if (!currentUser) { toast('Tap your name first — Billy or Julia', 'info'); return false; }
