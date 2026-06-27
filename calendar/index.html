@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    <title>Billy &amp; Julia's Calendar</title>
+    <meta name="description" content="A shared space for Billy &amp; Julia's plans and adventures.">
+
+    <!-- PWA / home-screen app -->
+    <meta name="theme-color" content="#16213e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Our Calendar">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet"
+          integrity="sha384-a+uEN0SA9NPmaoLnc5WsmxDS2SgEiUlzTisgqmWvaOsxzPREhiatn8EIBuY/Zsl2" crossorigin="anonymous">
+    <style>
+        :root {
+            --billy: #6366f1;
+            --billy-2: #818cf8;
+            --julia: #f472b6;
+            --julia-2: #ec4899;
+            --bg-1: #1a1a2e;
+            --bg-2: #16213e;
+            --ink: #e7e7ee;
+            --muted: #9aa3b2;
+            --card: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.10);
+            --radius: 18px;
+            --shadow: 0 18px 50px rgba(0,0,0,0.45);
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        html, body { height: 100%; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-2);
+            min-height: 100vh;
+            color: var(--ink);
+            position: relative;
+            overflow-x: hidden;
+            padding: calc(var(--safe-top)) 0 calc(var(--safe-bottom));
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Animated aurora background */
+        .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%); }
+        .aurora::before, .aurora::after {
+            content: ''; position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%;
+            filter: blur(70px); opacity: 0.40; will-change: transform;
+        }
+        .aurora::before { background: radial-gradient(circle, var(--billy) 0%, transparent 65%); top: -15vmax; left: -10vmax; animation: drift1 22s ease-in-out infinite; }
+        .aurora::after  { background: radial-gradient(circle, var(--julia) 0%, transparent 65%); bottom: -18vmax; right: -12vmax; animation: drift2 26s ease-in-out infinite; }
+        @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(8vmax,6vmax) scale(1.15);} }
+        @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-7vmax,-5vmax) scale(1.1);} }
+        @media (prefers-reduced-motion: reduce) { .aurora::before, .aurora::after { animation: none; } }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 18px 16px 120px; }
+
+        header { text-align: center; padding: 14px 0 18px; }
+        h1 { font-size: clamp(1.5em, 5vw, 2.2em); font-weight: 800; letter-spacing: -0.02em;
+             background: linear-gradient(90deg, var(--julia), var(--billy-2));
+             -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: var(--muted); margin-top: 6px; font-size: 0.95em; }
+
+        /* Controls bar */
+        .toolbar { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
+
+        .user-select { display: flex; justify-content: center; gap: 12px; }
+        .user-btn { padding: 11px 26px; border: none; border-radius: 999px; cursor: pointer; font-size: 0.95em;
+            font-weight: 600; color: #fff; transition: transform .2s ease, box-shadow .2s ease, opacity .2s; opacity: .65; font-family: inherit; }
+        .user-btn .who { display: inline-flex; align-items: center; gap: 8px; }
+        .user-btn .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.9); }
+        .user-btn.billy { background: linear-gradient(135deg, var(--billy), #4f46e5); }
+        .user-btn.julia { background: linear-gradient(135deg, var(--julia), var(--julia-2)); }
+        .user-btn:hover { transform: translateY(-2px); }
+        .user-btn.active { opacity: 1; box-shadow: 0 0 0 2px rgba(255,255,255,.85), 0 8px 22px rgba(0,0,0,.35); }
+
+        .filters { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .chip { padding: 7px 16px; border-radius: 999px; border: 1px solid var(--border); background: var(--card);
+            color: var(--muted); cursor: pointer; font-size: .85em; font-weight: 600; transition: all .2s; font-family: inherit; }
+        .chip:hover { color: var(--ink); border-color: rgba(255,255,255,.25); }
+        .chip.active { color: #fff; border-color: transparent; background: linear-gradient(135deg, var(--billy), var(--julia-2)); }
+
+        #calendar {
+            background: var(--card); border-radius: var(--radius); padding: 18px;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border); box-shadow: var(--shadow); position: relative; min-height: 360px;
+            animation: rise .5s ease both;
+        }
+        @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+        /* FullCalendar theming */
+        .fc {
+            --fc-border-color: rgba(255,255,255,0.08);
+            --fc-button-bg-color: rgba(255,255,255,0.06);
+            --fc-button-border-color: transparent;
+            --fc-button-hover-bg-color: rgba(255,255,255,0.14);
+            --fc-button-hover-border-color: transparent;
+            --fc-button-active-bg-color: var(--billy);
+            --fc-button-text-color: #e7e7ee;
+            --fc-today-bg-color: rgba(129, 140, 248, 0.16);
+            --fc-page-bg-color: transparent;
+            --fc-neutral-bg-color: rgba(255,255,255,0.05);
+            --fc-neutral-text-color: #e7e7ee;
+            --fc-list-event-hover-bg-color: rgba(255,255,255,0.06);
+        }
+        .fc .fc-toolbar-title { font-weight: 700; letter-spacing: -0.01em; }
+        .fc .fc-button { font-weight: 600; border-radius: 10px !important; text-transform: capitalize; box-shadow: none; }
+        .fc .fc-button-primary:not(:disabled).fc-button-active { box-shadow: 0 4px 14px rgba(99,102,241,.4); }
+        .fc-theme-standard td, .fc-theme-standard th { border-color: rgba(255,255,255,0.07); }
+        .fc .fc-daygrid-day.fc-day-today { border-radius: 8px; }
+        .fc-col-header-cell-cushion, .fc-daygrid-day-number { color: var(--muted); text-decoration: none; padding: 8px; }
+        .fc-daygrid-day-number { font-weight: 600; }
+        .fc-day-today .fc-daygrid-day-number { color: #fff; }
+
+        .fc-event { border: none !important; border-radius: 7px; padding: 0; overflow: hidden; cursor: pointer;
+            transition: transform .12s ease, filter .12s ease; }
+        .fc-event:hover { transform: translateY(-1px); filter: brightness(1.08); }
+        .ev { display: flex; align-items: center; gap: 6px; padding: 3px 7px; font-size: .82em; }
+        .ev .badge { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(0,0,0,.25); }
+        .ev .badge.billy { background: var(--billy-2); }
+        .ev .badge.julia { background: var(--julia); }
+        .ev .t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+        .fc-list-event .ev { font-size: 1em; }
+
+        /* Loading + offline */
+        .spinner-wrap { position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+            background: rgba(22,33,62,.45); border-radius: var(--radius); z-index: 5; backdrop-filter: blur(2px); }
+        .spinner-wrap.show { display: flex; }
+        .spinner { width: 38px; height: 38px; border-radius: 50%; border: 3px solid rgba(255,255,255,.15);
+            border-top-color: var(--julia); animation: spin .8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .offline-banner { position: fixed; left: 50%; transform: translateX(-50%); top: calc(var(--safe-top) + 10px);
+            background: #b45309; color: #fff; padding: 8px 16px; border-radius: 999px; font-size: .85em; font-weight: 600;
+            box-shadow: var(--shadow); z-index: 1200; display: none; }
+        .offline-banner.show { display: block; }
+
+        /* FAB */
+        .fab { position: fixed; right: max(18px, env(safe-area-inset-right)); bottom: calc(20px + var(--safe-bottom));
+            width: 62px; height: 62px; border-radius: 50%; border: none; cursor: pointer; z-index: 900;
+            background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-size: 1.9em; line-height: 1;
+            box-shadow: 0 10px 28px rgba(16,185,129,.45); transition: transform .2s ease, box-shadow .2s ease;
+            display: flex; align-items: center; justify-content: center; }
+        .fab:hover { transform: translateY(-3px) scale(1.04); }
+        .fab:active { transform: scale(.96); }
+
+        /* Install pill */
+        .install-pill { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(22px + var(--safe-bottom));
+            display: none; align-items: center; gap: 10px; padding: 11px 18px; border-radius: 999px; z-index: 950;
+            background: linear-gradient(135deg, var(--billy), var(--julia-2)); color: #fff; font-weight: 600; font-size: .9em;
+            border: none; cursor: pointer; box-shadow: var(--shadow); font-family: inherit; }
+        .install-pill.show { display: inline-flex; animation: rise .4s ease both; }
+        .install-pill .x { opacity: .8; font-weight: 700; padding-left: 4px; }
+
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(4px); padding: 16px; }
+        .modal-overlay.active { display: flex; animation: fade .2s ease; }
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+        .modal { background: #1d1d31; border: 1px solid var(--border); border-radius: 20px; padding: 22px;
+            width: 100%; max-width: 420px; box-shadow: var(--shadow); animation: pop .25s cubic-bezier(.2,.9,.3,1.2);
+            max-height: 92vh; overflow-y: auto; }
+        @keyframes pop { from { transform: translateY(18px) scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+        .modal h2 { margin-bottom: 18px; font-size: 1.25em; }
+        .modal h2 span { background: linear-gradient(90deg, var(--julia), var(--billy-2)); -webkit-background-clip: text;
+            background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .82em; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .04em; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 12px;
+            background: rgba(255,255,255,0.05); color: var(--ink); font-size: 1em; font-family: inherit; transition: border-color .2s, box-shadow .2s; }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--billy); box-shadow: 0 0 0 3px rgba(99,102,241,.2); }
+        .form-group textarea { resize: vertical; min-height: 74px; white-space: pre-wrap; }
+
+        .checkbox-group { display: flex; align-items: center; gap: 10px; }
+        .checkbox-group input { width: auto; width: 18px; height: 18px; accent-color: var(--billy); }
+        .checkbox-group label { margin: 0; text-transform: none; letter-spacing: 0; font-size: .95em; }
+
+        .datetime-row { display: flex; gap: 10px; }
+        .datetime-row input[type="date"] { flex: 1; }
+        .datetime-row input[type="time"] { width: 124px; }
+        input[type="date"], input[type="time"] { color-scheme: dark; }
+
+        .color-options { display: flex; gap: 12px; flex-wrap: wrap; }
+        .color-option { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform .15s, box-shadow .15s; }
+        .color-option:hover { transform: scale(1.12); }
+        .color-option.selected { box-shadow: 0 0 0 2px #1d1d31, 0 0 0 4px #fff; transform: scale(1.12); }
+
+        .modal-buttons { display: flex; gap: 10px; margin-top: 22px; }
+        .modal-buttons button { flex: 1; padding: 13px; border: none; border-radius: 12px; cursor: pointer;
+            font-size: 1em; font-weight: 700; transition: filter .2s, transform .1s; font-family: inherit; }
+        .modal-buttons button:active { transform: scale(.98); }
+        .btn-save { background: linear-gradient(135deg, var(--billy), #4f46e5); color: #fff; }
+        .btn-cancel { background: rgba(255,255,255,0.08); color: var(--ink); flex: 0 0 auto; padding-inline: 18px; }
+        .btn-delete { background: rgba(239,68,68,.15); color: #fca5a5; flex: 0 0 auto; padding-inline: 18px; }
+        .modal-buttons button:hover { filter: brightness(1.1); }
+
+        /* Toasts */
+        #toasts { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(96px + var(--safe-bottom));
+            z-index: 1500; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: max-content; max-width: 90vw; }
+        .toast { padding: 11px 18px; border-radius: 12px; font-size: .9em; font-weight: 600; color: #fff;
+            box-shadow: var(--shadow); animation: toastIn .25s ease both; }
+        .toast.ok { background: linear-gradient(135deg, #10b981, #059669); }
+        .toast.err { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .toast.info { background: linear-gradient(135deg, var(--billy), #4f46e5); }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+        @media (max-width: 768px) {
+            .container { padding: 12px 10px 120px; }
+            #calendar { padding: 12px; }
+            .fc .fc-toolbar { flex-direction: column; gap: 10px; }
+            .fc .fc-toolbar-title { font-size: 1.25em; }
+            /* bottom-sheet modal on phones */
+            .modal-overlay { align-items: flex-end; padding: 0; }
+            .modal { max-width: 100%; border-radius: 22px 22px 0 0; padding-bottom: calc(22px + var(--safe-bottom));
+                animation: sheet .3s cubic-bezier(.2,.9,.3,1); }
+            @keyframes sheet { from { transform: translateY(100%); } to { transform: none; } }
+        }
+    </style>
+</head>
+<body>
+    <div class="aurora"></div>
+    <div class="offline-banner" id="offlineBanner">⚡ Offline — showing last loaded events</div>
+
+    <div class="container">
+        <header>
+            <h1>💜 Billy &amp; Julia's Calendar</h1>
+            <p class="subtitle">Your shared space for plans and adventures</p>
+        </header>
+
+        <div class="toolbar">
+            <div class="user-select">
+                <button class="user-btn billy" onclick="setUser('Billy')"><span class="who"><span class="dot"></span>Billy</span></button>
+                <button class="user-btn julia" onclick="setUser('Julia')"><span class="who"><span class="dot"></span>Julia</span></button>
+            </div>
+            <div class="filters" id="filters">
+                <button class="chip active" data-filter="all" onclick="setFilter('all')">Everyone</button>
+                <button class="chip" data-filter="billy" onclick="setFilter('billy')">Billy</button>
+                <button class="chip" data-filter="julia" onclick="setFilter('julia')">Julia</button>
+            </div>
+        </div>
+
+        <div id="calendar">
+            <div class="spinner-wrap" id="spinner"><div class="spinner"></div></div>
+        </div>
+    </div>
+
+    <button class="fab" onclick="addNewEvent()" aria-label="Add event">＋</button>
+
+    <button class="install-pill" id="installPill">
+        <span>📲 Add to Home Screen</span><span class="x" onclick="dismissInstall(event)">✕</span>
+    </button>
+
+    <div id="toasts"></div>
+
+    <!-- Event Modal -->
+    <div class="modal-overlay" id="eventModal">
+        <div class="modal">
+            <h2 id="modalTitle"><span>Add Event</span></h2>
+            <form id="eventForm">
+                <input type="hidden" id="eventId">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="eventTitle" required placeholder="What's happening?">
+                </div>
+                <div class="form-group">
+                    <label>Description (optional)</label>
+                    <textarea id="eventDescription" placeholder="Add details..."></textarea>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="eventAllDay" checked onchange="toggleTimeInputs()">
+                    <label for="eventAllDay">All-day event</label>
+                </div>
+                <div class="form-group">
+                    <label>Start</label>
+                    <div class="datetime-row">
+                        <input type="date" id="eventStartDate" required>
+                        <input type="time" id="eventStartTime" class="time-input" style="display:none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>End (optional)</label>
+                    <div class="datetime-row">
+                        <input type="date" id="eventEndDate">
+                        <input type="time" id="eventEndTime" class="time-input" style="display:none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-options">
+                        <div class="color-option selected" style="background: #6366f1;" data-color="#6366f1"></div>
+                        <div class="color-option" style="background: #f472b6;" data-color="#f472b6"></div>
+                        <div class="color-option" style="background: #10b981;" data-color="#10b981"></div>
+                        <div class="color-option" style="background: #f59e0b;" data-color="#f59e0b"></div>
+                        <div class="color-option" style="background: #ef4444;" data-color="#ef4444"></div>
+                        <div class="color-option" style="background: #8b5cf6;" data-color="#8b5cf6"></div>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="button" class="btn-delete" id="deleteBtn" style="display:none;" onclick="deleteEvent()">Delete</button>
+                    <button type="submit" class="btn-save">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"
+            integrity="sha384-WfE/vOHqht3KDj6FvpwQUf3UxEPUHoGJ3w1yZ8rhpLWnVigt8HjXL2zXqtcfS7mf" crossorigin="anonymous"></script>
+    <script>
+        'use strict';
+        let calendar;
+        let currentUser = localStorage.getItem('calendarUser') || null;
+        let selectedColor = '#6366f1';
+        let activeFilter = 'all';
+        let allEvents = [];   // last successful fetch from /api/events
+
+        // ---- helpers ----
+        const $ = (id) => document.getElementById(id);
+
+        function localDateStr(d = new Date()) {
+            // local YYYY-MM-DD (avoids the UTC off-by-one that toISOString caused)
+            const off = d.getTimezoneOffset();
+            return new Date(d.getTime() - off * 60000).toISOString().split('T')[0];
+        }
+
+        function whoFrom(name) {
+            const n = (name || '').toLowerCase();
+            if (n.startsWith('billy')) return 'billy';
+            if (n.startsWith('julia')) return 'julia';
+            return '';
+        }
+
+        function toast(msg, kind = 'info', ms = 2600) {
+            const el = document.createElement('div');
+            el.className = 'toast ' + kind;
+            el.textContent = msg;
+            $('toasts').appendChild(el);
+            setTimeout(() => {
+                el.style.transition = 'opacity .3s, transform .3s';
+                el.style.opacity = '0'; el.style.transform = 'translateY(8px)';
+                setTimeout(() => el.remove(), 300);
+            }, ms);
+        }
+
+        function showSpinner(on) { $('spinner').classList.toggle('show', on); }
+
+        // ---- data ----
+        async function fetchEvents() {
+            showSpinner(true);
+            try {
+                const res = await fetch('/api/events', { headers: { 'Accept': 'application/json' } });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                allEvents = await res.json();
+                try { localStorage.setItem('cachedEvents', JSON.stringify(allEvents)); } catch (e) {}
+            } catch (err) {
+                console.error('Failed to load events:', err);
+                const cached = localStorage.getItem('cachedEvents');
+                if (cached) { allEvents = JSON.parse(cached); toast('Offline — showing cached events', 'info'); }
+                else { toast('Could not load events', 'err'); }
+            } finally {
+                showSpinner(false);
+            }
+            return filteredEvents();
+        }
+
+        function filteredEvents() {
+            if (activeFilter === 'all') return allEvents;
+            return allEvents.filter(e => whoFrom(e.extendedProps && e.extendedProps.createdBy) === activeFilter);
+        }
+
+        // ---- init ----
+        document.addEventListener('DOMContentLoaded', function () {
+            calendar = new FullCalendar.Calendar($('calendar'), {
+                initialView: window.innerWidth < 768 ? 'listMonth' : 'dayGridMonth',
+                height: 'auto',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,listMonth'
+                },
+                buttonText: { today: 'Today', month: 'Month', list: 'Agenda' },
+                firstDay: 0,
+                events: (info, success, failure) => fetchEvents().then(success).catch(failure),
+                editable: true,
+                selectable: true,
+                selectMirror: true,
+                dayMaxEvents: 3,
+                nowIndicator: true,
+                eventContent: function (arg) {
+                    const who = whoFrom(arg.event.extendedProps.createdBy);
+                    const wrap = document.createElement('div');
+                    wrap.className = 'ev';
+                    const badge = document.createElement('span');
+                    badge.className = 'badge ' + who;
+                    const t = document.createElement('span');
+                    t.className = 't';
+                    const time = arg.timeText ? arg.timeText + ' ' : '';
+                    t.textContent = time + arg.event.title;
+                    if (who) wrap.appendChild(badge);
+                    wrap.appendChild(t);
+                    return { domNodes: [wrap] };
+                },
+                select: (info) => {
+                    if (!requireUser()) return;
+                    openModal(null, info.startStr, info.endStr);
+                },
+                eventClick: (info) => openModal(info.event),
+                eventDrop: (info) => updateEventDates(info.event, info.revert),
+                eventResize: (info) => updateEventDates(info.event, info.revert)
+            });
+
+            calendar.render();
+            if (currentUser) setUser(currentUser, false);
+
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.addEventListener('click', function () {
+                    document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedColor = this.dataset.color;
+                });
+            });
+
+            $('eventForm').addEventListener('submit', (e) => { e.preventDefault(); saveEvent(); });
+            $('eventModal').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+            // offline indicator
+            const updateOnline = () => $('offlineBanner').classList.toggle('show', !navigator.onLine);
+            window.addEventListener('online', () => { updateOnline(); toast('Back online', 'ok'); calendar.refetchEvents(); });
+            window.addEventListener('offline', updateOnline);
+            updateOnline();
+
+            registerSW();
+        });
+
+        function requireUser() {
+            if (!currentUser) { toast('Tap your name first — Billy or Julia 💜', 'info'); return false; }
+            return true;
+        }
+
+        function setUser(name, save = true) {
+            currentUser = name;
+            if (save) localStorage.setItem('calendarUser', name);
+            document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector('.user-btn.' + name.toLowerCase());
+            if (btn) btn.classList.add('active');
+        }
+
+        function setFilter(f) {
+            activeFilter = f;
+            document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.filter === f));
+            calendar.refetchEvents();
+        }
+
+        function addNewEvent() {
+            if (!requireUser()) return;
+            openModal(null, localDateStr(), null);
+        }
+
+        function toggleTimeInputs() {
+            const allDay = $('eventAllDay').checked;
+            document.querySelectorAll('.time-input').forEach(el => el.style.display = allDay ? 'none' : 'block');
+        }
+
+        function openModal(event, startDate, endDate) {
+            const form = $('eventForm');
+            form.reset();
+            $('eventId').value = '';
+
+            if (event) {
+                $('modalTitle').innerHTML = '<span>Edit Event</span>';
+                $('eventId').value = event.id;
+                $('eventTitle').value = event.title;
+                $('eventDescription').value = event.extendedProps.description || '';
+
+                const startParts = event.startStr.split('T');
+                $('eventStartDate').value = startParts[0];
+                if (startParts[1]) $('eventStartTime').value = startParts[1].substring(0, 5);
+
+                if (event.endStr) {
+                    const endParts = event.endStr.split('T');
+                    $('eventEndDate').value = endParts[0];
+                    if (endParts[1]) $('eventEndTime').value = endParts[1].substring(0, 5);
+                }
+
+                $('eventAllDay').checked = event.allDay;
+                selectedColor = event.backgroundColor || event.extendedProps.color || '#6366f1';
+                $('deleteBtn').style.display = 'block';
+            } else {
+                $('modalTitle').innerHTML = '<span>Add Event</span>';
+                $('eventStartDate').value = startDate;
+                $('eventEndDate').value = endDate && endDate !== startDate ? endDate : '';
+                $('eventStartTime').value = '09:00';
+                $('eventEndTime').value = '10:00';
+                selectedColor = '#6366f1';
+                $('deleteBtn').style.display = 'none';
+            }
+
+            toggleTimeInputs();
+            document.querySelectorAll('.color-option').forEach(opt =>
+                opt.classList.toggle('selected', opt.dataset.color === selectedColor));
+            $('eventModal').classList.add('active');
+            setTimeout(() => $('eventTitle').focus(), 50);
+        }
+
+        function closeModal() { $('eventModal').classList.remove('active'); }
+
+        async function saveEvent() {
+            const eventId = $('eventId').value;
+            const allDay = $('eventAllDay').checked;
+
+            let startStr = $('eventStartDate').value;
+            let endStr = $('eventEndDate').value || null;
+            if (!startStr) { toast('Pick a start date', 'err'); return; }
+
+            if (!allDay) {
+                const st = $('eventStartTime').value || '00:00';
+                const et = $('eventEndTime').value || '23:59';
+                startStr += 'T' + st;
+                if (endStr) endStr += 'T' + et;
+            }
+
+            const data = {
+                title: $('eventTitle').value.trim(),
+                description: $('eventDescription').value,
+                start: startStr,
+                end: endStr,
+                allDay: allDay,
+                color: selectedColor,
+                createdBy: currentUser
+            };
+
+            const url = eventId ? `/api/events/${eventId}` : '/api/events';
+            const method = eventId ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, {
+                    method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+                });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                calendar.refetchEvents();
+                closeModal();
+                toast(eventId ? 'Event updated ✓' : 'Event added ✓', 'ok');
+            } catch (err) {
+                console.error('Error saving event:', err);
+                toast('Could not save — check your connection', 'err');
+            }
+        }
+
+        async function deleteEvent() {
+            const eventId = $('eventId').value;
+            if (!eventId) return;
+            if (!confirm('Delete this event?')) return;
+            try {
+                const res = await fetch(`/api/events/${eventId}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                calendar.refetchEvents();
+                closeModal();
+                toast('Event deleted', 'ok');
+            } catch (err) {
+                console.error('Error deleting event:', err);
+                toast('Could not delete event', 'err');
+            }
+        }
+
+        async function updateEventDates(event, revert) {
+            const startStr = event.allDay ? event.startStr.split('T')[0] : event.startStr;
+            const endStr = event.endStr ? (event.allDay ? event.endStr.split('T')[0] : event.endStr) : null;
+            const data = {
+                title: event.title,
+                description: event.extendedProps.description || '',
+                start: startStr,
+                end: endStr,
+                allDay: event.allDay,
+                color: event.backgroundColor,
+                createdBy: event.extendedProps.createdBy || currentUser
+            };
+            try {
+                const res = await fetch(`/api/events/${event.id}`, {
+                    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+                });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                toast('Moved ✓', 'ok', 1400);
+            } catch (err) {
+                console.error('Error updating event:', err);
+                toast('Move failed — reverting', 'err');
+                if (revert) revert();
+            }
+        }
+
+        // ---- PWA install ----
+        let deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (localStorage.getItem('installDismissed') !== '1') $('installPill').classList.add('show');
+        });
+        $('installPill').addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            $('installPill').classList.remove('show');
+        });
+        function dismissInstall(e) {
+            e.stopPropagation();
+            localStorage.setItem('installDismissed', '1');
+            $('installPill').classList.remove('show');
+        }
+        window.addEventListener('appinstalled', () => { $('installPill').classList.remove('show'); toast('Installed! 💜', 'ok'); });
+
+        function registerSW() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW registration failed:', err));
+            }
+        }
+    </script>
+</body>
+</html>
