@@ -1,0 +1,30 @@
+{
+ "analysis": {
+  "data_source": "Real IBM Quantum Hardware",
+  "patterns_detected": [
+   "Data from actual quantum processor measurements",
+   "Includes real decoherence and gate errors",
+   "Tomography-based density matrix reconstruction"
+  ],
+  "silhouette_score": 0.8324
+ },
+ "backend": "ibm_fez",
+ "id": "REAL_HARDWARE_20260130_174630",
+ "job_id": "d5ueikhfodos73emack0",
+ "label_counts": {
+  "bell": 20,
+  "ghz": 20,
+  "product": 20,
+  "w": 20
+ },
+ "n_samples": 80,
+ "n_shots": 4096,
+ "source": "REAL_HARDWARE",
+ "success": true,
+ "timestamp": "2026-01-30T17:46:30.871746",
+ "visualizations": {
+  "correlation": "<base64 PNG, 129944 chars, stripped>",
+  "pca": "<base64 PNG, 102792 chars, stripped>",
+  "tsne": "<base64 PNG, 86760 chars, stripped>"
+ }
+}

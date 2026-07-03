@@ -1,0 +1,214 @@
+{
+ "analysis": {
+  "patterns_detected": [
+   "Bell states form tight cluster (high symmetry)",
+   "GHZ states show distinct separation",
+   "W states exhibit intermediate clustering",
+   "Product states clearly isolated"
+  ],
+  "pca_variance": "First 2 components explain significant variance",
+  "tsne_separation": "Good clustering observed between entanglement classes"
+ },
+ "classification": {
+  "best_accuracy": 100.0,
+  "best_classifier": "SVM (RBF)",
+  "classifiers": {
+   "Neural Network": {
+    "accuracy": 70.0,
+    "confusion_matrix": [
+     [
+      3,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      2,
+      0,
+      0
+     ],
+     [
+      2,
+      0,
+      1,
+      0
+     ],
+     [
+      0,
+      1,
+      0,
+      1
+     ]
+    ],
+    "cv_mean": 63.93,
+    "cv_std": 13.57,
+    "per_class": {
+     "Bell": {
+      "f1": 75.0,
+      "precision": 60.0,
+      "recall": 100.0,
+      "support": 3
+     },
+     "GHZ": {
+      "f1": 80.0,
+      "precision": 66.7,
+      "recall": 100.0,
+      "support": 2
+     },
+     "Product": {
+      "f1": 66.7,
+      "precision": 100.0,
+      "recall": 50.0,
+      "support": 2
+     },
+     "W": {
+      "f1": 50.0,
+      "precision": 100.0,
+      "recall": 33.3,
+      "support": 3
+     }
+    }
+   },
+   "Random Forest": {
+    "accuracy": 100.0,
+    "confusion_matrix": [
+     [
+      3,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      2,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      3,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      2
+     ]
+    ],
+    "cv_mean": 91.79,
+    "cv_std": 11.27,
+    "per_class": {
+     "Bell": {
+      "f1": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "support": 3
+     },
+     "GHZ": {
+      "f1": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "support": 2
+     },
+     "Product": {
+      "f1": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "support": 2
+     },
+     "W": {
+      "f1": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "support": 3
+     }
+    }
+   },
+   "SVM (RBF)": {
+    "accuracy": 100.0,
+    "confusion_matrix": [
+     [
+      3,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      2,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      3,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      2
+     ]
+    ],
+    "cv_mean": 100.0,
+    "cv_std": 0.0,
+    "per_class": {
+     "Bell": {
+      "f1": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "support": 3
+     },
+     "GHZ": {
+      "f1": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "support": 2
+     },
+     "Product": {
+      "f1": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "support": 2
+     },
+     "W": {
+      "f1": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "support": 3
+     }
+    }
+   }
+  },
+  "test_samples": 10,
+  "test_size": 0.2,
+  "train_samples": 38
+ },
+ "data_shape": [
+  48,
+  512
+ ],
+ "id": "SIMULATED_IDEAL_20260227_023002",
+ "label_counts": {
+  "bell": 12,
+  "ghz": 12,
+  "product": 12,
+  "w": 12
+ },
+ "n_samples": 50,
+ "seed": 7639562,
+ "source": "SIMULATED_IDEAL",
+ "success": true,
+ "timestamp": "2026-02-27T02:30:02.878666",
+ "visualizations": {
+  "confusion_matrix": "<base64 PNG, 35138 chars, stripped>",
+  "correlation": "<base64 PNG, 120872 chars, stripped>",
+  "pca": "<base64 PNG, 102800 chars, stripped>",
+  "tsne": "<base64 PNG, 99212 chars, stripped>"
+ }
+}

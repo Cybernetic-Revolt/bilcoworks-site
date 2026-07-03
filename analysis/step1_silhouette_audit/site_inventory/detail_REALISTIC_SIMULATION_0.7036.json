@@ -1,0 +1,42 @@
+{
+ "analysis": {
+  "cluster_quality": "Good",
+  "hypothesis_validation": {
+   "patterns_robust": true,
+   "ready_for_real_hardware": true
+  },
+  "patterns_detected": [
+   "Noise model based on ibm_fez calibration data",
+   "T1=154.1\u03bcs, T2=155.4\u03bcs coherence times applied",
+   "Readout error rate: 2.9%",
+   "Clustering preserved under realistic noise",
+   "Entanglement signatures remain detectable"
+  ],
+  "silhouette_score": 0.7036
+ },
+ "backend": "ibm_fez",
+ "backend_used": "ibm_fez",
+ "id": "REALISTIC_SIMULATION_20260208_162602",
+ "label_counts": {
+  "bell": 50,
+  "ghz": 50,
+  "product": 50,
+  "w": 50
+ },
+ "n_samples": 200,
+ "n_shots": 1024,
+ "noise_params": {
+  "gate_error_2q": 1.0,
+  "readout_error": 2.896,
+  "t1_us": 154.1,
+  "t2_us": 155.41
+ },
+ "source": "REALISTIC_SIMULATION",
+ "success": true,
+ "timestamp": "2026-02-08T16:26:02.268726",
+ "visualizations": {
+  "correlation": "<base64 PNG, 140300 chars, stripped>",
+  "pca": "<base64 PNG, 92016 chars, stripped>",
+  "tsne": "<base64 PNG, 143816 chars, stripped>"
+ }
+}
