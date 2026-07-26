@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'Contact Bilco Works | HRIS Consulting',
     description: 'Request HRIS consulting services. One business day response.',
     url: 'https://bilcoworks.com/contact',
-    images: [{ url: '/og-image.svg', width: 1200, height: 630 }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',

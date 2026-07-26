@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: 'HRIS Implementation FAQ | Common Questions Answered',
     description: 'Common questions about HRIS implementation consulting.',
     url: 'https://bilcoworks.com/faq',
-    images: [{ url: '/og-image.svg', width: 1200, height: 630 }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
