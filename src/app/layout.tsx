@@ -86,7 +86,7 @@ export const metadata: Metadata = {
       'Enterprise HRIS implementation, stabilization, and integration consulting. We deliver systems that work on day one and stay working.',
     images: [
       {
-        url: '/og-image.svg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Bilco Works — HRIS & Systems Consulting',
@@ -98,7 +98,7 @@ export const metadata: Metadata = {
     title: 'Bilco Works — HRIS & Systems Consulting',
     description:
       'Enterprise HRIS implementation, stabilization, and integration consulting.',
-    images: ['/og-image.svg'],
+    images: ['/og-image.png'],
   },
   alternates: {
     canonical: 'https://bilcoworks.com',
@@ -302,6 +302,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col">
+        {/* Without JS, Reveal never adds .is-visible — keep content readable */}
+        <noscript>
+          <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-slate-900 focus:text-white focus:rounded"
