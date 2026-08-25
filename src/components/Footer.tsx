@@ -37,8 +37,8 @@ export default function Footer() {
               <span className="tracking-tight">Bilco Works</span>
             </Link>
             <p className="mt-4 text-sm text-ink-muted leading-relaxed max-w-xs">
-              Enterprise HR systems consulting, AI products, and the
-              infrastructure they run on.
+              HRIS implementation, stabilization, and integration consulting
+              for enterprise organizations.
             </p>
           </div>
 
