@@ -83,6 +83,21 @@ const faqs = [
     answer:
       'We combine a disciplined delivery methodology with deep platform experience. Every engagement follows our six-phase approach with documented artifacts and clear success criteria. We focus on knowledge transfer so your team can operate independently after go-live.',
   },
+  {
+    question: 'Do you take on AI engineering projects?',
+    answer:
+      'Yes. We build voice agents, applied machine learning, and LLM systems - the same stack behind TwoRing, our 24/7 AI receptionist, and our RSNA AI Challenge work. Every AI system we ship has a named practitioner accountable for its output. See the AI Engineering section for what we have built.',
+  },
+  {
+    question: 'Can my business use TwoRing?',
+    answer:
+      'TwoRing is our 24/7 AI receptionist for trade businesses - HVAC, plumbing, electrical, lawn care, real estate. It answers forwarded calls within two rings, books appointments into your calendar mid-call, and emails you every lead. Visit tworing.ai for details.',
+  },
+  {
+    question: 'What is the Research section about?',
+    answer:
+      'Ongoing work we publish for scrutiny: longitudinal noise-model research on IBM Quantum hardware and competition machine learning. It is how we keep our engineering honest - every claim traces to a receipt.',
+  },
 ]
 
 const faqSchema = {

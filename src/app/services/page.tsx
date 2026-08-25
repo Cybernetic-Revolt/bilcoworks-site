@@ -281,6 +281,17 @@ export default function ServicesPage() {
                   Each engagement has defined outcomes, documented deliverables,
                   and clear success criteria. Have questions? <Link href="/faq" className="text-accent link-underline">See our FAQ</Link>.
                 </p>
+                <p className="mt-3 text-sm text-ink-subtle">
+                  Looking for our{' '}
+                  <Link href="/ai" className="text-accent link-underline">
+                    AI engineering
+                  </Link>{' '}
+                  or{' '}
+                  <Link href="/research" className="text-accent link-underline">
+                    research
+                  </Link>{' '}
+                  work instead? This page covers the enterprise HR practice.
+                </p>
               </Reveal>
             <Reveal className="hidden lg:block" delay={120}>
               <div className="relative rounded-2xl overflow-hidden shadow-elevated ring-1 ring-rule/70">

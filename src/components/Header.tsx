@@ -139,12 +139,16 @@ export default function Header() {
                 <Link
                   href={item.href}
                   className={`block py-2 text-base font-medium transition-colors ${
-                    pathname === item.href
+                    pathname === item.href || pathname.startsWith(`${item.href}/`)
                       ? 'text-ink'
                       : 'text-ink-muted hover:text-ink'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
-                  aria-current={pathname === item.href ? 'page' : undefined}
+                  aria-current={
+                    pathname === item.href || pathname.startsWith(`${item.href}/`)
+                      ? 'page'
+                      : undefined
+                  }
                 >
                   {item.name}
                 </Link>

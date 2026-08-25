@@ -2,7 +2,7 @@
 
 # Bilco Works
 
-### HRIS Implementation & Integration Consulting
+### Enterprise HR Systems · AI Engineering · Research · Infrastructure
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -19,7 +19,7 @@
 
 ## Overview
 
-Bilco Works is a boutique HRIS consulting firm specializing in enterprise HR system implementations, stabilizations, and integrations. This repository contains the company website and internal tools.
+Bilco Works is a Calgary consulting and engineering firm working on four fronts: enterprise HR system implementation and integration (its deepest practice), AI engineering (including TwoRing, a 24/7 AI receptionist), quantum and competition research, and self-hosted infrastructure. This repository contains the company website and internal tools.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
