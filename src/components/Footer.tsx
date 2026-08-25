@@ -1,9 +1,13 @@
 import Link from 'next/link'
 
 const navigation = [
-  { name: 'Services', href: '/services' },
+  { name: 'HR Systems', href: '/hris' },
+  { name: 'HR Services', href: '/services' },
   { name: 'Approach', href: '/approach' },
   { name: 'FAQ', href: '/faq' },
+  { name: 'AI Engineering', href: '/ai' },
+  { name: 'Research', href: '/research' },
+  { name: 'Infrastructure', href: '/infrastructure' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ]
@@ -36,8 +40,9 @@ export default function Footer() {
               <span className="tracking-tight">Bilco Works</span>
             </Link>
             <p className="mt-4 text-sm text-ink-muted leading-relaxed max-w-xs">
-              HRIS implementation, stabilization, and integration consulting
-              for enterprise organizations.
+              Enterprise HR systems, AI engineering, quantum research, and
+              the infrastructure underneath - from Calgary, for clients
+              anywhere.
             </p>
           </div>
 

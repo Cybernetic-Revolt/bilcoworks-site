@@ -5,9 +5,10 @@ import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
 const navigation = [
-  { name: 'Services', href: '/services' },
-  { name: 'Approach', href: '/approach' },
-  { name: 'FAQ', href: '/faq' },
+  { name: 'HR Systems', href: '/hris' },
+  { name: 'AI Engineering', href: '/ai' },
+  { name: 'Research', href: '/research' },
+  { name: 'Infrastructure', href: '/infrastructure' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ]
@@ -60,7 +61,8 @@ export default function Header() {
         {/* Desktop Navigation */}
         <ul className="hidden md:flex items-center gap-8">
           {navigation.map((item) => {
-            const active = pathname === item.href
+            const active =
+              pathname === item.href || pathname.startsWith(`${item.href}/`)
             return (
               <li key={item.name}>
                 <Link
