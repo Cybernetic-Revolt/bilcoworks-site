@@ -161,8 +161,12 @@ const jsonLd = {
         'Collective bargaining agreement parsing to first-draft configuration',
         'Statutory and regulatory change monitoring per jurisdiction',
         'Human-in-the-loop review and accountability',
+        'AI voice agents and LLM systems',
+        'Applied machine learning',
+        'Quantum computing noise-model research',
+        'Self-hosted infrastructure and virtualization',
       ],
-      sameAs: [],
+      sameAs: ['https://tworing.ai', 'https://github.com/Cybernetic-Revolt'],
     },
     {
       '@type': 'ProfessionalService',

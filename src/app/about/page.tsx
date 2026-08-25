@@ -3,23 +3,24 @@ import Link from 'next/link'
 import Reveal from '@/components/Reveal'
 
 export const metadata: Metadata = {
-  title: 'About | HRIS Consulting Firm | Global Payroll',
+  title: 'About | Bilco Works',
   description:
-    'HRIS consulting firm based in Canada serving clients globally. Experienced practitioners for enterprise HR implementations and global payroll.',
+    'Calgary consulting and engineering firm serving clients globally: enterprise HR and payroll systems, AI engineering, quantum research, and self-hosted infrastructure.',
   alternates: {
     canonical: 'https://bilcoworks.com/about',
   },
   openGraph: {
-    title: 'About Bilco Works | HRIS Consulting Firm',
+    title: 'About Bilco Works',
     description:
-      'Enterprise HRIS consulting firm. Global payroll implementations.',
+      'Enterprise HR systems, AI engineering, quantum research, and the infrastructure underneath.',
     url: 'https://bilcoworks.com/about',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Bilco Works | HRIS Consulting',
-    description: 'Enterprise HRIS consulting firm serving clients globally.',
+    title: 'About Bilco Works',
+    description:
+      'Consulting and engineering across HR systems, AI, research, and infrastructure.',
   },
 }
 
@@ -60,6 +61,23 @@ export default function AboutPage() {
               We test before go-live. We build integrations that are observable
               and recoverable. We transfer knowledge so your team can operate
               independently.
+            </p>
+            <p className="text-body mt-4">
+              The same discipline runs the things we build for ourselves:{' '}
+              <Link href="/ai/tworing" className="text-accent link-underline">
+                TwoRing
+              </Link>
+              , our 24/7 AI receptionist for trade businesses; machine learning
+              proven in open competition; quantum noise-model{' '}
+              <Link href="/research" className="text-accent link-underline">
+                research
+              </Link>
+              ; and the self-hosted{' '}
+              <Link href="/infrastructure" className="text-accent link-underline">
+                infrastructure
+              </Link>{' '}
+              it all runs on. We consult the way we build - and we build the
+              way we tell clients to.
             </p>
 
             <h2 className="text-2xl font-medium text-ink mt-12">

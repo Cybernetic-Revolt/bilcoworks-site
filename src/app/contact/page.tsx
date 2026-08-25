@@ -3,22 +3,23 @@ import ContactForm from '@/components/ContactForm'
 import Reveal from '@/components/Reveal'
 
 export const metadata: Metadata = {
-  title: 'Contact | HRIS Implementation Consulting',
+  title: 'Contact | Bilco Works',
   description:
-    'Contact Bilco Works for HRIS implementation, integration, or stabilization consulting. One business day response with honest assessment.',
+    'Contact Bilco Works about HR systems consulting, AI engineering, research, or infrastructure. One business day response with honest assessment.',
   alternates: {
     canonical: 'https://bilcoworks.com/contact',
   },
   openGraph: {
-    title: 'Contact Bilco Works | HRIS Consulting',
-    description: 'Request HRIS consulting services. One business day response.',
+    title: 'Contact Bilco Works',
+    description:
+      'HR systems, AI engineering, research, infrastructure. One business day response.',
     url: 'https://bilcoworks.com/contact',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Contact | HRIS Consulting',
-    description: 'Request HRIS consulting services.',
+    title: 'Contact | Bilco Works',
+    description: 'HR systems, AI engineering, research, infrastructure.',
   },
 }
 
@@ -48,8 +49,9 @@ export default function ContactPage() {
                 Send us a message
               </h2>
               <p className="mt-3 text-body">
-                Tell us about your HRIS situation and we&apos;ll get back to you
-                with an honest assessment of whether we can help.
+                Tell us about your situation - an HR system, an AI project, or
+                something stranger - and we&apos;ll get back to you with an
+                honest assessment of whether we can help.
               </p>
 
               <div className="mt-8">

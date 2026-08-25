@@ -192,7 +192,9 @@ export default function ApproachPage() {
             <p className="mt-5 text-lg text-ink-muted max-w-2xl leading-relaxed">
               Every engagement follows a structured methodology. Not because
               process is the goal, but because disciplined execution prevents
-              the failures we have seen too many times.
+              the failures we have seen too many times. It grew up in
+              enterprise HR delivery - and it now governs everything we ship,
+              from client systems to our own products and research.
             </p>
           </Reveal>
 
