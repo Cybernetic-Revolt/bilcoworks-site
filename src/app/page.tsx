@@ -5,81 +5,93 @@ import Reveal from '@/components/Reveal'
 import { HeroIllustration } from '@/components/illustrations'
 import {
   ImplementationIcon,
-  AIIcon,
+  RescueIcon,
+  IntegrationIcon,
   ArchitectureIcon,
+  HardeningIcon,
+  GlobalPayrollIcon,
+  UnionIcon,
+  AIIcon,
 } from '@/components/illustrations'
 
 export const metadata: Metadata = {
-  title: 'HRIS Consulting, AI Products & Infrastructure | Bilco Works',
+  title: 'HRIS Implementation Consultant | Enterprise HR Systems',
   description:
-    'Bilco Works is an engineering practice: enterprise HRIS implementation and integration consulting, AI products of our own, and the infrastructure both run on.',
+    'HRIS implementation, integration, and stabilization consulting. Workday, SAP SuccessFactors, Oracle HCM. Tested integrations, documented handoffs.',
   alternates: {
     canonical: 'https://bilcoworks.com',
   },
   openGraph: {
-    title: 'Bilco Works | Systems That Earn Their Keep',
+    title: 'HRIS Implementation Consultant | Bilco Works',
     description:
-      'Enterprise HR systems consulting, AI products, and self-run infrastructure. Tested, documented, accountable.',
+      'Enterprise HRIS implementation and integration consulting. Systems that work on day one.',
     url: 'https://bilcoworks.com',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bilco Works | Systems That Earn Their Keep',
-    description:
-      'Enterprise HR systems consulting, AI products, and self-run infrastructure.',
+    title: 'HRIS Implementation Consultant | Bilco Works',
+    description: 'Enterprise HRIS implementation and integration consulting.',
   },
 }
 
 export default function HomePage() {
-  const pillars = [
+  const services = [
     {
-      id: 'hr-systems',
-      title: 'Enterprise HR systems',
+      id: 'ai-augmented-delivery',
+      title: 'AI-Augmented Delivery',
       description:
-        'Our deepest practice. HRIS implementation, rescue, integrations, global payroll, and unionized workforce support across Workday, UKG, SAP, and Oracle HCM.',
-      href: '/services',
-      linkLabel: 'Explore HR services',
-      icon: ImplementationIcon,
-    },
-    {
-      id: 'ai-products',
-      title: 'AI & products',
-      description:
-        'We build and operate our own AI: TwoRing, a 24/7 receptionist for trade businesses, plus AI-augmented delivery on every engagement - a practitioner verifies every result.',
-      href: '/labs/tworing',
-      linkLabel: 'Meet TwoRing',
+        'We use AI on the first pass: variance triage, migration reconciliation, CBA parsing, statutory monitoring. A practitioner verifies every result. You stay the responsible party.',
       icon: AIIcon,
     },
     {
-      id: 'infrastructure',
-      title: 'Servers & infrastructure',
+      id: 'hris-implementation',
+      title: 'HRIS Implementation',
       description:
-        'Our products run on infrastructure we own and operate - virtualized, monitored, restorable. The runbook standard we hand clients is the one we live with.',
-      href: '/labs/homelab',
-      linkLabel: 'See the lab',
+        'New platform deployments with proper requirements, configuration, testing, and cutover planning. We handle the complexity so your team can focus on change management.',
+      icon: ImplementationIcon,
+    },
+    {
+      id: 'hris-rescue',
+      title: 'HRIS Rescue',
+      description:
+        'Stabilization for troubled implementations. We diagnose root causes, fix integration failures, correct data quality issues, and establish sustainable operations.',
+      icon: RescueIcon,
+    },
+    {
+      id: 'integrations',
+      title: 'Integration Development',
+      description:
+        'Payroll, benefits, finance, and identity integrations built with error handling, reconciliation, and monitoring. Not just working - observable and maintainable.',
+      icon: IntegrationIcon,
+    },
+    {
+      id: 'global-payroll-compliance',
+      title: 'Global Payroll & Compliance',
+      description:
+        'Multi-country payroll configured and reconciled to the cent, with statutory filings, data residency, and currency handling built in. We keep each jurisdiction current as local rules change.',
+      icon: GlobalPayrollIcon,
+    },
+    {
+      id: 'union-workforce',
+      title: 'Unionized Workforce Support',
+      description:
+        'Collective bargaining agreements encoded into payroll: dues, seniority, premiums, overtime, and retro on ratification. We configure the rules so the system pays people the way the contract reads.',
+      icon: UnionIcon,
+    },
+    {
+      id: 'architecture',
+      title: 'Architecture Leadership',
+      description:
+        'Technical oversight for complex programs. We define integration patterns, establish controls, and ensure decisions are documented and defensible.',
       icon: ArchitectureIcon,
     },
-  ]
-
-  const proof = [
     {
-      kind: 'Competition',
-      value: '0.899',
-      text: 'Public macro-AUC in the RSNA knee MRI AI Challenge - every experiment gated and receipted.',
-      href: '/labs/knee-ledger',
-    },
-    {
-      kind: 'Product',
-      value: '2 rings',
-      text: 'How fast TwoRing answers a forwarded call, books the job, and emails the lead summary.',
-      href: '/labs/tworing',
-    },
-    {
-      kind: 'Research',
-      value: '0.043',
-      text: 'Hellinger distance our per-qubit noise models hit predicting real quantum hardware output.',
-      href: '/labs/quantum-benchmarking',
+      id: 'hardening',
+      title: 'Post-Go-Live Hardening',
+      description:
+        'Runbooks, monitoring, escalation paths, and documentation that lets your internal team take full ownership with confidence.',
+      icon: HardeningIcon,
     },
   ]
 
@@ -149,20 +161,18 @@ export default function HomePage() {
         <div className="container-wide relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <Reveal className="max-w-xl">
-              <p className="eyebrow">Consulting · Products · Research</p>
-              <h1 className="mt-4 text-4xl md:text-5xl lg:text-[3.5rem] font-medium text-ink leading-[1.05]">
-                We engineer systems that{' '}
-                <span className="text-gradient">earn their keep</span>
+              <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-medium text-ink leading-[1.05]">
+                HRIS implementations that work on{' '}
+                <span className="text-gradient">day one</span>
               </h1>
               <p className="mt-6 text-lg md:text-xl text-ink-muted leading-relaxed">
-                Bilco Works is an engineering practice from Calgary: we
-                implement enterprise HR systems for clients, ship AI products
-                of our own, and run the infrastructure both depend on. Same
-                discipline everywhere - tested, documented, accountable.
+                We configure, integrate, and stabilize enterprise HR systems.
+                Clear scope. Tested integrations. Documented handoff.
+                No surprises at go-live.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link href="/services" className="btn-primary group">
-                  See what we do
+                  View services
                   <svg className="w-4 h-4 transition-transform duration-300 ease-out-expo group-hover:translate-x-1" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -185,82 +195,51 @@ export default function HomePage() {
         <div className="container-wide">
           <Reveal>
             <h2 className="text-2xl md:text-3xl font-medium text-ink">
-              Three practices, one standard
+              What we do
             </h2>
             <p className="mt-4 text-body max-w-2xl">
-              Everything we take on - a payroll cutover, a voice agent, a
-              research protocol - ships with the same rules: written down,
-              tested before launch, handed over with receipts.
+              We specialize in the hard parts of HRIS: the integrations that break,
+              the data that does not reconcile, and the configurations that
+              need to survive your next open enrollment.
             </p>
           </Reveal>
-          <div className="mt-12 grid md:grid-cols-3 gap-6">
-            {pillars.map((pillar, index) => {
-              const IconComponent = pillar.icon
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, index) => {
+              const IconComponent = service.icon
               return (
                 <Reveal
                   as="article"
-                  key={pillar.id}
+                  key={service.id}
                   delay={index * 70}
-                  className="card group flex flex-col"
+                  className="card group"
                 >
-                  <div className="inline-flex self-start p-2.5 rounded-lg bg-accent-muted/60 ring-1 ring-rule/60 transition-colors duration-300 group-hover:bg-accent-muted">
+                  <div className="inline-flex p-2.5 rounded-lg bg-accent-muted/60 ring-1 ring-rule/60 transition-colors duration-300 group-hover:bg-accent-muted">
                     <IconComponent className="w-10 h-10" />
                   </div>
                   <h3 className="mt-4 text-lg font-medium text-ink">
-                    <Link href={pillar.href} className="hover:text-accent transition-colors">
-                      {pillar.title}
+                    <Link href={`/services#${service.id}`} className="hover:text-accent transition-colors">
+                      {service.title}
                     </Link>
                   </h3>
-                  <p className="mt-3 text-sm text-ink-muted leading-relaxed flex-1">
-                    {pillar.description}
+                  <p className="mt-3 text-sm text-ink-muted leading-relaxed">
+                    {service.description}
                   </p>
-                  <Link
-                    href={pillar.href}
-                    className="mt-5 text-sm font-medium text-accent link-underline self-start"
-                  >
-                    {pillar.linkLabel}
-                  </Link>
                 </Reveal>
               )
             })}
           </div>
+          <Reveal className="mt-12">
+            <Link
+              href="/services"
+              className="text-ink font-medium link-underline"
+            >
+              Full service details
+            </Link>
+          </Reveal>
         </div>
       </section>
 
       <section className="section-elevated section-padding">
-        <div className="container-wide">
-          <Reveal className="flex flex-wrap items-baseline justify-between gap-4">
-            <h2 className="text-2xl md:text-3xl font-medium text-ink">
-              Proof, not promises
-            </h2>
-            <Link href="/labs" className="text-sm font-medium text-accent link-underline">
-              All Labs projects
-            </Link>
-          </Reveal>
-          <div className="mt-10 grid md:grid-cols-3 gap-6">
-            {proof.map((item, index) => (
-              <Reveal
-                as="article"
-                key={item.kind}
-                delay={index * 70}
-                className="card"
-              >
-                <p className="eyebrow">{item.kind}</p>
-                <p className="mt-3 text-3xl font-mono text-accent">
-                  <Link href={item.href} className="hover:text-accent-hover transition-colors">
-                    {item.value}
-                  </Link>
-                </p>
-                <p className="mt-3 text-sm text-ink-muted leading-relaxed">
-                  {item.text}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-padding">
         <div className="container-wide">
           <Reveal>
             <h2 className="text-2xl md:text-3xl font-medium text-ink">
@@ -307,7 +286,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section-elevated section-padding">
+      <section className="section-padding">
         <div className="container-wide">
           <Reveal>
             <h2 className="text-2xl md:text-3xl font-medium text-ink">
@@ -335,12 +314,11 @@ export default function HomePage() {
         <div className="container-wide text-center">
           <Reveal>
             <h2 className="text-2xl md:text-3xl font-medium">
-              Bring us the hard part
+              Ready to discuss your project?
             </h2>
             <p className="mt-4 max-w-xl mx-auto" style={{ color: '#A8B8C8' }}>
-              An HRIS that will not reconcile, a process that needs a machine
-              on it, a system that has to run itself. We respond within one
-              business day.
+              We respond within one business day. Send us your situation and we will
+              let you know if we can help.
             </p>
             <Link
               href="/contact"
