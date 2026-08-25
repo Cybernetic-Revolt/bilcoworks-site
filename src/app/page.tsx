@@ -31,7 +31,7 @@ export default function HomePage() {
       number: '01',
       title: 'Enterprise HR & Payroll Systems',
       description:
-        'Our deepest practice: HRIS implementation, rescue, and integration across Workday, UKG, SAP, and Oracle HCM. Global payroll, unionized workforces, and cutovers that work on day one.',
+        'Our deepest practice: HRIS and payroll implementation, rescue, and integration across Workday, UKG, SAP, and Oracle HCM. Global payroll, unionized workforces, and cutovers that work on day one.',
       proof: ['8 service lines', '6-phase methodology'],
       href: '/hris',
     },

@@ -15,23 +15,23 @@ import {
 } from '@/components/illustrations'
 
 export const metadata: Metadata = {
-  title: 'HRIS Implementation Consultant | Enterprise HR Systems',
+  title: 'HRIS & Payroll Implementation Consultant | Enterprise HR Systems',
   description:
-    'HRIS implementation, integration, and stabilization consulting. Workday, SAP SuccessFactors, Oracle HCM. Tested integrations, documented handoffs.',
+    'HRIS and payroll implementation, integration, and stabilization consulting. Workday, UKG, SAP SuccessFactors, Oracle HCM. Tested integrations, documented handoffs.',
   alternates: {
     canonical: 'https://bilcoworks.com/hris',
   },
   openGraph: {
-    title: 'HRIS Implementation Consultant | Bilco Works',
+    title: 'HRIS & Payroll Implementation Consultant | Bilco Works',
     description:
-      'Enterprise HRIS implementation and integration consulting. Systems that work on day one.',
+      'Enterprise HRIS and payroll implementation and integration consulting. Systems that work on day one.',
     url: 'https://bilcoworks.com/hris',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'HRIS Implementation Consultant | Bilco Works',
-    description: 'Enterprise HRIS implementation and integration consulting.',
+    title: 'HRIS & Payroll Implementation Consultant | Bilco Works',
+    description: 'Enterprise HRIS and payroll implementation and integration consulting.',
   },
 }
 
@@ -162,7 +162,7 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <Reveal className="max-w-xl">
               <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-medium text-ink leading-[1.05]">
-                HRIS implementations that work on{' '}
+                HRIS and payroll implementations that work on{' '}
                 <span className="text-gradient">day one</span>
               </h1>
               <p className="mt-6 text-lg md:text-xl text-ink-muted leading-relaxed">
