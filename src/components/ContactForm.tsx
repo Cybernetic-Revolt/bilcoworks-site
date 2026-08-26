@@ -86,14 +86,14 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className="p-6 bg-teal/5 border border-teal/20 rounded-lg">
-        <h3 className="font-medium text-ink">Message sent</h3>
-        <p className="mt-2 text-sm text-ink-muted">
-          We&apos;ll review your request and respond within one business day.
+      <div className="border-l-2 border-signal-deep bg-paper-3 p-8">
+        <p className="eyebrow-ink">Message sent</p>
+        <p className="mt-4 text-sm leading-[1.8] text-ink-2">
+          We will review your request and respond within one business day.
         </p>
         <button
           onClick={() => setStatus('idle')}
-          className="mt-4 text-sm text-accent hover:text-ink transition-colors"
+          className="mt-6 font-mono text-micro-2 uppercase text-signal-deep transition-opacity hover:opacity-70"
         >
           Send another message
         </button>
@@ -105,8 +105,8 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-ink">
-            Name <span className="text-ink-muted">*</span>
+          <label htmlFor="name" className="field-label">
+            Name <span className="text-signal-deep" aria-hidden="true">*</span>
           </label>
           <input
             type="text"
@@ -115,12 +115,12 @@ export default function ContactForm() {
             required
             value={formData.name}
             onChange={handleChange}
-            className="mt-1.5 w-full px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"
+            className="field"
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-ink">
-            Email <span className="text-ink-muted">*</span>
+          <label htmlFor="email" className="field-label">
+            Email <span className="text-signal-deep" aria-hidden="true">*</span>
           </label>
           <input
             type="email"
@@ -129,13 +129,13 @@ export default function ContactForm() {
             required
             value={formData.email}
             onChange={handleChange}
-            className="mt-1.5 w-full px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"
+            className="field"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="company" className="block text-sm font-medium text-ink">
+        <label htmlFor="company" className="field-label">
           Company
         </label>
         <input
@@ -144,13 +144,13 @@ export default function ContactForm() {
           name="company"
           value={formData.company}
           onChange={handleChange}
-          className="mt-1.5 w-full px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"
+          className="field"
         />
       </div>
 
       <div>
-        <label htmlFor="hrisPlatform" className="block text-sm font-medium text-ink">
-          HRIS Platform <span className="text-ink-muted text-xs">(e.g., Workday, SuccessFactors, UKG)</span>
+        <label htmlFor="hrisPlatform" className="field-label">
+          HRIS Platform <span className="text-xs font-normal text-ink-3">(e.g., Workday, SuccessFactors, UKG)</span>
         </label>
         <input
           type="text"
@@ -158,12 +158,12 @@ export default function ContactForm() {
           name="hrisPlatform"
           value={formData.hrisPlatform}
           onChange={handleChange}
-          className="mt-1.5 w-full px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"
+          className="field"
         />
       </div>
 
       <div>
-        <label htmlFor="payrollBenefits" className="block text-sm font-medium text-ink">
+        <label htmlFor="payrollBenefits" className="field-label">
           Payroll / Benefits Providers
         </label>
         <input
@@ -172,13 +172,13 @@ export default function ContactForm() {
           name="payrollBenefits"
           value={formData.payrollBenefits}
           onChange={handleChange}
-          className="mt-1.5 w-full px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"
+          className="field"
         />
       </div>
 
       <div>
-        <label htmlFor="needs" className="block text-sm font-medium text-ink">
-          What is broken or needed? <span className="text-ink-muted">*</span>
+        <label htmlFor="needs" className="field-label">
+          What is broken or needed? <span className="text-signal-deep" aria-hidden="true">*</span>
         </label>
         <textarea
           id="needs"
@@ -188,13 +188,13 @@ export default function ContactForm() {
           value={formData.needs}
           onChange={handleChange}
           placeholder="Describe the issues or requirements in a few bullet points"
-          className="mt-1.5 w-full px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors resize-none"
+          className="field resize-none"
         />
       </div>
 
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
-          <label htmlFor="timeline" className="block text-sm font-medium text-ink">
+          <label htmlFor="timeline" className="field-label">
             Timeline / Key Dates
           </label>
           <input
@@ -204,11 +204,11 @@ export default function ContactForm() {
             value={formData.timeline}
             onChange={handleChange}
             placeholder="e.g., Q2 2026, ASAP"
-            className="mt-1.5 w-full px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"
+            className="field"
           />
         </div>
         <div>
-          <label htmlFor="decisionOwner" className="block text-sm font-medium text-ink">
+          <label htmlFor="decisionOwner" className="field-label">
             Decision Owner
           </label>
           <input
@@ -218,14 +218,14 @@ export default function ContactForm() {
             value={formData.decisionOwner}
             onChange={handleChange}
             placeholder="Name and role"
-            className="mt-1.5 w-full px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"
+            className="field"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="captcha" className="block text-sm font-medium text-ink">
-          What is {captcha.a} + {captcha.b}? <span className="text-ink-muted">*</span>
+        <label htmlFor="captcha" className="field-label">
+          What is {captcha.a} + {captcha.b}? <span className="text-signal-deep" aria-hidden="true">*</span>
         </label>
         <input
           type="text"
@@ -235,22 +235,22 @@ export default function ContactForm() {
           autoComplete="off"
           value={captchaInput}
           onChange={(e) => setCaptchaInput(e.target.value)}
-          className="mt-1.5 w-32 px-3 py-2 bg-surface border border-rule rounded-md text-ink placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"
+          className="field !w-32"
         />
       </div>
 
       {status === 'error' && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-sm text-red-700">{errorMessage}</p>
+        <div role="alert" className="border-l-2 border-ink bg-paper-3 px-5 py-4">
+          <p className="text-sm text-ink">{errorMessage}</p>
         </div>
       )}
 
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="btn-primary w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed"
+        className="pill-solid w-full justify-center disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
       >
-        {status === 'submitting' ? 'Sending...' : 'Send message'}
+        {status === 'submitting' ? 'Sending…' : 'Send message'}
       </button>
     </form>
   )

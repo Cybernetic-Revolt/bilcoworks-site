@@ -8,122 +8,96 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Background colors
-        surface: {
-          DEFAULT: '#FAFBFC',      // Primary background (paper-like off-white)
-          secondary: '#F4F6F8',    // Secondary background (slightly darker)
-          elevated: '#FFFFFF',     // Cards, elevated elements
+        // Three hues carry the whole site: a deep slate-teal ground, a neutral
+        // paper, and one signal accent. Everything else is an opacity of these.
+        ground: {
+          DEFAULT: '#0B1216', // page ground (dark chapters)
+          2: '#0F181D', // alternate dark band
+          3: '#16232A', // raised surface on dark
         },
-        // Text colors
+        paper: {
+          DEFAULT: '#F1F3F3', // page ground (light chapters)
+          2: '#E5EAEA', // alternate light band
+          3: '#FFFFFF', // cards on light
+        },
+        // Text on paper. Same rule, measured against the darkest paper tone
+        // (`paper-2`) rather than against white.
         ink: {
-          DEFAULT: '#1A2332',      // Primary text (near-black navy)
-          muted: '#5C6A7A',        // Secondary/muted text
-          subtle: '#8896A6',       // Tertiary/subtle text
+          DEFAULT: '#0B1216',
+          2: '#4E6069',
+          3: '#566770',
         },
-        // Border/divider colors
-        rule: {
-          DEFAULT: '#E1E6EB',      // Primary border
-          subtle: '#EDF0F3',       // Subtle divider
-          strong: '#CCD3DA',       // Emphasized border
+        // Text on ground. Every step is >=4.5:1 against both `ground` and
+        // `ground-2` — the faint tier is where a dark palette usually fails AA,
+        // so it is set by measurement, not by eye.
+        chalk: {
+          DEFAULT: '#EAF0F1',
+          2: '#94A8B0',
+          3: '#748992',
         },
-        // Primary accent (navy)
-        accent: {
-          DEFAULT: '#2C4A6E',      // Primary navy accent
-          hover: '#1E3A5F',        // Darker on hover
-          light: '#3D5A7E',        // Lighter variant
-          muted: '#E8EDF3',        // Very light tint for backgrounds
+        // The single accent. `signal` reads on dark, `signal-deep` on paper.
+        signal: {
+          DEFAULT: '#4ED8C8',
+          deep: '#0E6D65',
+          dim: '#2A8C83',
         },
-        // Secondary accent (muted teal)
-        teal: {
-          DEFAULT: '#3A7D7B',      // Secondary accent
-          hover: '#2D6664',        // Darker on hover
-          light: '#4A8D8B',        // Lighter variant
-          muted: '#E6F0EF',        // Very light tint
-        },
-        // Status colors (restrained)
-        status: {
-          success: '#3D8B6E',      // Muted green
-          warning: '#C4873B',      // Muted amber
-          error: '#B85450',        // Muted red
-        },
+      },
+      borderColor: {
+        hair: 'rgba(234, 240, 241, 0.12)', // hairline on ground
+        'hair-2': 'rgba(234, 240, 241, 0.22)',
+        'hair-ink': 'rgba(11, 18, 22, 0.12)', // hairline on paper
+        'hair-ink-2': 'rgba(11, 18, 22, 0.22)',
       },
       fontFamily: {
         sans: [
           'var(--font-sans)',
           'system-ui',
           '-apple-system',
-          'BlinkMacSystemFont',
           'Segoe UI',
           'Roboto',
           'Helvetica Neue',
           'Arial',
           'sans-serif',
         ],
-        display: [
-          'var(--font-display)',
-          'var(--font-sans)',
-          'system-ui',
-          'sans-serif',
-        ],
+        display: ['var(--font-display)', 'var(--font-sans)', 'system-ui', 'sans-serif'],
         mono: [
           'var(--font-mono)',
           'ui-monospace',
           'SFMono-Regular',
-          'SF Mono',
           'Menlo',
           'Consolas',
-          'Liberation Mono',
           'monospace',
         ],
       },
       fontSize: {
-        '2xs': ['0.6875rem', { lineHeight: '1rem' }],
-      },
-      letterSpacing: {
-        tightest: '-0.04em',
-      },
-      spacing: {
-        '18': '4.5rem',
-        '22': '5.5rem',
+        // Display scale — large and light, per the reference.
+        'd1': ['clamp(2.75rem, 7.2vw, 5.75rem)', { lineHeight: '0.98', letterSpacing: '-0.035em' }],
+        'd2': ['clamp(2.25rem, 5.2vw, 4rem)', { lineHeight: '1.02', letterSpacing: '-0.03em' }],
+        'd3': ['clamp(1.75rem, 3.4vw, 2.75rem)', { lineHeight: '1.08', letterSpacing: '-0.025em' }],
+        'd4': ['clamp(1.375rem, 2.2vw, 1.75rem)', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
+        // Micro scale — eyebrows and rail labels.
+        'micro': ['0.6875rem', { lineHeight: '1rem', letterSpacing: '0.2em' }],
+        'micro-2': ['0.625rem', { lineHeight: '0.875rem', letterSpacing: '0.24em' }],
       },
       maxWidth: {
-        '8xl': '88rem',
-      },
-      boxShadow: {
-        // Soft, navy-tinted elevation
-        'subtle': '0 1px 2px rgba(26, 35, 50, 0.04), 0 1px 3px rgba(26, 35, 50, 0.06)',
-        'card': '0 1px 2px rgba(26, 35, 50, 0.04), 0 4px 12px rgba(26, 35, 50, 0.05)',
-        'card-hover': '0 2px 4px rgba(26, 35, 50, 0.05), 0 12px 28px rgba(26, 35, 50, 0.10)',
-        'elevated': '0 8px 30px rgba(26, 35, 50, 0.08), 0 2px 6px rgba(26, 35, 50, 0.04)',
-        'glow': '0 0 0 1px rgba(44, 74, 110, 0.08), 0 18px 40px rgba(44, 74, 110, 0.14)',
-        'header': '0 1px 0 rgba(26, 35, 50, 0.06), 0 6px 24px rgba(26, 35, 50, 0.06)',
-        'btn': '0 1px 2px rgba(26, 35, 50, 0.10), 0 2px 8px rgba(44, 74, 110, 0.18)',
-        'btn-hover': '0 2px 4px rgba(26, 35, 50, 0.12), 0 8px 20px rgba(44, 74, 110, 0.28)',
-      },
-      backgroundImage: {
-        'mesh': 'radial-gradient(60% 60% at 20% 0%, rgba(44, 74, 110, 0.10) 0%, transparent 60%), radial-gradient(50% 50% at 90% 20%, rgba(58, 125, 123, 0.10) 0%, transparent 55%), radial-gradient(60% 80% at 60% 100%, rgba(44, 74, 110, 0.06) 0%, transparent 60%)',
-        'dark-glow': 'radial-gradient(60% 120% at 50% 0%, rgba(61, 90, 126, 0.55) 0%, transparent 60%), radial-gradient(40% 80% at 85% 30%, rgba(58, 125, 123, 0.30) 0%, transparent 60%)',
+        measure: '62ch', // body copy never runs wider than this
       },
       transitionTimingFunction: {
         'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
       keyframes: {
-        'reveal-up': {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(18px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        'float-slow': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-        'sheen': {
-          '0%': { backgroundPosition: '200% 0' },
-          '100%': { backgroundPosition: '-200% 0' },
+        'cue': {
+          '0%, 100%': { transform: 'translateY(0)', opacity: '0.35' },
+          '50%': { transform: 'translateY(6px)', opacity: '1' },
         },
       },
       animation: {
-        'reveal-up': 'reveal-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both',
-        'float-slow': 'float-slow 6s ease-in-out infinite',
+        'fade-up': 'fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both',
+        cue: 'cue 2.4s ease-in-out infinite',
       },
     },
   },

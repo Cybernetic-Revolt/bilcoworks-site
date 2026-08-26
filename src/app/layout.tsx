@@ -14,7 +14,7 @@ const inter = Inter({
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: ['300', '400', '500'],
   variable: '--font-display',
 })
 
@@ -305,14 +305,14 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col">
+      <body className="flex min-h-screen flex-col bg-ground">
         {/* Without JS, Reveal never adds .is-visible — keep content readable */}
         <noscript>
           <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
         </noscript>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-slate-900 focus:text-white focus:rounded"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-[60] focus:bg-signal focus:px-4 focus:py-2 focus:font-mono focus:text-micro-2 focus:uppercase focus:text-ground"
         >
           Skip to main content
         </a>

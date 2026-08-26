@@ -2,158 +2,145 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import Wordmark from './Wordmark'
 
-const navigation = [
-  { name: 'HR Systems', href: '/hris' },
-  { name: 'AI Engineering', href: '/ai' },
+/**
+ * Four practices and one emphasised control. Everything secondary — services,
+ * approach, about, FAQ — lives in the footer, so the header never becomes a
+ * site map.
+ */
+const practices = [
+  { name: 'HR & Payroll', href: '/hris' },
+  { name: 'AI', href: '/ai' },
   { name: 'Research', href: '/research' },
   { name: 'Infrastructure', href: '/infrastructure' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
 ]
 
 export default function Header() {
   const pathname = usePathname()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const onScroll = () => setScrolled(window.scrollY > 12)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`)
+
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ease-out-expo ${
-        scrolled
-          ? 'bg-surface-elevated/80 backdrop-blur-md border-b border-rule shadow-header'
-          : 'bg-surface-elevated/60 backdrop-blur-sm border-b border-transparent'
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-out-expo ${
+        scrolled || open
+          ? 'border-b border-hair bg-ground/85 backdrop-blur-md'
+          : 'border-b border-transparent'
       }`}
     >
       <nav
-        className="container-wide flex items-center justify-between h-16"
-        aria-label="Main navigation"
+        className="shell flex h-[72px] items-center justify-between"
+        aria-label="Main"
       >
         <Link
           href="/"
-          className="group flex items-center gap-2.5 font-display font-medium text-ink hover:text-accent transition-colors"
-          aria-label="Bilco Works home"
+          className="group flex items-center gap-3 text-chalk"
+          aria-label="Bilco Works — home"
         >
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            className="text-accent transition-transform duration-500 ease-out-expo group-hover:rotate-[6deg]"
-          >
-            <rect x="2" y="2" width="12" height="12" fill="currentColor" />
-            <rect x="18" y="6" width="12" height="12" fill="currentColor" opacity="0.6" />
-            <rect x="6" y="18" width="12" height="12" fill="currentColor" opacity="0.35" />
-          </svg>
-          <span className="tracking-tight">Bilco Works</span>
+          <Wordmark className="h-5 w-5 text-signal transition-transform duration-500 ease-out-expo group-hover:rotate-90" />
+          <span className="font-display text-[0.9375rem] font-normal tracking-tight">
+            Bilco Works
+          </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex items-center gap-8">
-          {navigation.map((item) => {
-            const active =
-              pathname === item.href || pathname.startsWith(`${item.href}/`)
-            return (
-              <li key={item.name}>
+        <div className="flex items-center gap-8">
+          <ul className="hidden items-center gap-7 lg:flex">
+            {practices.map((item) => (
+              <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`relative text-sm font-medium transition-colors py-1 ${
-                    active ? 'text-accent' : 'text-ink-muted hover:text-ink'
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  className={`font-mono text-micro-2 uppercase transition-colors duration-300 ${
+                    isActive(item.href)
+                      ? 'text-signal'
+                      : 'text-chalk-2 hover:text-chalk'
                   }`}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  {item.name}
-                  <span
-                    className={`absolute left-0 -bottom-0.5 h-px w-full origin-left bg-gradient-to-r from-accent to-teal transition-transform duration-300 ease-out-expo ${
-                      active ? 'scale-x-100' : 'scale-x-0'
-                    }`}
-                  />
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-
-        {/* Mobile Menu Button */}
-        <button
-          type="button"
-          className="md:hidden p-2 -mr-2 text-ink-muted hover:text-ink"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-expanded={mobileMenuOpen}
-          aria-controls="mobile-menu"
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {mobileMenuOpen ? (
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          ) : (
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          )}
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div
-          id="mobile-menu"
-          className="md:hidden border-t border-rule bg-surface-elevated"
-        >
-          <ul className="container-wide py-4 space-y-1">
-            {navigation.map((item) => (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className={`block py-2 text-base font-medium transition-colors ${
-                    pathname === item.href || pathname.startsWith(`${item.href}/`)
-                      ? 'text-ink'
-                      : 'text-ink-muted hover:text-ink'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  aria-current={
-                    pathname === item.href || pathname.startsWith(`${item.href}/`)
-                      ? 'page'
-                      : undefined
-                  }
                 >
                   {item.name}
                 </Link>
               </li>
             ))}
+          </ul>
+
+          <Link href="/contact" className="pill hidden sm:inline-flex">
+            Contact
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            className="-mr-2 p-2 text-chalk-2 transition-colors hover:text-chalk lg:hidden"
+          >
+            <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
+            <svg viewBox="0 0 20 20" className="h-5 w-5" aria-hidden="true">
+              {open ? (
+                <path
+                  d="M5 5l10 10M15 5L5 15"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              ) : (
+                <path
+                  d="M3 6h14M3 10h14M3 14h14"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      {open && (
+        <div id="mobile-nav" className="border-t border-hair bg-ground lg:hidden">
+          <ul className="shell divide-y divide-chalk/5 py-2">
+            {practices.map((item, i) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="flex items-baseline gap-4 py-4 text-chalk"
+                >
+                  <span className="index text-chalk-3">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="font-display text-lg font-light">
+                    {item.name}
+                  </span>
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link
+                href="/contact"
+                className="flex items-baseline gap-4 py-4 text-signal"
+              >
+                <span className="index text-chalk-3">→</span>
+                <span className="font-display text-lg font-light">Contact</span>
+              </Link>
+            </li>
           </ul>
         </div>
       )}

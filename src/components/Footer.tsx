@@ -1,71 +1,84 @@
 import Link from 'next/link'
+import Wordmark from './Wordmark'
 
-const navigation = [
-  { name: 'HR Systems', href: '/hris' },
-  { name: 'HR Services', href: '/services' },
-  { name: 'Approach', href: '/approach' },
-  { name: 'FAQ', href: '/faq' },
-  { name: 'AI Engineering', href: '/ai' },
-  { name: 'Research', href: '/research' },
-  { name: 'Infrastructure', href: '/infrastructure' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+const columns = [
+  {
+    heading: 'Practices',
+    links: [
+      { name: 'HR & Payroll Systems', href: '/hris' },
+      { name: 'AI Engineering', href: '/ai' },
+      { name: 'Quantum & Research', href: '/research' },
+      { name: 'Servers & Infrastructure', href: '/infrastructure' },
+    ],
+  },
+  {
+    heading: 'HR practice detail',
+    links: [
+      { name: 'Service lines', href: '/services' },
+      { name: 'Delivery methodology', href: '/approach' },
+      { name: 'Questions', href: '/faq' },
+    ],
+  },
+  {
+    heading: 'Firm',
+    links: [
+      { name: 'About', href: '/about' },
+      { name: 'Contact', href: '/contact' },
+    ],
+  },
 ]
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
+  const year = new Date().getFullYear()
 
   return (
-    <footer className="relative section-elevated border-t border-rule">
-      <div className="container-wide py-14">
-        <div className="grid md:grid-cols-2 gap-10">
+    <footer className="border-t border-hair bg-ground-2">
+      <div className="shell py-16 md:py-20">
+        <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-2.5 font-display font-medium text-ink"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 32 32"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                className="text-accent transition-transform duration-500 ease-out-expo group-hover:rotate-[6deg]"
-              >
-                <rect x="2" y="2" width="12" height="12" fill="currentColor" />
-                <rect x="18" y="6" width="12" height="12" fill="currentColor" opacity="0.6" />
-                <rect x="6" y="18" width="12" height="12" fill="currentColor" opacity="0.35" />
-              </svg>
-              <span className="tracking-tight">Bilco Works</span>
+            <Link href="/" className="inline-flex items-center gap-3 text-chalk">
+              <Wordmark className="h-5 w-5 text-signal" />
+              <span className="font-display text-[0.9375rem] tracking-tight">
+                Bilco Works
+              </span>
             </Link>
-            <p className="mt-4 text-sm text-ink-muted leading-relaxed max-w-xs">
-              Enterprise HR systems, AI engineering, quantum research, and
-              the infrastructure underneath - from Calgary, for clients
-              anywhere.
+            <p className="copy mt-5 max-w-[34ch]">
+              Enterprise HR systems, AI engineering, quantum research, and the
+              infrastructure underneath — from Calgary, for clients anywhere.
             </p>
           </div>
 
-          <div className="md:justify-self-end">
-            <h3 className="eyebrow">Navigation</h3>
-            <ul className="mt-4 space-y-2.5">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-ink-muted hover:text-accent transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {columns.map((col) => (
+            <div key={col.heading}>
+              <h2 className="eyebrow-quiet">{col.heading}</h2>
+              <ul className="mt-5 space-y-3">
+                {col.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-chalk-2 transition-colors duration-300 hover:text-signal"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-rule">
-          <p className="text-sm text-ink-subtle">
-            {currentYear} <Link href="/ops" className="hover:text-ink-muted">B</Link>ilco Works Incorporated - HRIS &amp; Systems Consulting
+        <div className="hairline mt-14" />
+
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-mono text-micro-2 uppercase text-chalk-3">
+            {/* The ops dashboard hides behind the B, as it always has. */}
+            <Link href="/ops" className="transition-colors hover:text-chalk-2">
+              B
+            </Link>
+            ilco Works Incorporated · {year}
+          </p>
+          <p className="font-mono text-micro-2 uppercase text-chalk-3">
+            Calgary, Alberta · Canada
           </p>
         </div>
       </div>

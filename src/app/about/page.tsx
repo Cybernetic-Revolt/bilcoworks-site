@@ -1,161 +1,121 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import ContactCta from '@/components/ContactCta'
+import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
+import { Chapter, SectionHead, TileGrid } from '@/components/Section'
 
 export const metadata: Metadata = {
-  title: 'About | Bilco Works',
+  title: 'About Bilco Works',
   description:
-    'Calgary consulting and engineering firm serving clients globally: enterprise HR and payroll systems, AI engineering, quantum research, and self-hosted infrastructure.',
-  alternates: {
-    canonical: 'https://bilcoworks.com/about',
-  },
+    'A small, senior, remote-first consultancy in Calgary. Why we exist, what we believe, and how a handful of experienced practitioners covers enterprise scope.',
+  alternates: { canonical: 'https://bilcoworks.com/about' },
   openGraph: {
     title: 'About Bilco Works',
     description:
-      'Enterprise HR systems, AI engineering, quantum research, and the infrastructure underneath.',
+      'A small, senior, remote-first consultancy in Calgary. Why we exist and how we work.',
     url: 'https://bilcoworks.com/about',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'About Bilco Works',
-    description:
-      'Consulting and engineering across HR systems, AI, research, and infrastructure.',
+    description: 'A small, senior, remote-first consultancy in Calgary.',
   },
 }
 
+const beliefs = [
+  {
+    title: 'Systems thinking over heroics',
+    body: 'Good outcomes come from good systems, not from individuals working nights and weekends. If success depends on heroic effort, the design is wrong.',
+  },
+  {
+    title: 'Accountability requires clarity',
+    body: 'You cannot hold someone accountable for vague outcomes. We define success criteria, document decisions, and make ownership explicit.',
+  },
+  {
+    title: 'Documentation is a feature',
+    body: 'Well-documented systems are easier to operate, easier to audit, and easier to change. We write things down because it makes everything else easier.',
+  },
+  {
+    title: 'Done means done',
+    body: 'We do not walk away until the work is complete and your team is equipped to operate. Handoff is not just a meeting — it is a documented transfer of capability.',
+  },
+]
+
 export default function AboutPage() {
   return (
-    <div>
-      <section className="relative section-padding bg-surface-secondary border-b border-rule overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-mesh" aria-hidden="true" />
-        <div className="container-wide">
-          <Reveal>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium text-ink leading-[1.08]">
-              About Bilco Works
-            </h1>
-          </Reveal>
-        </div>
-      </section>
+    <>
+      <PageHero
+        eyebrow="The firm"
+        plate="ledger"
+        title="Small by design."
+        lede="Bilco Works is a remote-first consultancy based in Calgary, working with enterprise clients globally. We do not scale by adding junior resources — every engagement is staffed by experienced practitioners who have done this work before."
+      />
 
-      <section className="section-padding">
-        <div className="container-narrow">
-          <div className="prose prose-slate max-w-none">
-            <h2 className="text-2xl font-medium text-ink mt-0">
-              Why we exist
-            </h2>
-            <p className="text-body mt-4">
+      <Chapter tone="paper">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
+          <Reveal>
+            <p className="eyebrow-ink">Why we exist</p>
+            <p className="mt-6 font-display text-d4 font-light text-ink">
+              Too many implementations fail for preventable reasons.
+            </p>
+          </Reveal>
+          <Reveal delay={100} className="space-y-5">
+            <p className="copy-ink !max-w-none text-base leading-[1.8]">
               Bilco Works was founded after seeing too many HRIS implementations
-              fail for preventable reasons: unclear requirements, untested
-              integrations, missing documentation, and no plan for what happens
-              after go-live.
+              fail the same way: unclear requirements, untested integrations,
+              missing documentation, and no plan for what happens after go-live.
             </p>
-            <p className="text-body mt-4">
+            <p className="copy-ink !max-w-none text-base leading-[1.8]">
               These failures are not caused by bad intentions. They are caused by
-              teams moving fast without the right controls, by vendors incentivized
-              to close deals rather than ensure success, and by organizations that
-              underestimate the complexity of enterprise HR systems.
+              teams moving fast without the right controls, by vendors
+              incentivized to close deals rather than ensure success, and by
+              organizations that underestimate the complexity of enterprise HR
+              systems.
             </p>
-            <p className="text-body mt-4">
+            <p className="copy-ink !max-w-none text-base leading-[1.8]">
               We do the work that prevents those failures. We write things down.
               We test before go-live. We build integrations that are observable
               and recoverable. We transfer knowledge so your team can operate
               independently.
             </p>
-            <p className="text-body mt-4">
+            <p className="copy-ink !max-w-none text-base leading-[1.8]">
               The same discipline runs the things we build for ourselves:{' '}
-              <Link href="/ai/tworing" className="text-accent link-underline">
+              <Link href="/ai/tworing" className="link-ink">
                 TwoRing
               </Link>
               , our 24/7 AI receptionist for trade businesses; machine learning
-              proven in open competition; quantum noise-model{' '}
-              <Link href="/research" className="text-accent link-underline">
-                research
+              proven in open competition;{' '}
+              <Link href="/research" className="link-ink">
+                quantum noise-model research
               </Link>
-              ; and the self-hosted{' '}
-              <Link href="/infrastructure" className="text-accent link-underline">
-                infrastructure
+              ; and the{' '}
+              <Link href="/infrastructure" className="link-ink">
+                self-hosted infrastructure
               </Link>{' '}
-              it all runs on. We consult the way we build - and we build the
-              way we tell clients to.
+              it all runs on. We consult the way we build — and we build the way
+              we tell clients to.
             </p>
+          </Reveal>
+        </div>
+      </Chapter>
 
-            <h2 className="text-2xl font-medium text-ink mt-12">
-              What we believe
-            </h2>
+      <Chapter tone="ground-2">
+        <SectionHead eyebrow="What we believe" title="Four positions." />
+        <TileGrid items={beliefs} columns={4} />
+      </Chapter>
 
-            <div className="mt-6 space-y-6">
-              <div className="p-5 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-l-accent hover:-translate-y-0.5">
-                <h3 className="text-lg font-medium text-ink mt-0">
-                  Systems thinking over heroics
-                </h3>
-                <p className="text-body mt-2 mb-0">
-                  Good outcomes come from good systems, not from individuals
-                  working nights and weekends. If success depends on heroic
-                  effort, the design is wrong.
-                </p>
-              </div>
-
-              <div className="p-5 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-l-accent hover:-translate-y-0.5">
-                <h3 className="text-lg font-medium text-ink mt-0">
-                  Accountability requires clarity
-                </h3>
-                <p className="text-body mt-2 mb-0">
-                  You cannot hold someone accountable for vague outcomes. We
-                  define success criteria, document decisions, and make
-                  ownership explicit.
-                </p>
-              </div>
-
-              <div className="p-5 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-l-accent hover:-translate-y-0.5">
-                <h3 className="text-lg font-medium text-ink mt-0">
-                  Documentation is a feature
-                </h3>
-                <p className="text-body mt-2 mb-0">
-                  Well-documented systems are easier to operate, easier to
-                  audit, and easier to change. We write things down because
-                  it makes everything else easier.
-                </p>
-              </div>
-
-              <div className="p-5 bg-surface-elevated border-l-2 border-l-accent/40 border border-rule rounded-xl shadow-subtle transition-all duration-300 ease-out-expo hover:shadow-card hover:border-l-accent hover:-translate-y-0.5">
-                <h3 className="text-lg font-medium text-ink mt-0">
-                  Done means done
-                </h3>
-                <p className="text-body mt-2 mb-0">
-                  We do not walk away until the work is complete and your team
-                  is equipped to operate. Handoff is not just a meeting - it is a
-                  documented transfer of capability.
-                </p>
-              </div>
-            </div>
-
-            <h2 className="text-2xl font-medium text-ink mt-12">
-              How we work
-            </h2>
-            <p className="text-body mt-4">
-              Bilco Works is a remote-first consultancy based in Canada. We
-              work with enterprise clients globally, including{' '}
-              <Link href="/services#integrations" className="underline hover:no-underline">
-                multi-country payroll implementations
-              </Link>
-              . Engagements are typically structured as fixed-scope projects
-              following our{' '}
-              <Link href="/approach" className="underline hover:no-underline">
-                six-phase methodology
-              </Link>
-              .
+      <Chapter tone="ground">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
+          <Reveal>
+            <p className="eyebrow">How AI fits</p>
+            <p className="mt-6 font-display text-d4 font-light text-chalk">
+              The machine takes the first pass. A person signs it.
             </p>
-            <p className="text-body mt-4">
-              We are small by design. We do not scale by adding junior resources.
-              Every engagement is staffed by experienced practitioners who have
-              done this work before.
-            </p>
-
-            <h2 className="text-2xl font-medium text-ink mt-12">
-              How AI fits a small senior team
-            </h2>
-            <p className="text-body mt-4">
+          </Reveal>
+          <Reveal delay={100} className="space-y-5">
+            <p className="copy !max-w-none text-base leading-[1.8]">
               Being small by design has a limit: enterprise scope means thousands
               of records, hundreds of clauses, and statutory rules that change
               without notice. We close that gap with AI, not with junior or
@@ -165,42 +125,35 @@ export default function AboutPage() {
               jurisdiction. That is how a handful of experienced practitioners
               covers the scope of a much larger team.
             </p>
-            <p className="text-body mt-4">
+            <p className="copy !max-w-none text-base leading-[1.8]">
               AI does not change who is accountable. We treat every AI component
-              like an integration. We know what it does, how we know it is
+              like an integration: we know what it does, how we know it is
               working, and what happens when it is wrong. AI output is never
-              written to your system of record - a practitioner applies approved
+              written to your system of record — a practitioner applies approved
               changes, and low-confidence results are held for review rather than
               acted on. Every flag is explainable. A practitioner reviews the edge
               cases. You approve what ships. The model supports the work; it does
               not own the outcome. Every AI step leaves a record of what it
-              drafted, who reviewed it, and what changed - if there&apos;s no
-              record, we treat it as not done.
+              drafted, who reviewed it, and what changed — if there is no record,
+              we treat it as not done.
             </p>
-          </div>
+            <p className="copy !max-w-none text-base leading-[1.8]">
+              Engagements are typically structured as fixed-scope projects
+              following our{' '}
+              <Link href="/approach" className="link-quiet">
+                six-phase methodology
+              </Link>
+              , including multi-country payroll implementations.
+            </p>
+          </Reveal>
         </div>
-      </section>
+      </Chapter>
 
-      <section className="section-dark section-padding">
-        <div className="container-wide text-center">
-          <h2 className="text-2xl md:text-3xl font-medium">
-            Let us discuss your project
-          </h2>
-          <p className="mt-4 max-w-xl mx-auto" style={{ color: '#A8B8C8' }}>
-            If what you have read resonates, we should talk. No obligation, no
-            sales pitch - just a conversation about your situation.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 mt-8 px-6 py-3 bg-surface-elevated text-ink font-medium rounded-lg shadow-elevated hover:-translate-y-0.5 transition-all duration-300 ease-out-expo"
-          >
-            Contact us
-          </Link>
-          <p className="mt-4 text-sm" style={{ color: '#8896A6' }}>
-            No obligation, no sales pitch.
-          </p>
-        </div>
-      </section>
-    </div>
+      <ContactCta
+        heading="If what you have read resonates, we should talk."
+        body="No obligation, no sales pitch — just a conversation about your situation."
+        note="We reply within one business day"
+      />
+    </>
   )
 }

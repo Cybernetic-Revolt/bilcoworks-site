@@ -4,35 +4,17 @@
 
 @layer base {
   :root {
-    /* Background colors */
-    --color-surface: #FAFBFC;
-    --color-surface-secondary: #F4F6F8;
-    --color-surface-elevated: #FFFFFF;
-
-    /* Text colors */
-    --color-ink: #1A2332;
-    --color-ink-muted: #5C6A7A;
-    --color-ink-subtle: #8896A6;
-
-    /* Border colors */
-    --color-rule: #E1E6EB;
-    --color-rule-subtle: #EDF0F3;
-    --color-rule-strong: #CCD3DA;
-
-    /* Accent colors */
-    --color-accent: #2C4A6E;
-    --color-accent-hover: #1E3A5F;
-    --color-accent-light: #3D5A7E;
-    --color-accent-muted: #E8EDF3;
-
-    --color-teal: #3A7D7B;
-    --color-teal-hover: #2D6664;
-    --color-teal-muted: #E6F0EF;
-
-    /* Status colors */
-    --color-success: #3D8B6E;
-    --color-warning: #C4873B;
-    --color-error: #B85450;
+    --ground: #0b1216;
+    --ground-2: #0f181d;
+    --ground-3: #16232a;
+    --paper: #f1f3f3;
+    --paper-2: #e5eaea;
+    --ink: #0b1216;
+    --ink-2: #4e6069;
+    --chalk: #eaf0f1;
+    --chalk-2: #94a8b0;
+    --signal: #4ed8c8;
+    --signal-deep: #0e6d65;
   }
 
   html {
@@ -43,34 +25,36 @@
   }
 
   body {
-    @apply bg-surface text-ink font-sans;
+    @apply bg-ground text-chalk font-sans antialiased;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01';
   }
 
+  /* Display type is light by default — weight is opted into, never inherited. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-light;
+  }
+
   ::selection {
-    background-color: var(--color-accent-muted);
-    color: var(--color-accent-hover);
+    background-color: var(--signal);
+    color: var(--ground);
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2;
-    outline-color: var(--color-accent);
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply text-ink font-display font-medium;
-    letter-spacing: -0.02em;
-  }
-
-  h1 {
-    letter-spacing: -0.035em;
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
@@ -79,162 +63,136 @@
 }
 
 @layer components {
-  .container-narrow {
-    @apply max-w-4xl mx-auto px-6;
+  /* ---- layout ---------------------------------------------------------- */
+
+  .shell {
+    @apply mx-auto w-full max-w-[80rem] px-6 md:px-10;
   }
 
-  .container-wide {
-    @apply max-w-6xl mx-auto px-6;
+  .shell-tight {
+    @apply mx-auto w-full max-w-[52rem] px-6 md:px-10;
   }
 
-  .section-padding {
+  .chapter {
+    @apply py-24 md:py-32;
+  }
+
+  .chapter-tight {
     @apply py-16 md:py-24;
   }
 
-  .text-body {
-    @apply text-ink-muted leading-relaxed;
-  }
+  /* ---- micro typography ------------------------------------------------ */
 
-  /* Eyebrow / kicker label */
+  /* The only all-caps text on the site. */
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-ink-subtle;
+    @apply font-mono text-micro uppercase text-signal;
   }
 
-  .eyebrow::before {
+  .eyebrow-ink {
+    @apply font-mono text-micro uppercase text-signal-deep;
+  }
+
+  .eyebrow-quiet {
+    @apply font-mono text-micro uppercase text-chalk-3;
+  }
+
+  .index {
+    @apply font-mono text-micro-2 uppercase tabular-nums;
+  }
+
+  /* ---- body copy ------------------------------------------------------- */
+
+  .lede {
+    @apply max-w-measure text-base leading-relaxed text-chalk-2 md:text-lg;
+  }
+
+  .lede-ink {
+    @apply max-w-measure text-base leading-relaxed text-ink-2 md:text-lg;
+  }
+
+  .copy {
+    @apply max-w-measure text-sm leading-[1.75] text-chalk-2;
+  }
+
+  .copy-ink {
+    @apply max-w-measure text-sm leading-[1.75] text-ink-2;
+  }
+
+  /* ---- links and buttons ----------------------------------------------- */
+
+  .link-quiet {
+    @apply relative inline-block text-chalk transition-colors duration-300 hover:text-signal;
+  }
+
+  .link-quiet::after {
     content: '';
-    @apply w-6 h-px;
-    background: linear-gradient(90deg, var(--color-accent), transparent);
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-signal transition-transform duration-300 ease-out-expo;
   }
 
-  /* Gradient accent text */
-  .text-gradient {
-    background: linear-gradient(120deg, var(--color-accent) 0%, var(--color-teal) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  .link-underline {
-    @apply relative transition-colors;
-  }
-
-  .link-underline::after {
-    content: '';
-    @apply absolute left-0 -bottom-0.5 h-px w-full origin-left scale-x-0 transition-transform duration-300 ease-out-expo;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-teal));
-  }
-
-  .link-underline:hover::after {
+  .link-quiet:hover::after {
     @apply scale-x-100;
   }
 
-  /* Primary button */
-  .btn-primary {
-    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg transition-all duration-300 ease-out-expo shadow-btn;
-    background-image: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 55%, var(--color-accent-hover) 100%);
-    color: var(--color-surface-elevated);
+  .link-ink {
+    @apply relative inline-block text-ink transition-colors duration-300 hover:text-signal-deep;
   }
 
-  .btn-primary:hover {
-    @apply shadow-btn-hover -translate-y-0.5;
-  }
-
-  .btn-primary:active {
-    @apply translate-y-0;
-  }
-
-  .btn-primary:focus-visible {
-    @apply outline-2 outline-offset-2;
-    outline-color: var(--color-accent);
-  }
-
-  /* Secondary button */
-  .btn-secondary {
-    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-lg transition-all duration-300 ease-out-expo shadow-subtle;
-    background-color: var(--color-surface-elevated);
-    color: var(--color-ink);
-    border: 1px solid var(--color-rule);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--color-accent-light);
-    color: var(--color-accent);
-    @apply shadow-card -translate-y-0.5;
-  }
-
-  .btn-secondary:active {
-    @apply translate-y-0;
-  }
-
-  /* Card styles */
-  .card {
-    @apply relative p-6 rounded-xl overflow-hidden transition-all duration-300 ease-out-expo shadow-card;
-    background-color: var(--color-surface-elevated);
-    border: 1px solid var(--color-rule);
-  }
-
-  /* Gradient top accent that wipes in on hover */
-  .card::before {
+  .link-ink::after {
     content: '';
-    @apply absolute inset-x-0 top-0 h-px scale-x-0 origin-left transition-transform duration-500 ease-out-expo;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-teal), transparent);
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-signal-deep transition-transform duration-300 ease-out-expo;
   }
 
-  .card:hover {
-    border-color: var(--color-rule-strong);
-    @apply shadow-card-hover -translate-y-1;
-  }
-
-  .card:hover::before {
+  .link-ink:hover::after {
     @apply scale-x-100;
   }
 
-  /* Section backgrounds */
-  .section-elevated {
-    background:
-      linear-gradient(180deg, var(--color-surface-secondary) 0%, var(--color-surface) 100%);
-    border-top: 1px solid var(--color-rule-subtle);
-    border-bottom: 1px solid var(--color-rule-subtle);
+  /* Outlined pill — the single emphasized control, per the reference header. */
+  .pill {
+    @apply inline-flex items-center gap-2 border border-hair-2 px-5 py-2.5 font-mono text-micro-2 uppercase text-chalk transition-colors duration-300 hover:border-signal hover:text-signal;
   }
 
-  /* Dark section (CTAs) */
-  .section-dark {
-    @apply relative overflow-hidden;
-    background-color: var(--color-accent-hover);
-    color: var(--color-surface-elevated);
+  .pill-ink {
+    @apply inline-flex items-center gap-2 border border-hair-ink-2 px-5 py-2.5 font-mono text-micro-2 uppercase text-ink transition-colors duration-300 hover:border-signal-deep hover:text-signal-deep;
   }
 
-  .section-dark::before {
-    content: '';
-    @apply absolute inset-0 bg-dark-glow pointer-events-none;
+  .pill-solid {
+    @apply inline-flex items-center gap-2 bg-ground px-6 py-3 font-mono text-micro-2 uppercase text-chalk transition-colors duration-300 hover:bg-signal-deep hover:text-paper;
   }
 
-  .section-dark > * {
-    @apply relative;
+  /* ---- forms ----------------------------------------------------------- */
+
+  .field-label {
+    @apply block font-mono text-micro-2 uppercase text-ink-2;
   }
 
-  .section-dark .text-muted {
-    color: #A8B8C8;
+  .field {
+    @apply mt-3 w-full border border-hair-ink bg-paper-3 px-4 py-3 text-sm text-ink transition-colors duration-200 placeholder:text-ink-3;
   }
 
-  /* Hairline divider with gradient */
-  .rule-gradient {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-rule-strong), transparent);
+  .field:focus {
+    @apply border-signal-deep outline-none ring-1 ring-signal-deep;
+  }
+
+  /* ---- rules ----------------------------------------------------------- */
+
+  .hairline {
+    @apply h-px w-full bg-chalk/10;
+  }
+
+  .hairline-ink {
+    @apply h-px w-full bg-ink/10;
   }
 }
 
 @layer utilities {
-  /* Scroll-reveal: hidden initial state, animated in via .is-visible */
+  /* Scroll-reveal. Without JS or with reduced motion, content is simply visible. */
   .reveal {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(18px);
     transition:
       opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
       transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: var(--reveal-delay, 0ms);
-    will-change: opacity, transform;
   }
 
   .reveal.is-visible {
@@ -247,5 +205,10 @@
       opacity: 1;
       transform: none;
     }
+  }
+
+  /* Tabular figures for the metric rows. */
+  .figures {
+    font-variant-numeric: tabular-nums;
   }
 }
