@@ -36,7 +36,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         plate="bloom"
         title="Tell us the situation."
-        lede="An HR system, an AI project, or something stranger. We will come back with an honest assessment of whether we can help — including if the answer is no."
+        lede="An HR system, an AI project, a research question, or a rack that needs rethinking. Tell us which and we will come back with an honest assessment of whether we can help — including if the answer is no."
       />
 
       <section className="border-t border-hair-ink bg-paper py-20 md:py-28">

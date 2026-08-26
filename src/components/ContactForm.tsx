@@ -1,28 +1,26 @@
 'use client'
 
-import { useState, useEffect, FormEvent } from 'react'
+import { useEffect, useState, FormEvent } from 'react'
+import {
+  allPracticeFieldNames,
+  commonFields,
+  practices,
+} from '@/content/enquiry'
 
-interface FormData {
-  name: string
-  email: string
-  company: string
-  hrisPlatform: string
-  payrollBenefits: string
-  needs: string
-  timeline: string
-  decisionOwner: string
-}
+const ENDPOINT =
+  'https://bilcoworks-contact.cloudflare-com-14e.workers.dev/submit'
 
-const initialFormData: FormData = {
+type Values = Record<string, string>
+
+const emptyValues = (): Values => ({
   name: '',
   email: '',
   company: '',
-  hrisPlatform: '',
-  payrollBenefits: '',
   needs: '',
   timeline: '',
   decisionOwner: '',
-}
+  ...Object.fromEntries(allPracticeFieldNames.map((n) => [n, ''])),
+})
 
 function generateCaptcha() {
   const a = Math.floor(Math.random() * 10) + 1
@@ -31,7 +29,8 @@ function generateCaptcha() {
 }
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState<FormData>(initialFormData)
+  const [practiceId, setPracticeId] = useState(practices[0].id)
+  const [values, setValues] = useState<Values>(emptyValues)
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [captcha, setCaptcha] = useState({ a: 0, b: 0, answer: 0 })
@@ -41,11 +40,13 @@ export default function ContactForm() {
     setCaptcha(generateCaptcha())
   }, [])
 
+  const practice = practices.find((p) => p.id === practiceId) ?? practices[0]
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setValues((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -61,24 +62,52 @@ export default function ContactForm() {
       return
     }
 
-    try {
-      const response = await fetch('https://bilcoworks-contact.cloudflare-com-14e.workers.dev/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
+    // The receiving worker was written against the original HR-only payload, so
+    // every original key is still sent, always, even when this enquiry is not
+    // about HR. The practice-specific answers go out as their own keys AND are
+    // appended to `needs` — `needs` is the field the worker certainly surfaces,
+    // so folding them in means an answer cannot be lost to a key the worker
+    // does not know about.
+    const answered = practice.fields
+      .filter((f) => values[f.name]?.trim())
+      .map((f) => `${f.label}: ${values[f.name].trim()}`)
 
-      if (!response.ok) {
-        throw new Error('Failed to submit form')
-      }
+    const needsWithContext = [
+      `Practice: ${practice.label}`,
+      '',
+      values.needs.trim(),
+      ...(answered.length ? ['', ...answered] : []),
+    ].join('\n')
+
+    const payload = {
+      name: values.name,
+      email: values.email,
+      company: values.company,
+      hrisPlatform: values.hrisPlatform || '',
+      payrollBenefits: values.payrollBenefits || '',
+      needs: needsWithContext,
+      timeline: values.timeline,
+      decisionOwner: values.decisionOwner,
+      practice: practice.label,
+      practiceId: practice.id,
+      ...Object.fromEntries(
+        practice.fields.map((f) => [f.name, values[f.name] || ''])
+      ),
+    }
+
+    try {
+      const response = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (!response.ok) throw new Error('Failed to submit form')
 
       setStatus('success')
-      setFormData(initialFormData)
+      setValues(emptyValues())
       setCaptchaInput('')
       setCaptcha(generateCaptcha())
-    } catch (error) {
+    } catch {
       setStatus('error')
       setErrorMessage('Something went wrong. Please try emailing us directly.')
     }
@@ -102,8 +131,49 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="grid sm:grid-cols-2 gap-5">
+    <form onSubmit={handleSubmit} className="space-y-8">
+      {/* The picker comes first: it decides what the rest of the form asks. */}
+      <fieldset>
+        <legend className="field-label">What is this about?</legend>
+        <div className="mt-4 grid gap-px border border-hair-ink bg-ink/10 sm:grid-cols-2">
+          {practices.map((p) => {
+            const active = p.id === practiceId
+            return (
+              <label
+                key={p.id}
+                className={`cursor-pointer bg-paper-3 p-5 transition-colors ${
+                  active ? 'ring-1 ring-inset ring-signal-deep' : 'hover:bg-paper'
+                }`}
+              >
+                <span className="flex items-start gap-3">
+                  <input
+                    type="radio"
+                    name="practice"
+                    value={p.id}
+                    checked={active}
+                    onChange={() => setPracticeId(p.id)}
+                    className="mt-1 accent-signal-deep"
+                  />
+                  <span>
+                    <span
+                      className={`block text-sm font-medium ${
+                        active ? 'text-signal-deep' : 'text-ink'
+                      }`}
+                    >
+                      {p.label}
+                    </span>
+                    <span className="mt-1 block text-xs leading-[1.6] text-ink-2">
+                      {p.blurb}
+                    </span>
+                  </span>
+                </span>
+              </label>
+            )
+          })}
+        </div>
+      </fieldset>
+
+      <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="field-label">
             Name <span className="text-signal-deep" aria-hidden="true">*</span>
@@ -113,7 +183,7 @@ export default function ContactForm() {
             id="name"
             name="name"
             required
-            value={formData.name}
+            value={values.name}
             onChange={handleChange}
             className="field"
           />
@@ -127,7 +197,7 @@ export default function ContactForm() {
             id="email"
             name="email"
             required
-            value={formData.email}
+            value={values.email}
             onChange={handleChange}
             className="field"
           />
@@ -142,35 +212,7 @@ export default function ContactForm() {
           type="text"
           id="company"
           name="company"
-          value={formData.company}
-          onChange={handleChange}
-          className="field"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="hrisPlatform" className="field-label">
-          HRIS Platform <span className="text-xs font-normal text-ink-3">(e.g., Workday, SuccessFactors, UKG)</span>
-        </label>
-        <input
-          type="text"
-          id="hrisPlatform"
-          name="hrisPlatform"
-          value={formData.hrisPlatform}
-          onChange={handleChange}
-          className="field"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="payrollBenefits" className="field-label">
-          Payroll / Benefits Providers
-        </label>
-        <input
-          type="text"
-          id="payrollBenefits"
-          name="payrollBenefits"
-          value={formData.payrollBenefits}
+          value={values.company}
           onChange={handleChange}
           className="field"
         />
@@ -178,54 +220,70 @@ export default function ContactForm() {
 
       <div>
         <label htmlFor="needs" className="field-label">
-          What is broken or needed? <span className="text-signal-deep" aria-hidden="true">*</span>
+          What is broken or needed?{' '}
+          <span className="text-signal-deep" aria-hidden="true">*</span>
         </label>
         <textarea
           id="needs"
           name="needs"
           required
           rows={4}
-          value={formData.needs}
+          value={values.needs}
           onChange={handleChange}
-          placeholder="Describe the issues or requirements in a few bullet points"
+          placeholder="Describe the situation in a few bullet points"
           className="field resize-none"
         />
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-5">
-        <div>
-          <label htmlFor="timeline" className="field-label">
-            Timeline / Key Dates
-          </label>
-          <input
-            type="text"
-            id="timeline"
-            name="timeline"
-            value={formData.timeline}
-            onChange={handleChange}
-            placeholder="e.g., Q2 2026, ASAP"
-            className="field"
-          />
-        </div>
-        <div>
-          <label htmlFor="decisionOwner" className="field-label">
-            Decision Owner
-          </label>
-          <input
-            type="text"
-            id="decisionOwner"
-            name="decisionOwner"
-            value={formData.decisionOwner}
-            onChange={handleChange}
-            placeholder="Name and role"
-            className="field"
-          />
-        </div>
+      {/* Swaps with the picker. Keyed so the browser does not carry a value from
+          one practice's field into the one that replaces it. */}
+      <div key={practice.id} className="grid gap-5 sm:grid-cols-2">
+        {practice.fields.map((f) => (
+          <div key={f.name}>
+            <label htmlFor={f.name} className="field-label">
+              {f.label}
+              {f.hint && (
+                <span className="ml-2 text-xs font-normal text-ink-3">
+                  {f.hint}
+                </span>
+              )}
+            </label>
+            <input
+              type="text"
+              id={f.name}
+              name={f.name}
+              value={values[f.name] ?? ''}
+              onChange={handleChange}
+              placeholder={f.placeholder}
+              className="field"
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        {commonFields.map((f) => (
+          <div key={f.name}>
+            <label htmlFor={f.name} className="field-label">
+              {f.label}
+            </label>
+            <input
+              type="text"
+              id={f.name}
+              name={f.name}
+              value={values[f.name] ?? ''}
+              onChange={handleChange}
+              placeholder={f.placeholder}
+              className="field"
+            />
+          </div>
+        ))}
       </div>
 
       <div>
         <label htmlFor="captcha" className="field-label">
-          What is {captcha.a} + {captcha.b}? <span className="text-signal-deep" aria-hidden="true">*</span>
+          What is {captcha.a} + {captcha.b}?{' '}
+          <span className="text-signal-deep" aria-hidden="true">*</span>
         </label>
         <input
           type="text"
@@ -233,6 +291,7 @@ export default function ContactForm() {
           name="captcha"
           required
           autoComplete="off"
+          inputMode="numeric"
           value={captchaInput}
           onChange={(e) => setCaptchaInput(e.target.value)}
           className="field !w-32"
