@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     canonical: 'https://bilcoworks.com',
   },
   openGraph: {
-    title: 'Bilco Works | Four Kinds of Hard Problems, One Front Door',
+    title: "Bilco Works | Systems That Can't Afford to Be Wrong",
     description:
       'Enterprise HR systems, AI engineering, quantum research, and the infrastructure underneath it all.',
     url: 'https://bilcoworks.com',
@@ -70,8 +70,8 @@ export default function HomePage() {
           <Reveal className="max-w-3xl">
             <p className="eyebrow">Calgary · Consulting &amp; Engineering</p>
             <h1 className="mt-4 text-4xl md:text-5xl lg:text-[3.5rem] font-medium text-ink leading-[1.06]">
-              Four kinds of hard problems,{' '}
-              <span className="text-gradient">one front door</span>
+              We build systems that{' '}
+              <span className="text-gradient">can&apos;t afford to be wrong</span>
             </h1>
             <p className="mt-6 text-lg md:text-xl text-ink-muted leading-relaxed max-w-2xl">
               Bilco Works builds and runs serious systems: enterprise HR
