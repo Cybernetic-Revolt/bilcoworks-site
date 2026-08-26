@@ -4,7 +4,7 @@ import ContactCta from '@/components/ContactCta'
 import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
 import { Chapter, SectionHead, TileGrid } from '@/components/Section'
-import { artifacts, phases, principles } from '@/content/hr'
+import { artifactSource, artifacts, phases, principles } from '@/content/hr'
 
 export const metadata: Metadata = {
   title: 'HRIS Implementation Methodology',
@@ -41,6 +41,7 @@ export default function ApproachPage() {
 
       {phases.map((phase, i) => {
         const light = i % 2 === 0
+        const source = artifactSource(phase)
         return (
           <section
             key={phase.number}
@@ -77,20 +78,37 @@ export default function ApproachPage() {
                   </div>
                   <div>
                     <h3 className="eyebrow-ink">Artifacts produced</h3>
-                    <ul className="mt-5 space-y-3">
-                      {phase.artifacts.map((a) => (
-                        <li
-                          key={a}
-                          className="flex gap-3 text-sm leading-[1.7] text-ink-2"
+                    {/* Harden produces the Post-Go-Live Hardening deliverables.
+                        They are written out on /services and pointed at here,
+                        rather than restated — the two copies had already drifted
+                        apart in their last two items. */}
+                    {source ? (
+                      <p className="mt-5 max-w-measure text-sm leading-[1.7] text-ink-2">
+                        The same set delivered by{' '}
+                        <Link
+                          href={`/services#${source.id}`}
+                          className="link-ink"
                         >
-                          <span
-                            aria-hidden="true"
-                            className="mt-[0.55rem] h-1 w-1 shrink-0 bg-ink-3"
-                          />
-                          {a}
-                        </li>
-                      ))}
-                    </ul>
+                          {source.title}
+                        </Link>
+                        , listed in full there.
+                      </p>
+                    ) : (
+                      <ul className="mt-5 space-y-3">
+                        {phase.artifacts.map((a) => (
+                          <li
+                            key={a}
+                            className="flex gap-3 text-sm leading-[1.7] text-ink-2"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="mt-[0.55rem] h-1 w-1 shrink-0 bg-ink-3"
+                            />
+                            {a}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
               </Reveal>
@@ -117,17 +135,34 @@ export default function ApproachPage() {
           lede="Every engagement ends with documents your team owns, not a consultant who remembers how it works."
         />
 
-        <div className="mt-14 overflow-x-auto">
-          <table className="w-full min-w-[36rem] border-collapse text-left">
+        {/* A three-column table cannot fit 390px without scrolling sideways, and
+            a sideways-scrolling table on a phone loses the column you need. Same
+            data, two shapes: stacked below md, tabular above it. */}
+        <ul className="mt-12 border-t border-hair md:hidden">
+          {artifacts.map(([name, what, phase]) => (
+            <li key={name} className="border-b border-hair py-5">
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="text-sm text-chalk">{name}</h3>
+                <span className="shrink-0 font-mono text-micro-2 uppercase text-signal">
+                  {phase}
+                </span>
+              </div>
+              <p className="mt-2 text-sm leading-[1.7] text-chalk-2">{what}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-14 hidden md:block">
+          <table className="w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-hair">
-                <th scope="col" className="pb-4 pr-6 eyebrow-quiet font-normal">
+                <th scope="col" className="eyebrow-quiet pb-4 pr-6 font-normal">
                   Artifact
                 </th>
-                <th scope="col" className="pb-4 pr-6 eyebrow-quiet font-normal">
+                <th scope="col" className="eyebrow-quiet pb-4 pr-6 font-normal">
                   What it is
                 </th>
-                <th scope="col" className="pb-4 eyebrow-quiet font-normal">
+                <th scope="col" className="eyebrow-quiet pb-4 font-normal">
                   Phase
                 </th>
               </tr>

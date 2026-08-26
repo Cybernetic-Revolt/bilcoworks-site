@@ -3,6 +3,7 @@ import Link from 'next/link'
 import ContactCta from '@/components/ContactCta'
 import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
+import ServiceRail from '@/components/ServiceRail'
 import { hrServices } from '@/content/hr'
 
 export const metadata: Metadata = {
@@ -28,23 +29,24 @@ export const metadata: Metadata = {
 function Column({
   heading,
   items,
-  marker,
+  dark,
 }: {
   heading: string
   items: string[]
-  marker: 'tick' | 'cross'
+  dark: boolean
 }) {
   return (
     <div>
-      <h4 className="eyebrow-ink">{heading}</h4>
+      <h4 className={dark ? 'eyebrow-quiet' : 'eyebrow-ink'}>{heading}</h4>
       <ul className="mt-5 space-y-3">
         {items.map((item) => (
-          <li key={item} className="flex gap-3 text-sm leading-[1.7] text-ink-2">
+          <li
+            key={item}
+            className={`flex gap-3 text-sm leading-[1.7] ${dark ? 'text-chalk-2' : 'text-ink-2'}`}
+          >
             <span
               aria-hidden="true"
-              className={`mt-[0.55rem] h-1 w-1 shrink-0 ${
-                marker === 'tick' ? 'bg-signal-deep' : 'bg-ink-3'
-              }`}
+              className={`mt-[0.55rem] h-1 w-1 shrink-0 ${dark ? 'bg-chalk-3' : 'bg-ink-3'}`}
             />
             {item}
           </li>
@@ -73,67 +75,55 @@ export default function ServicesPage() {
         </div>
       </PageHero>
 
-      {/* Index rail: eight anchors, so a long page stays navigable. */}
-      <nav
-        aria-label="Service lines"
-        className="sticky top-[72px] z-30 border-b border-hair bg-ground/90 backdrop-blur-md"
-      >
-        <ol className="shell flex gap-6 overflow-x-auto py-4">
-          {hrServices.map((service, i) => (
-            <li key={service.id} className="shrink-0">
-              <a
-                href={`#${service.id}`}
-                className="flex items-baseline gap-2 font-mono text-micro-2 uppercase text-chalk-3 transition-colors hover:text-signal"
-              >
-                <span>{String(i + 1).padStart(2, '0')}</span>
-                <span className="whitespace-nowrap">{service.title}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
+      <ServiceRail items={hrServices.map((x) => ({ id: x.id, title: x.title }))} />
 
       {hrServices.map((service, i) => {
-        const light = i % 2 === 1
+        // Two movements: 01-04 build the system, 05-08 keep it running. The
+        // ground flips between them, and alternates within each, so a visitor
+        // scrolling eleven screens sees chapters rather than one wash.
+        const dark = i < 4 ? i % 2 === 1 : i % 2 === 0
         return (
           <section
             key={service.id}
             id={service.id}
             className={`scroll-mt-[8.5rem] border-t py-20 md:py-24 ${
-              light
-                ? 'border-hair-ink bg-paper'
-                : 'border-hair-ink bg-paper-2'
+              dark ? 'border-hair bg-ground' : 'border-hair-ink bg-paper'
             }`}
           >
             <div className="shell">
-              <Reveal className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+              <Reveal className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
                 <div>
-                  <span className="index text-ink-3">
+                  <span className={`index ${dark ? 'text-chalk-3' : 'text-ink-3'}`}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <h2 className="mt-5 text-d3 text-ink">{service.title}</h2>
+                  <h2 className={`mt-5 text-d3 ${dark ? 'text-chalk' : 'text-ink'}`}>
+                    {service.title}
+                  </h2>
                 </div>
                 <div>
-                  <p className="copy-ink !max-w-none text-base leading-[1.8]">
+                  <p className={`max-w-measure text-base leading-[1.8] ${dark ? 'text-chalk-2' : 'text-ink-2'}`}>
                     {service.description}
                   </p>
 
                   <div className="mt-12 grid gap-10 md:grid-cols-2">
-                    <Column
-                      heading="Outcomes"
-                      items={service.outcomes}
-                      marker="tick"
-                    />
+                    <Column heading="Outcomes" items={service.outcomes} dark={dark} />
                     <Column
                       heading="Typical deliverables"
                       items={service.deliverables}
-                      marker="tick"
+                      dark={dark}
                     />
                   </div>
 
-                  <div className="mt-12 border-l-2 border-signal-deep pl-6">
-                    <h4 className="eyebrow-ink">What success looks like</h4>
-                    <p className="mt-4 text-sm leading-[1.8] text-ink-2">
+                  {/* The one accented element per section. */}
+                  <div
+                    className={`mt-12 border-l-2 pl-6 ${dark ? 'border-signal' : 'border-signal-deep'}`}
+                  >
+                    <h4 className={dark ? 'eyebrow' : 'eyebrow-ink'}>
+                      What success looks like
+                    </h4>
+                    <p
+                      className={`mt-4 max-w-measure text-sm leading-[1.8] ${dark ? 'text-chalk-2' : 'text-ink-2'}`}
+                    >
                       {service.success}
                     </p>
                   </div>
@@ -142,7 +132,7 @@ export default function ServicesPage() {
                     <Column
                       heading="Failure modes avoided"
                       items={service.failuresAvoided}
-                      marker="cross"
+                      dark={dark}
                     />
                   </div>
                 </div>

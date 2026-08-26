@@ -30,7 +30,14 @@ export interface Phase {
   summary: string
   description: string
   activities: string[]
+  /**
+   * Artifacts this phase produces. `Harden` has none of its own: its outputs ARE
+   * the Post-Go-Live Hardening deliverables, and writing them out in both places
+   * is how the two copies drifted apart. It points at that service line instead.
+   */
   artifacts: string[]
+  /** Service line whose deliverables are this phase's artifacts. */
+  artifactsFrom?: string
 }
 
 export interface Principle {
@@ -164,7 +171,7 @@ export const hrServices: HrService[] = [
   {
     id: 'union-workforce',
     summary:
-      'Collective bargaining agreements encoded into payroll: dues, seniority, premiums, overtime, and retro on ratification. We configure the rules so the system pays people the way the contract reads.',
+      'Collective bargaining agreements encoded into payroll: dues, seniority, premiums, overtime, and retro on ratification, tested per bargaining unit.',
     title: 'Unionized Workforce Support',
 
     description:
@@ -275,7 +282,7 @@ export const hrServices: HrService[] = [
       'A written record of what AI drafted, who reviewed it, and what changed',
     ],
     success:
-      "The week before launch should be boring. AI has screened every record, not a sample, and a person chased down the exceptions it surfaced. Records that do not reconcile are caught before cutover, not after payroll runs wrong. AI output never writes to your system of record; a practitioner applies approved changes, and low-confidence results wait for review. Nothing ships on the model's word alone, and you stay the responsible party.",
+      "The week before launch should be boring. AI has screened every record, not a sample, and a person chased down the exceptions it surfaced. Records that do not reconcile are caught before cutover, not after payroll runs wrong. The model never holds the pen: approved changes are applied by a practitioner, and anything the model is unsure of waits for one. Nothing ships on the model's word alone, and you stay the responsible party.",
     failuresAvoided: [
       'AI output shipped without human review',
       'Variances re-keyed by hand record by record',
@@ -407,13 +414,8 @@ export const phases: Phase[] = [
       'Handoff documentation and sign-off',
       'Post-implementation review',
     ],
-    artifacts: [
-      'Monitoring dashboard or checklist',
-      'Operations runbook',
-      'Incident response procedures',
-      'Knowledge transfer materials',
-      'Handoff acceptance',
-    ],
+    artifacts: [],
+    artifactsFrom: 'hardening',
   },
 ]
 
@@ -452,3 +454,9 @@ export const artifacts: [string, string, string][] = [
   ['Operations Runbook', 'Day-to-day procedures for steady state', 'Harden'],
   ['Monitoring Checklist', 'What to watch and when to escalate', 'Harden'],
 ]
+
+/** The service line a phase defers its artifact list to, if it defers at all. */
+export function artifactSource(phase: Phase): HrService | undefined {
+  if (!phase.artifactsFrom) return undefined
+  return hrServices.find((s) => s.id === phase.artifactsFrom)
+}

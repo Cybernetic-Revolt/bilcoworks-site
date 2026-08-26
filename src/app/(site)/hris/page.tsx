@@ -26,22 +26,25 @@ export const metadata: Metadata = {
   },
 }
 
-const credibility = [
+// Claims specific to an HR engagement. The firm-wide discipline — written down,
+// proved before launch, handed over — is stated once, on the homepage, and is
+// deliberately not restated here.
+const commitments = [
   {
-    title: 'We finish what we start',
-    body: 'Engagements have defined scope, acceptance criteria, and end dates. We do not create dependency; we create capability.',
+    title: 'Scope with an end date',
+    body: 'Engagements have defined scope, acceptance criteria, and a stated finish. We do not create dependency; we create capability.',
   },
   {
-    title: 'We document everything',
-    body: 'Requirements, decisions, configurations, test results, runbooks. If it is not written down, it did not happen.',
+    title: 'A parallel run before yours',
+    body: 'Gross-to-net is proved against a parallel run reconciled to the cent before a single employee is paid from the new system.',
   },
   {
-    title: 'We test before go-live',
-    body: 'Integration testing, parallel runs, reconciliation. The week before launch should be boring.',
+    title: 'A cutover you can reverse',
+    body: 'Every go-live carries a written rollback with go/no-go checkpoints. The decision to proceed is made against evidence, not against the calendar.',
   },
   {
-    title: 'We transfer knowledge',
-    body: 'Your team should be able to operate without us. That is the goal from day one.',
+    title: 'Configuration you can audit',
+    body: 'Every rule traces to the requirement or the contract clause that produced it, cited to article and section where a CBA governs it.',
   },
 ]
 
@@ -52,11 +55,7 @@ export default function HrisPage() {
         index="01"
         eyebrow="Practice"
         plate="ledger"
-        title={
-          <>
-            HRIS and payroll implementations that work on day one.
-          </>
-        }
+        title="Implementations that work on day one."
         lede="We configure, integrate, and stabilize enterprise HR systems across Workday, UKG, SAP SuccessFactors, and Oracle HCM. Clear scope. Tested integrations. Documented handoff. No surprises at go-live."
       >
         <div className="flex flex-wrap gap-4">
@@ -98,7 +97,7 @@ export default function HrisPage() {
                 <h3 className="text-d4 text-ink transition-colors duration-300 group-hover:text-signal-deep">
                   {service.title}
                 </h3>
-                <p className="copy-ink !max-w-none text-[0.9375rem]">
+                <p className="copy-ink text-[0.9375rem]">
                   {service.summary}
                 </p>
                 <span
@@ -146,10 +145,10 @@ export default function HrisPage() {
 
       <Chapter tone="ground">
         <SectionHead
-          eyebrow="Why clients work with us"
+          eyebrow="What you are buying"
           title="Four commitments."
         />
-        <TileGrid items={credibility} columns={4} />
+        <TileGrid items={commitments} columns={4} />
       </Chapter>
 
       <ContactCta

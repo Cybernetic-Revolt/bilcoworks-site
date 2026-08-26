@@ -54,7 +54,7 @@ export default function AboutPage() {
       />
 
       <Chapter tone="paper">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,18rem)_minmax(0,40rem)]">
           <Reveal>
             <p className="eyebrow-ink">Why we exist</p>
             <p className="mt-6 font-display text-d4 font-light text-ink">
@@ -62,25 +62,25 @@ export default function AboutPage() {
             </p>
           </Reveal>
           <Reveal delay={100} className="space-y-5">
-            <p className="copy-ink !max-w-none text-base leading-[1.8]">
+            <p className="copy-ink text-base leading-[1.8]">
               Bilco Works was founded after seeing too many HRIS implementations
               fail the same way: unclear requirements, untested integrations,
               missing documentation, and no plan for what happens after go-live.
             </p>
-            <p className="copy-ink !max-w-none text-base leading-[1.8]">
+            <p className="copy-ink text-base leading-[1.8]">
               These failures are not caused by bad intentions. They are caused by
               teams moving fast without the right controls, by vendors
               incentivized to close deals rather than ensure success, and by
               organizations that underestimate the complexity of enterprise HR
               systems.
             </p>
-            <p className="copy-ink !max-w-none text-base leading-[1.8]">
+            <p className="copy-ink text-base leading-[1.8]">
               We do the work that prevents those failures. We write things down.
               We test before go-live. We build integrations that are observable
               and recoverable. We transfer knowledge so your team can operate
               independently.
             </p>
-            <p className="copy-ink !max-w-none text-base leading-[1.8]">
+            <p className="copy-ink text-base leading-[1.8]">
               The same discipline runs the things we build for ourselves:{' '}
               <Link href="/ai/tworing" className="link-ink">
                 TwoRing
@@ -107,7 +107,7 @@ export default function AboutPage() {
       </Chapter>
 
       <Chapter tone="ground">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,18rem)_minmax(0,40rem)]">
           <Reveal>
             <p className="eyebrow">How AI fits</p>
             <p className="mt-6 font-display text-d4 font-light text-chalk">
@@ -115,7 +115,7 @@ export default function AboutPage() {
             </p>
           </Reveal>
           <Reveal delay={100} className="space-y-5">
-            <p className="copy !max-w-none text-base leading-[1.8]">
+            <p className="copy text-base leading-[1.8]">
               Being small by design has a limit: enterprise scope means thousands
               of records, hundreds of clauses, and statutory rules that change
               without notice. We close that gap with AI, not with junior or
@@ -125,7 +125,7 @@ export default function AboutPage() {
               jurisdiction. That is how a handful of experienced practitioners
               covers the scope of a much larger team.
             </p>
-            <p className="copy !max-w-none text-base leading-[1.8]">
+            <p className="copy text-base leading-[1.8]">
               AI does not change who is accountable. We treat every AI component
               like an integration: we know what it does, how we know it is
               working, and what happens when it is wrong. AI output is never
@@ -137,7 +137,7 @@ export default function AboutPage() {
               drafted, who reviewed it, and what changed — if there is no record,
               we treat it as not done.
             </p>
-            <p className="copy !max-w-none text-base leading-[1.8]">
+            <p className="copy text-base leading-[1.8]">
               Engagements are typically structured as fixed-scope projects
               following our{' '}
               <Link href="/approach" className="link-quiet">

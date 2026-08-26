@@ -161,8 +161,11 @@
 
   /* ---- forms ----------------------------------------------------------- */
 
+  /* Deliberately NOT the mono micro-caps used for eyebrows: that is static
+     wayfinding type, and it is the wrong tool on a control someone is trying to
+     fill in quickly. */
   .field-label {
-    @apply block font-mono text-micro-2 uppercase text-ink-2;
+    @apply block text-[0.8125rem] font-medium text-ink;
   }
 
   .field {

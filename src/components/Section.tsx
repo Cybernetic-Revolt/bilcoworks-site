@@ -77,7 +77,9 @@ export function Narrative({
 }) {
   const light = isLight(tone)
   return (
-    <div className="grid gap-14 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
+    // The prose track is fixed rather than fluid: at 1440px a 1fr track ran the
+    // copy to ~95 characters, well past the 62ch the design system asks for.
+    <div className="grid gap-14 lg:grid-cols-[minmax(0,18rem)_minmax(0,40rem)]">
       <Reveal>
         <p className={light ? 'eyebrow-ink' : 'eyebrow'}>{label}</p>
         <p
@@ -90,7 +92,7 @@ export function Narrative({
       </Reveal>
       <Reveal
         delay={100}
-        className={`space-y-5 [&>p]:!max-w-none [&>p]:text-base [&>p]:leading-[1.8] ${
+        className={`space-y-5 [&>p]:text-base [&>p]:leading-[1.8] ${
           light ? '[&>p]:text-ink-2' : '[&>p]:text-chalk-2'
         }`}
       >

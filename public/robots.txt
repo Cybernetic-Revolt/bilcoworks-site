@@ -1,10 +1,13 @@
 User-agent: *
 Allow: /
+Disallow: /ops
 
 User-agent: Googlebot
 Allow: /
+Disallow: /ops
 
 User-agent: Bingbot
 Allow: /
+Disallow: /ops
 
 Sitemap: https://bilcoworks.com/sitemap.xml

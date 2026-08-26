@@ -78,7 +78,7 @@ export default function Footer() {
             ilco Works Incorporated · {year}
           </p>
           <p className="font-mono text-micro-2 uppercase text-chalk-3">
-            Calgary, Alberta · Canada
+            Calgary · Canada
           </p>
         </div>
       </div>

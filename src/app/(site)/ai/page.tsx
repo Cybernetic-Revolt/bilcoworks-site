@@ -40,7 +40,7 @@ const projects = [
     kind: 'Competition',
     title: 'The Knee Ledger',
     summary:
-      'Teaching one machine to read knee MRIs against 2,300 teams in the RSNA AI Challenge — with a rule that every claim needs a receipt and nothing ships without clearing an automated gate.',
+      'Competition machine learning on knee MRI, run as an evidence ledger: every experiment declares its pass-bar before it runs, and roughly forty that failed are written down beside the ones that worked.',
     highlight: '0.899 public AUC',
     href: '/ai/knee-ledger',
     plate: 'interference' as const,
@@ -62,8 +62,8 @@ const principles = [
     body: 'Every AI system we ship has a practitioner accountable for its output. On consulting engagements that means AI on the first pass — variance triage, reconciliation, document parsing — and a named person verifying every result.',
   },
   {
-    title: 'Every provider has an exit',
-    body: 'Cloud models are backed by local inference we run ourselves. No single vendor outage can take down a system we operate, because the fallback is in the rack.',
+    title: 'Nothing depends on one vendor',
+    body: 'Speech, language and voice each sit behind an adapter that can fail over mid-request, with a local model underneath the cloud one. What that costs to build, and why we pay it, is on the TwoRing page.',
   },
   {
     title: 'Proven where the leaderboard keeps score',

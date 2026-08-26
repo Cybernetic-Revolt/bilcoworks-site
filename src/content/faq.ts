@@ -18,7 +18,7 @@ export const faqs: Faq[] = [
   {
     question: 'Can you help with a failed or troubled HRIS implementation?',
     answer:
-      'Yes. Our HRIS Rescue and Stabilization service is specifically designed for implementations that have stalled, failed, or are running unreliably. We diagnose root causes, prioritize fixes, and establish a path to stable operations.',
+      'Yes — that is a distinct service line rather than a variation on implementation, because the first job is working out what is actually wrong. See HRIS Rescue and Stabilization on the services page for what the engagement produces.',
   },
   {
     question: 'Do you provide ongoing support after go-live?',
@@ -38,7 +38,7 @@ export const faqs: Faq[] = [
   {
     question: 'Do you run gross-to-net validation across multiple countries before go-live?',
     answer:
-      'Yes. Every country has its own gross-to-net logic; there is no universal formula. We run the new system alongside the incumbent for one or more cycles and reconcile outputs to the cent before cutover, with variance reports, tolerance thresholds, and sign-off sheets. The parallel run is the standard de-risking gate. We do not recommend going live on a country that has not passed it.',
+      "Yes. Each country is proved against a parallel run before anyone is paid from the new system, and the reconciliation pack that comes out of it is listed under Global Payroll and Compliance on the services page.",
   },
   {
     question: 'How do you handle retro pay when a collective bargaining agreement is ratified?',
@@ -53,12 +53,12 @@ export const faqs: Faq[] = [
   {
     question: 'Does AI make decisions about my payroll or configuration?',
     answer:
-      'No. AI does the first pass. It clusters and explains payroll variances, surfaces migration records that do not reconcile, drafts a configuration mapping from a collective bargaining agreement, and turns workshop notes into structured requirements. A senior practitioner reviews the output, and you approve what ships. AI output is never written to your system of record - a practitioner applies approved changes, and low-confidence results are held for review rather than acted on. The model supports the work; you stay the responsible party.',
+      'No. AI does the first pass on the slow, repetitive passes — variance clustering, migration reconciliation, CBA parsing, requirements drafting — and a senior practitioner reviews every result before it goes anywhere. What the model may and may not touch, and the record each step leaves, is set out on the about page.',
   },
   {
     question: 'What happens when the AI gets something wrong?',
     answer:
-      "We design for that. Low-confidence results are held for review rather than acted on, and AI output is never written to your system of record. Every AI output is logged and reviewed, and each flag is traceable to who signed off. Nothing fails silently and nothing ships on the model's word alone. AI does not make a configuration correct; observability, review, and sign-off do. If you removed the AI, the controls around it would still tell you what was checked and by whom.",
+      "By putting the same controls around it that we would put around any other integration — bounded scope, observable output, a defined failure path. Every flag is explainable and traceable to whoever signed it off, so removing the AI entirely would still leave you a record of what was checked and by whom.",
   },
   {
     question: 'What makes Bilco Works different from other HRIS consultancies?',
@@ -73,7 +73,7 @@ export const faqs: Faq[] = [
   {
     question: 'Can my business use TwoRing?',
     answer:
-      'TwoRing is our 24/7 AI receptionist for trade businesses - HVAC, plumbing, electrical, lawn care, real estate. It answers forwarded calls within two rings, books appointments into your calendar mid-call, and emails you every lead. Visit tworing.ai for details.',
+      "TwoRing is our own product — a 24/7 AI receptionist answering real customers on a voice engine we built and host. It is the clearest evidence we run what we sell; its own page has the detail.",
   },
   {
     question: 'What is the Research section about?',

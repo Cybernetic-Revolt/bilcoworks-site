@@ -64,7 +64,9 @@ export default function FaqPage() {
                 <dt className="font-display text-lg font-light leading-snug text-ink">
                   {faq.question}
                 </dt>
-                <dd className="text-sm leading-[1.8] text-ink-2">{faq.answer}</dd>
+                <dd className="max-w-measure text-sm leading-[1.8] text-ink-2">
+                  {faq.answer}
+                </dd>
               </Reveal>
             ))}
           </dl>
