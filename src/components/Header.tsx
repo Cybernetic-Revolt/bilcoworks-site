@@ -40,7 +40,7 @@ export default function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-out-expo ${
         scrolled || open
-          ? 'border-b border-hair bg-ground/85 backdrop-blur-md'
+          ? 'border-b border-hair bg-ground backdrop-blur-md'
           : 'border-b border-transparent'
       }`}
     >

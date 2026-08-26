@@ -40,6 +40,7 @@ export default function ApproachPage() {
       </PageHero>
 
       {phases.map((phase, i) => {
+        // Alternate the two real grounds, not two shades of the same one.
         const light = i % 2 === 0
         const source = artifactSource(phase)
         return (
@@ -47,29 +48,35 @@ export default function ApproachPage() {
             key={phase.number}
             id={phase.name.toLowerCase()}
             className={`scroll-mt-24 border-t py-20 md:py-24 ${
-              light ? 'border-hair-ink bg-paper' : 'border-hair-ink bg-paper-2'
+              light ? 'border-hair-ink bg-paper' : 'border-hair bg-ground'
             }`}
           >
             <div className="shell">
-              <Reveal className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
-                <div>
-                  <span className="index text-signal-deep">{phase.number}</span>
-                  <h2 className="mt-5 text-d3 text-ink">{phase.name}</h2>
-                  <p className="copy-ink mt-5">{phase.description}</p>
+              <Reveal className="grid gap-10 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:items-start">
+                <div className="lg:sticky lg:top-32">
+                  <span className={`index ${light ? 'text-signal-deep' : 'text-signal'}`}>
+                    {phase.number}
+                  </span>
+                  <h2 className={`mt-5 text-d3 ${light ? 'text-ink' : 'text-chalk'}`}>
+                    {phase.name}
+                  </h2>
+                  <p className={`mt-5 max-w-measure text-sm leading-[1.75] ${light ? 'text-ink-2' : 'text-chalk-2'}`}>
+                    {phase.description}
+                  </p>
                 </div>
 
                 <div className="grid gap-10 md:grid-cols-2">
                   <div>
-                    <h3 className="eyebrow-ink">Activities</h3>
+                    <h3 className={light ? 'eyebrow-ink' : 'eyebrow'}>Activities</h3>
                     <ul className="mt-5 space-y-3">
                       {phase.activities.map((a) => (
                         <li
                           key={a}
-                          className="flex gap-3 text-sm leading-[1.7] text-ink-2"
+                          className={`flex gap-3 text-sm leading-[1.7] ${light ? 'text-ink-2' : 'text-chalk-2'}`}
                         >
                           <span
                             aria-hidden="true"
-                            className="mt-[0.55rem] h-1 w-1 shrink-0 bg-signal-deep"
+                            className={`mt-[0.55rem] h-1 w-1 shrink-0 ${light ? 'bg-ink-3' : 'bg-chalk-3'}`}
                           />
                           {a}
                         </li>
@@ -77,17 +84,17 @@ export default function ApproachPage() {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="eyebrow-ink">Artifacts produced</h3>
+                    <h3 className={light ? 'eyebrow-ink' : 'eyebrow'}>Artifacts produced</h3>
                     {/* Harden produces the Post-Go-Live Hardening deliverables.
                         They are written out on /services and pointed at here,
                         rather than restated — the two copies had already drifted
                         apart in their last two items. */}
                     {source ? (
-                      <p className="mt-5 max-w-measure text-sm leading-[1.7] text-ink-2">
+                      <p className={`mt-5 max-w-measure text-sm leading-[1.7] ${light ? 'text-ink-2' : 'text-chalk-2'}`}>
                         The same set delivered by{' '}
                         <Link
                           href={`/services#${source.id}`}
-                          className="link-ink"
+                          className={light ? 'link-ink' : 'link-quiet'}
                         >
                           {source.title}
                         </Link>
@@ -98,11 +105,11 @@ export default function ApproachPage() {
                         {phase.artifacts.map((a) => (
                           <li
                             key={a}
-                            className="flex gap-3 text-sm leading-[1.7] text-ink-2"
+                            className={`flex gap-3 text-sm leading-[1.7] ${light ? 'text-ink-2' : 'text-chalk-2'}`}
                           >
                             <span
                               aria-hidden="true"
-                              className="mt-[0.55rem] h-1 w-1 shrink-0 bg-ink-3"
+                              className={`mt-[0.55rem] h-1 w-1 shrink-0 ${light ? 'bg-ink-3' : 'bg-chalk-3'}`}
                             />
                             {a}
                           </li>

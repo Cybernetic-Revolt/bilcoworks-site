@@ -248,7 +248,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="pill-solid w-full justify-center disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+        className="cta-ink w-full justify-center disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
       >
         {status === 'submitting' ? 'Sending…' : 'Send message'}
       </button>

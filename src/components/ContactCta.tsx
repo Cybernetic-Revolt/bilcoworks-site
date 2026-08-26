@@ -25,12 +25,12 @@ export default function ContactCta({
             <p className="copy-ink mt-5">{body}</p>
           </div>
           <div className="md:justify-self-end md:text-right">
-            <Link href="/contact" className="pill-solid">
+            <Link href="/contact" className="cta-ink">
               Start a conversation
               <span aria-hidden="true">→</span>
             </Link>
             {note && (
-              <p className="mt-4 font-mono text-micro-2 uppercase text-ink-3">
+              <p className="mt-4 text-[0.8125rem] text-ink-2">
                 {note}
               </p>
             )}

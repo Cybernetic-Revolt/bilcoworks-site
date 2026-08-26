@@ -91,8 +91,8 @@ export default function ServicesPage() {
             }`}
           >
             <div className="shell">
-              <Reveal className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
-                <div>
+              <Reveal className="grid gap-10 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:items-start">
+                <div className="lg:sticky lg:top-32">
                   <span className={`index ${dark ? 'text-chalk-3' : 'text-ink-3'}`}>
                     {String(i + 1).padStart(2, '0')}
                   </span>

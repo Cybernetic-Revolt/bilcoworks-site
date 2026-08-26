@@ -107,7 +107,7 @@ export default function HomePage() {
               className="mt-12 flex flex-wrap items-center gap-4 animate-fade-up"
               style={{ animationDelay: '270ms' }}
             >
-              <Link href="/contact" className="pill">
+              <Link href="/contact" className="cta">
                 Start a conversation
                 <span aria-hidden="true">→</span>
               </Link>
@@ -205,7 +205,7 @@ export default function HomePage() {
               { figure: '1 day', label: 'Response time, always' },
             ].map((stat) => (
               <div key={stat.figure} className="bg-ground-2 p-7 md:p-8">
-                <dt className="figures font-display text-2xl font-light text-signal md:text-[1.75rem]">
+                <dt className="figures font-display text-[2.25rem] font-light leading-none text-signal md:text-[2.75rem]">
                   {stat.href ? (
                     <a
                       href={stat.href}

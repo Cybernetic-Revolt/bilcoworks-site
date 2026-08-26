@@ -59,7 +59,7 @@ export default function HrisPage() {
         lede="We configure, integrate, and stabilize enterprise HR systems across Workday, UKG, SAP SuccessFactors, and Oracle HCM. Clear scope. Tested integrations. Documented handoff. No surprises at go-live."
       >
         <div className="flex flex-wrap gap-4">
-          <Link href="/services" className="pill">
+          <Link href="/services" className="cta">
             The eight service lines
             <span aria-hidden="true">→</span>
           </Link>

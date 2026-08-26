@@ -24,9 +24,17 @@ export default function PageHero({
 }) {
   return (
     <section className="relative overflow-hidden border-b border-hair bg-ground pb-20 pt-[calc(72px+5rem)] md:pb-28 md:pt-[calc(72px+7rem)]">
+      {/* Masked, not cropped: a hard-edged field reads as a texture swatch laid
+          on top of the page rather than as part of it. */}
       <div
         className="pointer-events-none absolute -right-24 top-0 h-full w-[36rem] max-w-[55%] opacity-60"
         aria-hidden="true"
+        style={{
+          maskImage:
+            'radial-gradient(70% 60% at 60% 45%, black 0%, black 35%, transparent 78%)',
+          WebkitMaskImage:
+            'radial-gradient(70% 60% at 60% 45%, black 0%, black 35%, transparent 78%)',
+        }}
       >
         <Dither
           plate={plate}

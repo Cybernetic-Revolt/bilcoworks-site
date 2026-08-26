@@ -19,6 +19,9 @@
 
   html {
     scroll-behavior: smooth;
+    /* The header is fixed and 72px tall. Without this, any jump link lands with
+       the target's cap-height sliced off underneath it. */
+    scroll-padding-top: 6rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -146,17 +149,24 @@
     @apply scale-x-100;
   }
 
-  /* Outlined pill — the single emphasized control, per the reference header. */
+  /* The primary action. Sentence-case grotesque, filled, and the only object of
+     its kind on a screen — the mono micro-caps below are label type, and when a
+     CTA wore them too, nothing marked the clickable object. */
+  .cta {
+    @apply inline-flex items-center gap-2.5 bg-signal px-7 py-3.5 text-[0.9375rem] font-medium text-ground transition-colors duration-300 hover:bg-chalk;
+  }
+
+  .cta-ink {
+    @apply inline-flex items-center gap-2.5 bg-ground px-7 py-3.5 text-[0.9375rem] font-medium text-chalk transition-colors duration-300 hover:bg-signal-deep;
+  }
+
+  /* Outlined pill — secondary, and never the only control on a screen. */
   .pill {
     @apply inline-flex items-center gap-2 border border-hair-2 px-5 py-2.5 font-mono text-micro-2 uppercase text-chalk transition-colors duration-300 hover:border-signal hover:text-signal;
   }
 
   .pill-ink {
     @apply inline-flex items-center gap-2 border border-hair-ink-2 px-5 py-2.5 font-mono text-micro-2 uppercase text-ink transition-colors duration-300 hover:border-signal-deep hover:text-signal-deep;
-  }
-
-  .pill-solid {
-    @apply inline-flex items-center gap-2 bg-ground px-6 py-3 font-mono text-micro-2 uppercase text-chalk transition-colors duration-300 hover:bg-signal-deep hover:text-paper;
   }
 
   /* ---- forms ----------------------------------------------------------- */
