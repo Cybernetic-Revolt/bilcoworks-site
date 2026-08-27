@@ -10,7 +10,7 @@
  */
 
 /** Headline score. Referenced in prose as well as in the stat row. */
-export const bestScore = '0.935'
+export const bestScore = '0.937'
 
 /** Standing on the main leaderboard. */
 export const rank = 'Top 3%'
@@ -35,7 +35,7 @@ export const climb = [
   { score: '.833', label: 'adapted backbone', height: '42%' },
   { score: '.874', label: '+expert data', height: '62%' },
   { score: '.899', label: '+distillation', height: '75%' },
-  { score: '.935', label: 'commons harvest', height: '93%' },
+  { score: '.937', label: 'commons harvest', height: '94%' },
 ]
 
 /** Read out as the chart's alt text, so the figures cannot drift from the bars. */
