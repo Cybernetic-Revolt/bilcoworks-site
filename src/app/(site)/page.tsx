@@ -4,6 +4,7 @@ import ContactCta from '@/components/ContactCta'
 import Dither from '@/components/Dither'
 import PracticeScroller, { Practice } from '@/components/PracticeScroller'
 import ReconField from '@/components/ReconField'
+import { bestScore } from '@/content/knee'
 import Reveal from '@/components/Reveal'
 
 export const metadata: Metadata = {
@@ -41,7 +42,7 @@ const practices: Practice[] = [
     href: '/ai',
     plate: 'bloom',
     lede: 'Voice agents, applied machine learning, and LLM systems that ship — built, hosted, and verified by us. TwoRing, our 24/7 AI receptionist, answers real customers on our own voice engine.',
-    proof: ['0.899 AUC · RSNA AI Challenge', '2 rings · TwoRing answer time'],
+    proof: [`${bestScore} AUC · RSNA AI Challenge`, '2 rings · TwoRing answer time'],
   },
   {
     number: '03',
@@ -200,7 +201,7 @@ export default function HomePage() {
                 label: 'Our product, in production',
                 href: 'https://tworing.ai',
               },
-              { figure: '0.899', label: 'AUC · RSNA AI Challenge' },
+              { figure: bestScore, label: 'AUC · RSNA AI Challenge' },
               { figure: '0.043', label: 'Hellinger · beats published baseline' },
               { figure: '1 day', label: 'Response time, always' },
             ].map((stat) => (

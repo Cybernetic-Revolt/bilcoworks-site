@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import ContactCta from '@/components/ContactCta'
+import { bestScore } from '@/content/knee'
 import Dither from '@/components/Dither'
 import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
@@ -41,7 +42,7 @@ const projects = [
     title: 'The Knee Ledger',
     summary:
       'Competition machine learning on knee MRI, run as an evidence ledger: every experiment declares its pass-bar before it runs, and roughly forty that failed are written down beside the ones that worked.',
-    highlight: '0.899 public AUC',
+    highlight: `${bestScore} public AUC`,
     href: '/ai/knee-ledger',
     plate: 'interference' as const,
   },

@@ -2,6 +2,14 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
+import {
+  bestScore,
+  climb,
+  climbLabel,
+  runsOn,
+  stats,
+  teamsExact,
+} from '@/content/knee'
 import { Chapter, Narrative, SectionHead, TileGrid } from '@/components/Section'
 
 export const metadata: Metadata = {
@@ -22,20 +30,6 @@ export const metadata: Metadata = {
     description: 'Machine learning under competition pressure, receipted.',
   },
 }
-
-const stats = [
-  { value: '0.899', label: 'Best public score' },
-  { value: '~20 min', label: 'Full inference run' },
-  { value: 'Top 8%', label: 'Efficiency track, peak' },
-  { value: '50+', label: 'Gated experiments' },
-]
-
-const climb = [
-  { score: '.777', label: 'baseline', height: '18%' },
-  { score: '.833', label: 'adapted backbone', height: '52%' },
-  { score: '.874', label: '+expert data', height: '78%' },
-  { score: '.899', label: '+distillation', height: '93%' },
-]
 
 const pillars = [
   {
@@ -149,7 +143,7 @@ export default function KneeLedgerPage() {
           <div
             className="flex h-52 items-end gap-5"
             role="img"
-            aria-label="Leaderboard progression: baseline 0.777, adapted backbone 0.833, plus expert data 0.874, plus distillation 0.899"
+            aria-label={climbLabel}
           >
             {climb.map((step) => (
               <div
@@ -170,10 +164,9 @@ export default function KneeLedgerPage() {
             ))}
           </div>
           <p className="copy-ink text-base leading-[1.8]">
-            Ten scored submissions, each testing exactly one structural change —
-            and a verified 0.935 pipeline reproduction now in the scoring queue.
+            Ten scored submissions, each testing exactly one structural change.
             Two early slots burned on silent failures became the reason every
-            later submission passes a hard automated gate first. The gate has
+            later submission passes a hard automated gate first — the gate has
             since blocked six bad submissions at a cost of zero.
           </p>
         </Reveal>
@@ -225,10 +218,10 @@ export default function KneeLedgerPage() {
             The campaign runs continuously: an hourly loop harvests results, logs
             the leaderboards, and scans the community for newly published models
             worth converting — because in a field this fast, standing still costs
-            about ten ranks a day. As of late August: a verified-0.935 pipeline
-            reproduction is in the scoring queue, and its ensemble is being
-            distilled into the twenty-minute model to push the efficiency entry
-            back into the visible top 100.
+            about ten ranks a day. As of late August the main entry stands at{' '}
+            {bestScore} — top 3% of {teamsExact} teams — and that pipeline&apos;s
+            ensemble is being distilled into the twenty-minute model to push the
+            efficiency entry deeper into the top 100.
           </p>
           <p className="!text-sm !leading-[1.75] text-ink-3">
             A note on timing: this page tells the story; the full technical
@@ -236,6 +229,9 @@ export default function KneeLedgerPage() {
             experiment ledger — publishes after the competition closes on October
             22, per good sportsmanship and the open-source winners&apos;
             obligations.
+          </p>
+          <p className="!text-sm font-mono !leading-[1.75] text-ink-3">
+            {runsOn}
           </p>
           <p>
             <Link href="/ai" className="link-ink">
