@@ -1,30 +1,41 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1200" height="630" fill="#f8fafc"/>
-
-  <!-- Grid pattern -->
   <defs>
-    <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&amp;family=Inter:wght@400;500&amp;display=swap');
+      .display { font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif; }
+      .sans    { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    </style>
+    <pattern id="grid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#EAF0F1" stroke-opacity="0.05" stroke-width="1"/>
     </pattern>
+    <radialGradient id="glow" cx="18%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#4ED8C8" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#4ED8C8" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="100%" height="100%" fill="url(#grid)"/>
 
-  <!-- Logo mark -->
-  <g transform="translate(100, 250)">
-    <rect x="2" y="2" width="56" height="56" rx="8" stroke="#1e293b" stroke-width="4"/>
-    <rect x="14" y="14" width="14" height="14" fill="#1e293b"/>
-    <rect x="34" y="14" width="14" height="14" fill="#1e293b"/>
-    <rect x="14" y="34" width="14" height="14" fill="#1e293b"/>
-    <rect x="34" y="34" width="14" height="14" fill="#1e293b"/>
+  <rect width="1200" height="630" fill="#0B1216"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Logo mark (cascading squares, as in favicon) -->
+  <g transform="translate(88, 66) scale(1.5)">
+    <rect x="2" y="2" width="12" height="12" fill="#4ED8C8"/>
+    <rect x="18" y="6" width="12" height="12" fill="#4ED8C8" opacity="0.6"/>
+    <rect x="6" y="18" width="12" height="12" fill="#4ED8C8" opacity="0.35"/>
   </g>
+  <text class="display" x="156" y="104" font-size="30" font-weight="500" fill="#EAF0F1" letter-spacing="-0.5">Bilco Works</text>
 
-  <!-- Text -->
-  <text x="180" y="295" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="500" fill="#0f172a">Bilco Works</text>
-  <text x="100" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#64748b">HRIS &amp; Systems Consulting</text>
+  <!-- Headline -->
+  <text class="display" x="88" y="308" font-size="64" font-weight="500" fill="#EAF0F1" letter-spacing="-1.6">We build systems that</text>
+  <text class="display" x="88" y="386" font-size="64" font-weight="500" fill="#4ED8C8" letter-spacing="-1.6">can&#8217;t afford to be wrong.</text>
 
-  <!-- Tagline -->
-  <text x="100" y="430" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#94a3b8">Enterprise implementations that work on day one</text>
+  <!-- Hairline -->
+  <rect x="88" y="452" width="1024" height="1" fill="#EAF0F1" fill-opacity="0.12"/>
+
+  <!-- Practices -->
+  <text class="sans" x="88" y="502" font-size="22" fill="#94A8B0" letter-spacing="0.2">HR &amp; Payroll &#183; AI &#183; Research &#183; Infrastructure</text>
 
   <!-- Domain -->
-  <text x="100" y="530" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#64748b">bilcoworks.com</text>
+  <text class="sans" x="88" y="556" font-size="20" font-weight="500" fill="#748992">bilcoworks.com</text>
 </svg>

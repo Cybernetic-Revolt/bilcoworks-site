@@ -87,7 +87,7 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Bilco Works — HRIS & Systems Consulting',
+        alt: "Bilco Works — we build systems that can't afford to be wrong",
       },
     ],
   },
