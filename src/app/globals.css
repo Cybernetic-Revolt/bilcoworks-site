@@ -225,3 +225,34 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+/* Rill's privacy policy renders as generated HTML, so it needs element styles rather
+   than classes. Kept here and scoped to one wrapper: the rest of the site never ships
+   raw HTML, and a global prose rule would be a change to every page to serve one. */
+.rill-policy h2 {
+  @apply mb-3 mt-12 font-display text-lg font-light leading-snug text-ink first:mt-0;
+}
+.rill-policy p {
+  @apply mb-4;
+}
+.rill-policy a {
+  @apply text-signal-deep underline underline-offset-2;
+}
+.rill-policy strong {
+  @apply font-medium text-ink;
+}
+.rill-policy code {
+  @apply font-mono text-[0.9em] text-ink;
+}
+.rill-policy ul {
+  @apply mb-4 list-disc space-y-1 pl-5;
+}
+.rill-policy table {
+  @apply my-6 w-full border-collapse text-left align-top;
+}
+.rill-policy th {
+  @apply border-b border-hair-ink pb-2 pr-4 font-mono text-micro-2 uppercase tracking-wide text-ink-3;
+}
+.rill-policy td {
+  @apply border-b border-hair-ink py-3 pr-4 align-top;
+}
